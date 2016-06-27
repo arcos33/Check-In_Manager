@@ -15,6 +15,8 @@
 		7BE478CB1D1F660400E31624 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BE478C91D1F660400E31624 /* LaunchScreen.storyboard */; };
 		7BE478D61D1F660400E31624 /* check_inTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE478D51D1F660400E31624 /* check_inTests.swift */; };
 		7BE478E11D1F660400E31624 /* check_inUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE478E01D1F660400E31624 /* check_inUITests.swift */; };
+		7BE478EF1D1F669300E31624 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE478EE1D1F669300E31624 /* LoginViewController.swift */; };
+		7BE478F11D20620300E31624 /* ActiveClientsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE478F01D20620300E31624 /* ActiveClientsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,8 @@
 		7BE478DC1D1F660400E31624 /* check-inUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "check-inUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BE478E01D1F660400E31624 /* check_inUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = check_inUITests.swift; sourceTree = "<group>"; };
 		7BE478E21D1F660400E31624 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7BE478EE1D1F669300E31624 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		7BE478F01D20620300E31624 /* ActiveClientsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveClientsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +110,8 @@
 				7BE478C91D1F660400E31624 /* LaunchScreen.storyboard */,
 				7BE478CC1D1F660400E31624 /* Info.plist */,
 				7BE478C41D1F660400E31624 /* check_in.xcdatamodeld */,
+				7BE478EE1D1F669300E31624 /* LoginViewController.swift */,
+				7BE478F01D20620300E31624 /* ActiveClientsViewController.swift */,
 			);
 			path = "check-in";
 			sourceTree = "<group>";
@@ -196,6 +202,7 @@
 				TargetAttributes = {
 					7BE478B91D1F660400E31624 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = U33ZFLNE92;
 					};
 					7BE478D01D1F660400E31624 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -259,6 +266,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7BE478EF1D1F669300E31624 /* LoginViewController.swift in Sources */,
+				7BE478F11D20620300E31624 /* ActiveClientsViewController.swift in Sources */,
 				7BE478C01D1F660400E31624 /* ViewController.swift in Sources */,
 				7BE478C61D1F660400E31624 /* check_in.xcdatamodeld in Sources */,
 				7BE478BE1D1F660400E31624 /* AppDelegate.swift in Sources */,
@@ -405,10 +414,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "check-in/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "whitecoatlabs.check-in";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -416,10 +428,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "check-in/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "whitecoatlabs.check-in";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

@@ -1,16 +1,15 @@
 //
-//  ActiveClientsViewController.swift
+//  InactiveClientsViewController.swift
 //  check-in
 //
-//  Created by JediMaster on 6/26/16.
+//  Created by Joel on 6/28/16.
 //  Copyright © 2016 JediMaster. All rights reserved.
 //
 
 import Foundation
 import UIKit
 
-class ActiveClientsViewController: UIViewController {
-    
+class InactiveClientsViewController: UIViewController {
     @IBOutlet var tableview: UITableView!
     
     override func viewDidLoad() {
@@ -18,7 +17,7 @@ class ActiveClientsViewController: UIViewController {
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return 2
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {

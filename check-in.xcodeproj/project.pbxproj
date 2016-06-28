@@ -17,6 +17,7 @@
 		7BE478E11D1F660400E31624 /* check_inUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE478E01D1F660400E31624 /* check_inUITests.swift */; };
 		7BE478EF1D1F669300E31624 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE478EE1D1F669300E31624 /* LoginViewController.swift */; };
 		7BE478F11D20620300E31624 /* ActiveClientsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE478F01D20620300E31624 /* ActiveClientsViewController.swift */; };
+		9D14C6B71D22D0C6001BCFD1 /* InactiveClientsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D14C6B61D22D0C6001BCFD1 /* InactiveClientsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		7BE478E21D1F660400E31624 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7BE478EE1D1F669300E31624 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		7BE478F01D20620300E31624 /* ActiveClientsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveClientsViewController.swift; sourceTree = "<group>"; };
+		9D14C6B61D22D0C6001BCFD1 /* InactiveClientsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InactiveClientsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 				7BE478C41D1F660400E31624 /* check_in.xcdatamodeld */,
 				7BE478EE1D1F669300E31624 /* LoginViewController.swift */,
 				7BE478F01D20620300E31624 /* ActiveClientsViewController.swift */,
+				9D14C6B61D22D0C6001BCFD1 /* InactiveClientsViewController.swift */,
 			);
 			path = "check-in";
 			sourceTree = "<group>";
@@ -270,6 +273,7 @@
 				7BE478F11D20620300E31624 /* ActiveClientsViewController.swift in Sources */,
 				7BE478C01D1F660400E31624 /* ViewController.swift in Sources */,
 				7BE478C61D1F660400E31624 /* check_in.xcdatamodeld in Sources */,
+				9D14C6B71D22D0C6001BCFD1 /* InactiveClientsViewController.swift in Sources */,
 				7BE478BE1D1F660400E31624 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -503,6 +507,7 @@
 				7BE478E71D1F660400E31624 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7BE478E81D1F660400E31624 /* Build configuration list for PBXNativeTarget "check-inTests" */ = {
 			isa = XCConfigurationList;
@@ -511,6 +516,7 @@
 				7BE478EA1D1F660400E31624 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7BE478EB1D1F660400E31624 /* Build configuration list for PBXNativeTarget "check-inUITests" */ = {
 			isa = XCConfigurationList;
@@ -519,6 +525,7 @@
 				7BE478ED1D1F660400E31624 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

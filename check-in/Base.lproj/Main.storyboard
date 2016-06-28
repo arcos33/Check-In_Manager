@@ -214,15 +214,18 @@
                             <constraint firstItem="Hlz-l8-Ces" firstAttribute="leading" secondItem="5c2-p2-rWp" secondAttribute="leading" constant="20" id="xry-i1-NVB"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tableview" destination="AUi-kv-MJX" id="G3o-Jy-NJZ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kFm-du-rBd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2041" y="325"/>
         </scene>
-        <!--View Controller-->
+        <!--Inactive Clients View Controller-->
         <scene sceneID="PrB-yv-B9I">
             <objects>
-                <viewController id="g8c-zS-elW" sceneMemberID="viewController">
+                <viewController id="g8c-zS-elW" customClass="InactiveClientsViewController" customModule="check_in" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="9Rn-Os-0zo"/>
                         <viewControllerLayoutGuide type="bottom" id="SNL-Ub-FpO"/>
@@ -248,8 +251,8 @@
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <outlet property="dataSource" destination="g8c-zS-elW" id="TKR-Cn-w97"/>
-                                    <outlet property="delegate" destination="g8c-zS-elW" id="ODt-qo-R9o"/>
+                                    <outlet property="dataSource" destination="g8c-zS-elW" id="WhN-wq-Wqu"/>
+                                    <outlet property="delegate" destination="g8c-zS-elW" id="EcD-lV-muK"/>
                                 </connections>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Inactive" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MfS-BK-iKC">
@@ -269,6 +272,9 @@
                             <constraint firstItem="ZTj-fz-Jcn" firstAttribute="top" secondItem="MfS-BK-iKC" secondAttribute="bottom" constant="8" id="jxM-ER-oeb"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tableview" destination="ZTj-fz-Jcn" id="N6U-N8-vpr"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="P53-Xz-05h" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -10,7 +10,6 @@
 		7BE478BE1D1F660400E31624 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE478BD1D1F660400E31624 /* AppDelegate.swift */; };
 		7BE478C01D1F660400E31624 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE478BF1D1F660400E31624 /* ViewController.swift */; };
 		7BE478C31D1F660400E31624 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BE478C11D1F660400E31624 /* Main.storyboard */; };
-		7BE478C61D1F660400E31624 /* check_in.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7BE478C41D1F660400E31624 /* check_in.xcdatamodeld */; };
 		7BE478C81D1F660400E31624 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7BE478C71D1F660400E31624 /* Assets.xcassets */; };
 		7BE478CB1D1F660400E31624 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BE478C91D1F660400E31624 /* LaunchScreen.storyboard */; };
 		7BE478D61D1F660400E31624 /* check_inTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE478D51D1F660400E31624 /* check_inTests.swift */; };
@@ -18,6 +17,14 @@
 		7BE478EF1D1F669300E31624 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE478EE1D1F669300E31624 /* LoginViewController.swift */; };
 		7BE478F11D20620300E31624 /* ActiveClientsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE478F01D20620300E31624 /* ActiveClientsViewController.swift */; };
 		9D14C6B71D22D0C6001BCFD1 /* InactiveClientsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D14C6B61D22D0C6001BCFD1 /* InactiveClientsViewController.swift */; };
+		9D14C6B91D2343D8001BCFD1 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D14C6B81D2343D8001BCFD1 /* DataController.swift */; };
+		9D14C6C11D234720001BCFD1 /* CheckInEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D14C6BF1D234720001BCFD1 /* CheckInEvent.swift */; };
+		9D14C6C21D234720001BCFD1 /* CheckInEvent+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D14C6C01D234720001BCFD1 /* CheckInEvent+CoreDataProperties.swift */; };
+		9DE2B7231D2348CB0045892F /* check_in.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9DE2B7211D2348CB0045892F /* check_in.xcdatamodeld */; };
+		9DE2B7301D2349AF0045892F /* ServiceType+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE2B72C1D2349AF0045892F /* ServiceType+CoreDataProperties.swift */; };
+		9DE2B7311D2349AF0045892F /* Client+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE2B72D1D2349AF0045892F /* Client+CoreDataProperties.swift */; };
+		9DE2B7321D2349AF0045892F /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE2B72E1D2349AF0045892F /* Client.swift */; };
+		9DE2B7331D2349AF0045892F /* ServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE2B72F1D2349AF0045892F /* ServiceType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,7 +49,6 @@
 		7BE478BD1D1F660400E31624 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7BE478BF1D1F660400E31624 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		7BE478C21D1F660400E31624 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		7BE478C51D1F660400E31624 /* check_in.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = check_in.xcdatamodel; sourceTree = "<group>"; };
 		7BE478C71D1F660400E31624 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7BE478CA1D1F660400E31624 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7BE478CC1D1F660400E31624 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -55,6 +61,14 @@
 		7BE478EE1D1F669300E31624 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		7BE478F01D20620300E31624 /* ActiveClientsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveClientsViewController.swift; sourceTree = "<group>"; };
 		9D14C6B61D22D0C6001BCFD1 /* InactiveClientsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InactiveClientsViewController.swift; sourceTree = "<group>"; };
+		9D14C6B81D2343D8001BCFD1 /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		9D14C6BF1D234720001BCFD1 /* CheckInEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckInEvent.swift; path = CoreData/CheckInEvent.swift; sourceTree = "<group>"; };
+		9D14C6C01D234720001BCFD1 /* CheckInEvent+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CheckInEvent+CoreDataProperties.swift"; path = "CoreData/CheckInEvent+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		9DE2B7221D2348CB0045892F /* check_in.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = check_in.xcdatamodel; sourceTree = "<group>"; };
+		9DE2B72C1D2349AF0045892F /* ServiceType+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ServiceType+CoreDataProperties.swift"; path = "CoreData/ServiceType+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		9DE2B72D1D2349AF0045892F /* Client+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Client+CoreDataProperties.swift"; path = "CoreData/Client+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		9DE2B72E1D2349AF0045892F /* Client.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Client.swift; path = CoreData/Client.swift; sourceTree = "<group>"; };
+		9DE2B72F1D2349AF0045892F /* ServiceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServiceType.swift; path = CoreData/ServiceType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,16 +119,17 @@
 		7BE478BC1D1F660400E31624 /* check-in */ = {
 			isa = PBXGroup;
 			children = (
+				9D14C6BE1D2346AD001BCFD1 /* CoreData */,
 				7BE478BD1D1F660400E31624 /* AppDelegate.swift */,
 				7BE478BF1D1F660400E31624 /* ViewController.swift */,
 				7BE478C11D1F660400E31624 /* Main.storyboard */,
 				7BE478C71D1F660400E31624 /* Assets.xcassets */,
 				7BE478C91D1F660400E31624 /* LaunchScreen.storyboard */,
 				7BE478CC1D1F660400E31624 /* Info.plist */,
-				7BE478C41D1F660400E31624 /* check_in.xcdatamodeld */,
 				7BE478EE1D1F669300E31624 /* LoginViewController.swift */,
 				7BE478F01D20620300E31624 /* ActiveClientsViewController.swift */,
 				9D14C6B61D22D0C6001BCFD1 /* InactiveClientsViewController.swift */,
+				9D14C6B81D2343D8001BCFD1 /* DataController.swift */,
 			);
 			path = "check-in";
 			sourceTree = "<group>";
@@ -135,6 +150,20 @@
 				7BE478E21D1F660400E31624 /* Info.plist */,
 			);
 			path = "check-inUITests";
+			sourceTree = "<group>";
+		};
+		9D14C6BE1D2346AD001BCFD1 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				9DE2B7211D2348CB0045892F /* check_in.xcdatamodeld */,
+				9D14C6BF1D234720001BCFD1 /* CheckInEvent.swift */,
+				9D14C6C01D234720001BCFD1 /* CheckInEvent+CoreDataProperties.swift */,
+				9DE2B72E1D2349AF0045892F /* Client.swift */,
+				9DE2B72D1D2349AF0045892F /* Client+CoreDataProperties.swift */,
+				9DE2B72F1D2349AF0045892F /* ServiceType.swift */,
+				9DE2B72C1D2349AF0045892F /* ServiceType+CoreDataProperties.swift */,
+			);
+			name = CoreData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -269,10 +298,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D14C6C21D234720001BCFD1 /* CheckInEvent+CoreDataProperties.swift in Sources */,
+				9D14C6B91D2343D8001BCFD1 /* DataController.swift in Sources */,
+				9DE2B7321D2349AF0045892F /* Client.swift in Sources */,
 				7BE478EF1D1F669300E31624 /* LoginViewController.swift in Sources */,
+				9DE2B7301D2349AF0045892F /* ServiceType+CoreDataProperties.swift in Sources */,
+				9DE2B7331D2349AF0045892F /* ServiceType.swift in Sources */,
 				7BE478F11D20620300E31624 /* ActiveClientsViewController.swift in Sources */,
+				9DE2B7231D2348CB0045892F /* check_in.xcdatamodeld in Sources */,
 				7BE478C01D1F660400E31624 /* ViewController.swift in Sources */,
-				7BE478C61D1F660400E31624 /* check_in.xcdatamodeld in Sources */,
+				9DE2B7311D2349AF0045892F /* Client+CoreDataProperties.swift in Sources */,
+				9D14C6C11D234720001BCFD1 /* CheckInEvent.swift in Sources */,
 				9D14C6B71D22D0C6001BCFD1 /* InactiveClientsViewController.swift in Sources */,
 				7BE478BE1D1F660400E31624 /* AppDelegate.swift in Sources */,
 			);
@@ -530,13 +566,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		7BE478C41D1F660400E31624 /* check_in.xcdatamodeld */ = {
+		9DE2B7211D2348CB0045892F /* check_in.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				7BE478C51D1F660400E31624 /* check_in.xcdatamodel */,
+				9DE2B7221D2348CB0045892F /* check_in.xcdatamodel */,
 			);
-			currentVersion = 7BE478C51D1F660400E31624 /* check_in.xcdatamodel */;
-			path = check_in.xcdatamodeld;
+			currentVersion = 9DE2B7221D2348CB0045892F /* check_in.xcdatamodel */;
+			name = check_in.xcdatamodeld;
+			path = CoreData/check_in.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

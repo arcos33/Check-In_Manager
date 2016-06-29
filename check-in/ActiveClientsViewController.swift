@@ -15,6 +15,9 @@ class ActiveClientsViewController: UIViewController {
     
     override func viewDidLoad() {
         self.tableview.tableFooterView = UIView(frame: CGRect.zero)
+        
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

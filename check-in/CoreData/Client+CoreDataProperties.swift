@@ -16,7 +16,7 @@ extension Client {
 
     @NSManaged var fName: String?
     @NSManaged var lName: String?
-    @NSManaged var phoneNumber: NSNumber?
+    @NSManaged var phoneNumber: String?
     @NSManaged var uniqueID: NSNumber?
 
 }

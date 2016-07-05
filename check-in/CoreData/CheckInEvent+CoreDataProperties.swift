@@ -18,5 +18,6 @@ extension CheckInEvent {
     @NSManaged var time: NSDate?
     @NSManaged var clientID: NSNumber?
     @NSManaged var serviceTypeID: NSNumber?
+    @NSManaged var status: NSString?
 
 }

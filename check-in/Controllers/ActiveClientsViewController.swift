@@ -14,26 +14,29 @@ class ActiveClientsViewController: UIViewController {
     
     @IBOutlet var tableview: UITableView!
     
+    @IBOutlet var name: UILabel!
+    @IBOutlet var checkInTime: UILabel!
+    @IBOutlet var type: UILabel!
+    
     var checkInEvents: Array<CheckInEvent>?
+    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
     let cellIdentifier = "activeCheckInCell"
     
     override func viewDidLoad() {
         self.tableview.tableFooterView = UIView(frame: CGRect.zero)
+        fetchCheckedinClients()
         
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(reloadData), userInfo: nil, repeats: true)
         
-        let fetch = NSFetchRequest(entityName: "CheckInEvent")
-        fetch.returnsObjectsAsFaults = false
-        fetch.predicate = NSPredicate(format: "status == 'active'")
-        do {
-            self.checkInEvents = try appDelegate.managedObjectContext.executeFetchRequest(fetch) as? Array<CheckInEvent>
-            print("active checkInEvents = \(self.checkInEvents)")
-        }
-        catch {
-            print("error:\(error)")
-        }
     }
+    
+    func reloadData() {
+        DataController.sharedInstance.dataRequest()
+        fetchCheckedinClients()
+        self.tableview.reloadData()
+    }
+    
     
     // UITableView methods
     
@@ -42,18 +45,97 @@ class ActiveClientsViewController: UIViewController {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        return tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath)
+        let checkinEvent = self.checkInEvents![indexPath.row]
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ActiveClientsCell
+        cell.name.text = checkinEvent.name
+        
+        let secondsDifference = checkinEvent.checkinTimestamp?.timeIntervalSinceNow
+        let minsDif = abs(secondsDifference! / 60)
+        let minsDifInt = Int(minsDif)
+        cell.type.text = "\(minsDifInt)"
+        let df = NSDateFormatter()
+        df.dateFormat = "hh:mm a"
+        cell.appointmentTime.text = df.stringFromDate(checkinEvent.checkinTimestamp!)
+        return cell
     }
+    
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let vw = UIView()
         let titleLabel = UILabel(frame: CGRectMake(16, 6, 200, 16))
-        titleLabel.text = "Active Check-ins"
+        titleLabel.text = "Clientes Esperando"
         titleLabel.textColor = UIColor.whiteColor()
         titleLabel.font = UIFont(name:"HelveticaNeue-Bold", size: 18.0)
         vw.addSubview(titleLabel)
         //vw.backgroundColor = UIColor(red: 0.70, green: 0.89, blue: 1.00, alpha: 1.00)
-        vw.backgroundColor = UIColor.greenColor()
+        vw.backgroundColor = UIColor(red: 0.00, green: 0.50, blue: 0.00, alpha: 1.00)
         return vw
+    }
+    
+    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]? {
+        let complete = UITableViewRowAction(style: .Destructive, title: "Completado") { action, index in
+            let checkedinEvent = self.checkInEvents![indexPath.row]
+            checkedinEvent.status = "completed"
+            checkedinEvent.completedTimestamp = NSDate()
+            self.saveChanges()
+            self.sendToDB(checkedinEvent)
+            NSNotificationCenter.defaultCenter().postNotificationName("reloadTable", object: nil)
+            self.checkInEvents?.removeAtIndex(indexPath.row)
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+        }
+        complete.backgroundColor = UIColor.redColor()
+        
+        return [complete]
+    }
+    
+    func saveChanges() {
+        do {
+            try self.appDelegate.managedObjectContext.save()
+        }
+        catch {
+            print("eror: \(error)")
+        }
+    }
+    
+    func fetchCheckedinClients () {
+        let fetch = NSFetchRequest(entityName: "CheckInEvent")
+        fetch.returnsObjectsAsFaults = false
+        fetch.predicate = NSPredicate(format: "status == 'checkedin'")
+        let sd = NSSortDescriptor(key: "checkinTimestamp", ascending: true, selector: nil)
+        fetch.sortDescriptors = [sd]
+        do {
+            self.checkInEvents = try self.appDelegate.managedObjectContext.executeFetchRequest(fetch) as? Array<CheckInEvent>
+            //print("active checkInEvents = \(self.checkInEvents)")
+        }
+        catch {
+            print("error:\(error)")
+        }
+    }
+    
+    func sendToDB(checkinEvent: CheckInEvent!) {
+        let url:NSURL = NSURL(string: "http://www.whitecoatlabs.co/checkin/glamour/mobile_api/update_checkinEvent.php")!
+        let session = NSURLSession.sharedSession()
+        let request = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "POST"
+        request.cachePolicy = .ReloadIgnoringLocalCacheData
+        
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let dateString = dateFormatter.stringFromDate(checkinEvent.completedTimestamp!)
+        
+        let jsonData = "id=\(checkinEvent.uniqueID!)&completedTimestamp=\(dateString)&status=\(checkinEvent.status!)" .dataUsingEncoding(NSUTF8StringEncoding)
+        
+        let task = session.uploadTaskWithRequest(request, fromData: jsonData, completionHandler: { (data, response, error) in
+            guard let _:NSData = data, let _:NSURLResponse = response where error == nil else {
+                print(error)
+                return
+            }
+            
+            let responseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
+            print("Response = \(responseString!)")
+            
+        })
+        task.resume()
+
     }
 }

@@ -2,7 +2,7 @@
 //  CheckInEvent+CoreDataProperties.swift
 //  check-in
 //
-//  Created by Joel on 6/28/16.
+//  Created by Joel on 7/8/16.
 //  Copyright © 2016 JediMaster. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -14,10 +14,13 @@ import CoreData
 
 extension CheckInEvent {
 
-    @NSManaged var uniqueID: NSNumber?
-    @NSManaged var time: NSDate?
     @NSManaged var clientID: NSNumber?
     @NSManaged var serviceTypeID: NSNumber?
-    @NSManaged var status: NSString?
-
+    @NSManaged var status: String?
+    @NSManaged var uniqueID: NSNumber?
+    @NSManaged var client: Client?
+    @NSManaged var name: String?
+    @NSManaged var checkinTimestamp: NSDate?
+    @NSManaged var completedTimestamp: NSDate?
+    @NSManaged var phone: String?
 }

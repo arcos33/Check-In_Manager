@@ -14,8 +14,10 @@
 		7BE478D61D1F660400E31624 /* check_inTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE478D51D1F660400E31624 /* check_inTests.swift */; };
 		7BE478E11D1F660400E31624 /* check_inUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE478E01D1F660400E31624 /* check_inUITests.swift */; };
 		9D14C6B91D2343D8001BCFD1 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D14C6B81D2343D8001BCFD1 /* DataController.swift */; };
-		9D14C6C11D234720001BCFD1 /* CheckInEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D14C6BF1D234720001BCFD1 /* CheckInEvent.swift */; };
-		9D14C6C21D234720001BCFD1 /* CheckInEvent+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D14C6C01D234720001BCFD1 /* CheckInEvent+CoreDataProperties.swift */; };
+		9D4525221D302AF800B5B98B /* ActiveClientsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4525211D302AF700B5B98B /* ActiveClientsCell.swift */; };
+		9D4525241D302B0500B5B98B /* InactiveClientsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4525231D302B0500B5B98B /* InactiveClientsCell.swift */; };
+		9D45252B1D302ED500B5B98B /* CheckInEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4525291D302ED500B5B98B /* CheckInEvent.swift */; };
+		9D45252C1D302ED500B5B98B /* CheckInEvent+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D45252A1D302ED500B5B98B /* CheckInEvent+CoreDataProperties.swift */; };
 		9DE2B7231D2348CB0045892F /* check_in.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9DE2B7211D2348CB0045892F /* check_in.xcdatamodeld */; };
 		9DE2B7301D2349AF0045892F /* ServiceType+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE2B72C1D2349AF0045892F /* ServiceType+CoreDataProperties.swift */; };
 		9DE2B7311D2349AF0045892F /* Client+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE2B72D1D2349AF0045892F /* Client+CoreDataProperties.swift */; };
@@ -45,7 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		7BE478BA1D1F660400E31624 /* check-in.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "check-in.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7BE478BA1D1F660400E31624 /* Checkin- Back.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Checkin- Back.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BE478BD1D1F660400E31624 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7BE478C21D1F660400E31624 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7BE478C71D1F660400E31624 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -58,8 +60,10 @@
 		7BE478E01D1F660400E31624 /* check_inUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = check_inUITests.swift; sourceTree = "<group>"; };
 		7BE478E21D1F660400E31624 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9D14C6B81D2343D8001BCFD1 /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
-		9D14C6BF1D234720001BCFD1 /* CheckInEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckInEvent.swift; path = CoreData/CheckInEvent.swift; sourceTree = "<group>"; };
-		9D14C6C01D234720001BCFD1 /* CheckInEvent+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CheckInEvent+CoreDataProperties.swift"; path = "CoreData/CheckInEvent+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		9D4525211D302AF700B5B98B /* ActiveClientsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveClientsCell.swift; sourceTree = "<group>"; };
+		9D4525231D302B0500B5B98B /* InactiveClientsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InactiveClientsCell.swift; sourceTree = "<group>"; };
+		9D4525291D302ED500B5B98B /* CheckInEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckInEvent.swift; path = CoreData/CheckInEvent.swift; sourceTree = "<group>"; };
+		9D45252A1D302ED500B5B98B /* CheckInEvent+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CheckInEvent+CoreDataProperties.swift"; path = "CoreData/CheckInEvent+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		9DE2B7221D2348CB0045892F /* check_in.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = check_in.xcdatamodel; sourceTree = "<group>"; };
 		9DE2B72C1D2349AF0045892F /* ServiceType+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ServiceType+CoreDataProperties.swift"; path = "CoreData/ServiceType+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		9DE2B72D1D2349AF0045892F /* Client+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Client+CoreDataProperties.swift"; path = "CoreData/Client+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -109,7 +113,7 @@
 		7BE478BB1D1F660400E31624 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7BE478BA1D1F660400E31624 /* check-in.app */,
+				7BE478BA1D1F660400E31624 /* Checkin- Back.app */,
 				7BE478D11D1F660400E31624 /* check-inTests.xctest */,
 				7BE478DC1D1F660400E31624 /* check-inUITests.xctest */,
 			);
@@ -120,7 +124,6 @@
 			isa = PBXGroup;
 			children = (
 				9DEF6B351D262EB80004C92A /* Controllers */,
-				9D14C6BE1D2346AD001BCFD1 /* CoreData */,
 				7BE478BD1D1F660400E31624 /* AppDelegate.swift */,
 				7BE478C11D1F660400E31624 /* Main.storyboard */,
 				7BE478C71D1F660400E31624 /* Assets.xcassets */,
@@ -153,8 +156,8 @@
 			isa = PBXGroup;
 			children = (
 				9DE2B7211D2348CB0045892F /* check_in.xcdatamodeld */,
-				9D14C6BF1D234720001BCFD1 /* CheckInEvent.swift */,
-				9D14C6C01D234720001BCFD1 /* CheckInEvent+CoreDataProperties.swift */,
+				9D4525291D302ED500B5B98B /* CheckInEvent.swift */,
+				9D45252A1D302ED500B5B98B /* CheckInEvent+CoreDataProperties.swift */,
 				9DE2B72E1D2349AF0045892F /* Client.swift */,
 				9DE2B72D1D2349AF0045892F /* Client+CoreDataProperties.swift */,
 				9DE2B72F1D2349AF0045892F /* ServiceType.swift */,
@@ -166,10 +169,13 @@
 		9DEF6B351D262EB80004C92A /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				9D14C6BE1D2346AD001BCFD1 /* CoreData */,
 				9DEF6B361D262ED30004C92A /* ActiveClientsViewController.swift */,
 				9DEF6B371D262ED30004C92A /* InactiveClientsViewController.swift */,
 				9DEF6B381D262ED30004C92A /* LoginViewController.swift */,
 				9DEF6B391D262ED30004C92A /* ViewController.swift */,
+				9D4525211D302AF700B5B98B /* ActiveClientsCell.swift */,
+				9D4525231D302B0500B5B98B /* InactiveClientsCell.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -191,7 +197,7 @@
 			);
 			name = "check-in";
 			productName = "check-in";
-			productReference = 7BE478BA1D1F660400E31624 /* check-in.app */;
+			productReference = 7BE478BA1D1F660400E31624 /* Checkin- Back.app */;
 			productType = "com.apple.product-type.application";
 		};
 		7BE478D01D1F660400E31624 /* check-inTests */ = {
@@ -306,18 +312,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D45252C1D302ED500B5B98B /* CheckInEvent+CoreDataProperties.swift in Sources */,
 				9DEF6B3C1D262ED30004C92A /* LoginViewController.swift in Sources */,
-				9D14C6C21D234720001BCFD1 /* CheckInEvent+CoreDataProperties.swift in Sources */,
+				9D4525241D302B0500B5B98B /* InactiveClientsCell.swift in Sources */,
 				9DEF6B3A1D262ED30004C92A /* ActiveClientsViewController.swift in Sources */,
 				9D14C6B91D2343D8001BCFD1 /* DataController.swift in Sources */,
+				9D45252B1D302ED500B5B98B /* CheckInEvent.swift in Sources */,
 				9DE2B7321D2349AF0045892F /* Client.swift in Sources */,
 				9DEF6B3B1D262ED30004C92A /* InactiveClientsViewController.swift in Sources */,
 				9DE2B7301D2349AF0045892F /* ServiceType+CoreDataProperties.swift in Sources */,
 				9DE2B7331D2349AF0045892F /* ServiceType.swift in Sources */,
+				9D4525221D302AF800B5B98B /* ActiveClientsCell.swift in Sources */,
 				9DEF6B3D1D262ED30004C92A /* ViewController.swift in Sources */,
 				9DE2B7231D2348CB0045892F /* check_in.xcdatamodeld in Sources */,
 				9DE2B7311D2349AF0045892F /* Client+CoreDataProperties.swift in Sources */,
-				9D14C6C11D234720001BCFD1 /* CheckInEvent.swift in Sources */,
 				7BE478BE1D1F660400E31624 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -467,7 +475,7 @@
 				INFOPLIST_FILE = "check-in/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "whitecoatlabs.check-in";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Checkin- Back";
 				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
@@ -481,7 +489,7 @@
 				INFOPLIST_FILE = "check-in/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "whitecoatlabs.check-in";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Checkin- Back";
 				PROVISIONING_PROFILE = "";
 			};
 			name = Release;

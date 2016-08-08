@@ -78,7 +78,7 @@ class ActiveClientsViewController: UIViewController {
             checkedinEvent.status = "completed"
             checkedinEvent.completedTimestamp = NSDate()
             self.saveChanges()
-            self.sendToDB(checkedinEvent)
+            self.updateCheckInEvent(checkedinEvent)
             NSNotificationCenter.defaultCenter().postNotificationName("reloadTable", object: nil)
             self.checkInEvents?.removeAtIndex(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
@@ -112,8 +112,12 @@ class ActiveClientsViewController: UIViewController {
         }
     }
     
-    func sendToDB(checkinEvent: CheckInEvent!) {
-        let url:NSURL = NSURL(string: "http://www.whitecoatlabs.co/checkin/glamour/mobile_api/update_checkinEvent.php")!
+    func updateCheckInEvent(checkinEvent: CheckInEvent!) {
+        // DEVELOP
+        let url:NSURL = NSURL(string: "http://www.whitecoatlabs.co/checkin/develop/mobile_api/update_checkinEvent.php")!
+        
+        // LIVE
+        //let url:NSURL = NSURL(string: "http://www.whitecoatlabs.co/checkin/glamour/mobile_api/update_checkinEvent.php")!
         let session = NSURLSession.sharedSession()
         let request = NSMutableURLRequest(URL: url)
         request.HTTPMethod = "POST"
@@ -123,9 +127,9 @@ class ActiveClientsViewController: UIViewController {
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         let dateString = dateFormatter.stringFromDate(checkinEvent.completedTimestamp!)
         
-        let jsonData = "id=\(checkinEvent.uniqueID!)&completedTimestamp=\(dateString)&status=\(checkinEvent.status!)" .dataUsingEncoding(NSUTF8StringEncoding)
+        let jsonRequestString = "id=\(checkinEvent.uniqueID!)&completedTimestamp=\(dateString)&status=\(checkinEvent.status!)" .dataUsingEncoding(NSUTF8StringEncoding)
         
-        let task = session.uploadTaskWithRequest(request, fromData: jsonData, completionHandler: { (data, response, error) in
+        let task = session.uploadTaskWithRequest(request, fromData: jsonRequestString, completionHandler: { (data, response, error) in
             guard let _:NSData = data, let _:NSURLResponse = response where error == nil else {
                 print(error)
                 return

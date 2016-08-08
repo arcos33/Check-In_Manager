@@ -47,7 +47,11 @@ class DataController: NSObject {
     {
         // Get all checkinEvents for today from DB server.
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/glamour/mobile_api/get_checkinEvents.php")!
+        // DEVELOP
+        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/develop/mobile_api/get_checkinEvents.php")!
+        
+        // LIVE
+        //let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/glamour/mobile_api/get_checkinEvents.php")!
         let session = NSURLSession.sharedSession()
         
         let request = NSMutableURLRequest(URL: url)
@@ -78,8 +82,8 @@ class DataController: NSObject {
                 
                 if checkinEvents?.count == 0 {
                     // If the response body is valid JSON then iterate through all dictionaries and save checkinEvents to coredata.
-                    let jsonString: AnyObject = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as! NSArray
-                    for object in jsonString as! [Dictionary<String,AnyObject>] {
+                    let jsonResponseString: AnyObject = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as! NSArray
+                    for object in jsonResponseString as! [Dictionary<String,AnyObject>] {
                         let tempId = object["id"]!
                         let checkinEvent = NSEntityDescription.insertNewObjectForEntityForName("CheckInEvent", inManagedObjectContext: appDelegate.managedObjectContext) as! CheckInEvent
                         let df = NSDateFormatter()

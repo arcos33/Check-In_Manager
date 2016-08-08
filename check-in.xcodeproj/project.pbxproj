@@ -14,6 +14,9 @@
 		7BE478D61D1F660400E31624 /* check_inTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE478D51D1F660400E31624 /* check_inTests.swift */; };
 		7BE478E11D1F660400E31624 /* check_inUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE478E01D1F660400E31624 /* check_inUITests.swift */; };
 		9D14C6B91D2343D8001BCFD1 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D14C6B81D2343D8001BCFD1 /* DataController.swift */; };
+		9D37E4E11D55637F00DD4F7E /* StylistsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D37E4E01D55637F00DD4F7E /* StylistsViewController.swift */; };
+		9D37E4E41D5567B200DD4F7E /* StylistCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D37E4E31D5567B200DD4F7E /* StylistCell.swift */; };
+		9D37E4E61D5570DA00DD4F7E /* AddStylistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D37E4E51D5570DA00DD4F7E /* AddStylistViewController.swift */; };
 		9D4525221D302AF800B5B98B /* ActiveClientsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4525211D302AF700B5B98B /* ActiveClientsCell.swift */; };
 		9D4525241D302B0500B5B98B /* InactiveClientsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4525231D302B0500B5B98B /* InactiveClientsCell.swift */; };
 		9D45252B1D302ED500B5B98B /* CheckInEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4525291D302ED500B5B98B /* CheckInEvent.swift */; };
@@ -60,6 +63,9 @@
 		7BE478E01D1F660400E31624 /* check_inUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = check_inUITests.swift; sourceTree = "<group>"; };
 		7BE478E21D1F660400E31624 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9D14C6B81D2343D8001BCFD1 /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		9D37E4E01D55637F00DD4F7E /* StylistsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StylistsViewController.swift; sourceTree = "<group>"; };
+		9D37E4E31D5567B200DD4F7E /* StylistCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StylistCell.swift; sourceTree = "<group>"; };
+		9D37E4E51D5570DA00DD4F7E /* AddStylistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddStylistViewController.swift; sourceTree = "<group>"; };
 		9D4525211D302AF700B5B98B /* ActiveClientsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveClientsCell.swift; sourceTree = "<group>"; };
 		9D4525231D302B0500B5B98B /* InactiveClientsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InactiveClientsCell.swift; sourceTree = "<group>"; };
 		9D4525291D302ED500B5B98B /* CheckInEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckInEvent.swift; path = CoreData/CheckInEvent.swift; sourceTree = "<group>"; };
@@ -123,6 +129,7 @@
 		7BE478BC1D1F660400E31624 /* check-in */ = {
 			isa = PBXGroup;
 			children = (
+				9D14C6BE1D2346AD001BCFD1 /* CoreData */,
 				9DEF6B351D262EB80004C92A /* Controllers */,
 				7BE478BD1D1F660400E31624 /* AppDelegate.swift */,
 				7BE478C11D1F660400E31624 /* Main.storyboard */,
@@ -166,16 +173,26 @@
 			name = CoreData;
 			sourceTree = "<group>";
 		};
+		9D37E4E21D55679700DD4F7E /* Stylist */ = {
+			isa = PBXGroup;
+			children = (
+				9D37E4E01D55637F00DD4F7E /* StylistsViewController.swift */,
+				9D37E4E31D5567B200DD4F7E /* StylistCell.swift */,
+			);
+			name = Stylist;
+			sourceTree = "<group>";
+		};
 		9DEF6B351D262EB80004C92A /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				9D14C6BE1D2346AD001BCFD1 /* CoreData */,
+				9D37E4E21D55679700DD4F7E /* Stylist */,
 				9DEF6B361D262ED30004C92A /* ActiveClientsViewController.swift */,
 				9DEF6B371D262ED30004C92A /* InactiveClientsViewController.swift */,
 				9DEF6B381D262ED30004C92A /* LoginViewController.swift */,
 				9DEF6B391D262ED30004C92A /* ViewController.swift */,
 				9D4525211D302AF700B5B98B /* ActiveClientsCell.swift */,
 				9D4525231D302B0500B5B98B /* InactiveClientsCell.swift */,
+				9D37E4E51D5570DA00DD4F7E /* AddStylistViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -317,12 +334,15 @@
 				9D4525241D302B0500B5B98B /* InactiveClientsCell.swift in Sources */,
 				9DEF6B3A1D262ED30004C92A /* ActiveClientsViewController.swift in Sources */,
 				9D14C6B91D2343D8001BCFD1 /* DataController.swift in Sources */,
+				9D37E4E11D55637F00DD4F7E /* StylistsViewController.swift in Sources */,
 				9D45252B1D302ED500B5B98B /* CheckInEvent.swift in Sources */,
 				9DE2B7321D2349AF0045892F /* Client.swift in Sources */,
 				9DEF6B3B1D262ED30004C92A /* InactiveClientsViewController.swift in Sources */,
+				9D37E4E41D5567B200DD4F7E /* StylistCell.swift in Sources */,
 				9DE2B7301D2349AF0045892F /* ServiceType+CoreDataProperties.swift in Sources */,
 				9DE2B7331D2349AF0045892F /* ServiceType.swift in Sources */,
 				9D4525221D302AF800B5B98B /* ActiveClientsCell.swift in Sources */,
+				9D37E4E61D5570DA00DD4F7E /* AddStylistViewController.swift in Sources */,
 				9DEF6B3D1D262ED30004C92A /* ViewController.swift in Sources */,
 				9DE2B7231D2348CB0045892F /* check_in.xcdatamodeld in Sources */,
 				9DE2B7311D2349AF0045892F /* Client+CoreDataProperties.swift in Sources */,

@@ -21,6 +21,9 @@
 		9D4525241D302B0500B5B98B /* InactiveClientsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4525231D302B0500B5B98B /* InactiveClientsCell.swift */; };
 		9D45252B1D302ED500B5B98B /* CheckInEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4525291D302ED500B5B98B /* CheckInEvent.swift */; };
 		9D45252C1D302ED500B5B98B /* CheckInEvent+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D45252A1D302ED500B5B98B /* CheckInEvent+CoreDataProperties.swift */; };
+		9DD49EA11D58DDFB0057401D /* ServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD49EA01D58DDFB0057401D /* ServicesViewController.swift */; };
+		9DD49EA31D58DE110057401D /* ServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD49EA21D58DE110057401D /* ServiceCell.swift */; };
+		9DD49EA51D58E64E0057401D /* AddServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD49EA41D58E64E0057401D /* AddServiceViewController.swift */; };
 		9DE2B7231D2348CB0045892F /* check_in.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9DE2B7211D2348CB0045892F /* check_in.xcdatamodeld */; };
 		9DE2B7301D2349AF0045892F /* ServiceType+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE2B72C1D2349AF0045892F /* ServiceType+CoreDataProperties.swift */; };
 		9DE2B7311D2349AF0045892F /* Client+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE2B72D1D2349AF0045892F /* Client+CoreDataProperties.swift */; };
@@ -70,6 +73,9 @@
 		9D4525231D302B0500B5B98B /* InactiveClientsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InactiveClientsCell.swift; sourceTree = "<group>"; };
 		9D4525291D302ED500B5B98B /* CheckInEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckInEvent.swift; path = CoreData/CheckInEvent.swift; sourceTree = "<group>"; };
 		9D45252A1D302ED500B5B98B /* CheckInEvent+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CheckInEvent+CoreDataProperties.swift"; path = "CoreData/CheckInEvent+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		9DD49EA01D58DDFB0057401D /* ServicesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServicesViewController.swift; sourceTree = "<group>"; };
+		9DD49EA21D58DE110057401D /* ServiceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceCell.swift; sourceTree = "<group>"; };
+		9DD49EA41D58E64E0057401D /* AddServiceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddServiceViewController.swift; sourceTree = "<group>"; };
 		9DE2B7221D2348CB0045892F /* check_in.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = check_in.xcdatamodel; sourceTree = "<group>"; };
 		9DE2B72C1D2349AF0045892F /* ServiceType+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ServiceType+CoreDataProperties.swift"; path = "CoreData/ServiceType+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		9DE2B72D1D2349AF0045892F /* Client+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Client+CoreDataProperties.swift"; path = "CoreData/Client+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -129,14 +135,12 @@
 		7BE478BC1D1F660400E31624 /* check-in */ = {
 			isa = PBXGroup;
 			children = (
+				9DD249491D5974160007FF63 /* UI */,
 				9D14C6BE1D2346AD001BCFD1 /* CoreData */,
 				9DEF6B351D262EB80004C92A /* Controllers */,
 				7BE478BD1D1F660400E31624 /* AppDelegate.swift */,
-				7BE478C11D1F660400E31624 /* Main.storyboard */,
 				7BE478C71D1F660400E31624 /* Assets.xcassets */,
-				7BE478C91D1F660400E31624 /* LaunchScreen.storyboard */,
 				7BE478CC1D1F660400E31624 /* Info.plist */,
-				9D14C6B81D2343D8001BCFD1 /* DataController.swift */,
 			);
 			path = "check-in";
 			sourceTree = "<group>";
@@ -178,21 +182,58 @@
 			children = (
 				9D37E4E01D55637F00DD4F7E /* StylistsViewController.swift */,
 				9D37E4E31D5567B200DD4F7E /* StylistCell.swift */,
+				9D37E4E51D5570DA00DD4F7E /* AddStylistViewController.swift */,
 			);
 			name = Stylist;
+			sourceTree = "<group>";
+		};
+		9DD249491D5974160007FF63 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				7BE478C11D1F660400E31624 /* Main.storyboard */,
+				7BE478C91D1F660400E31624 /* LaunchScreen.storyboard */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
+		9DD2494A1D5985710007FF63 /* ActiveClients */ = {
+			isa = PBXGroup;
+			children = (
+				9D4525211D302AF700B5B98B /* ActiveClientsCell.swift */,
+				9DEF6B361D262ED30004C92A /* ActiveClientsViewController.swift */,
+			);
+			name = ActiveClients;
+			sourceTree = "<group>";
+		};
+		9DD2494B1D5985810007FF63 /* InactiveClients */ = {
+			isa = PBXGroup;
+			children = (
+				9D4525231D302B0500B5B98B /* InactiveClientsCell.swift */,
+				9DEF6B371D262ED30004C92A /* InactiveClientsViewController.swift */,
+			);
+			name = InactiveClients;
+			sourceTree = "<group>";
+		};
+		9DD49E9F1D58DDEB0057401D /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				9DD49EA01D58DDFB0057401D /* ServicesViewController.swift */,
+				9DD49EA21D58DE110057401D /* ServiceCell.swift */,
+				9DD49EA41D58E64E0057401D /* AddServiceViewController.swift */,
+			);
+			name = Services;
 			sourceTree = "<group>";
 		};
 		9DEF6B351D262EB80004C92A /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				9D37E4E21D55679700DD4F7E /* Stylist */,
-				9DEF6B361D262ED30004C92A /* ActiveClientsViewController.swift */,
-				9DEF6B371D262ED30004C92A /* InactiveClientsViewController.swift */,
+				9DD2494B1D5985810007FF63 /* InactiveClients */,
+				9DD2494A1D5985710007FF63 /* ActiveClients */,
+				9D14C6B81D2343D8001BCFD1 /* DataController.swift */,
 				9DEF6B381D262ED30004C92A /* LoginViewController.swift */,
+				9DD49E9F1D58DDEB0057401D /* Services */,
+				9D37E4E21D55679700DD4F7E /* Stylist */,
 				9DEF6B391D262ED30004C92A /* ViewController.swift */,
-				9D4525211D302AF700B5B98B /* ActiveClientsCell.swift */,
-				9D4525231D302B0500B5B98B /* InactiveClientsCell.swift */,
-				9D37E4E51D5570DA00DD4F7E /* AddStylistViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -331,11 +372,13 @@
 			files = (
 				9D45252C1D302ED500B5B98B /* CheckInEvent+CoreDataProperties.swift in Sources */,
 				9DEF6B3C1D262ED30004C92A /* LoginViewController.swift in Sources */,
+				9DD49EA11D58DDFB0057401D /* ServicesViewController.swift in Sources */,
 				9D4525241D302B0500B5B98B /* InactiveClientsCell.swift in Sources */,
 				9DEF6B3A1D262ED30004C92A /* ActiveClientsViewController.swift in Sources */,
 				9D14C6B91D2343D8001BCFD1 /* DataController.swift in Sources */,
 				9D37E4E11D55637F00DD4F7E /* StylistsViewController.swift in Sources */,
 				9D45252B1D302ED500B5B98B /* CheckInEvent.swift in Sources */,
+				9DD49EA51D58E64E0057401D /* AddServiceViewController.swift in Sources */,
 				9DE2B7321D2349AF0045892F /* Client.swift in Sources */,
 				9DEF6B3B1D262ED30004C92A /* InactiveClientsViewController.swift in Sources */,
 				9D37E4E41D5567B200DD4F7E /* StylistCell.swift in Sources */,
@@ -345,6 +388,7 @@
 				9D37E4E61D5570DA00DD4F7E /* AddStylistViewController.swift in Sources */,
 				9DEF6B3D1D262ED30004C92A /* ViewController.swift in Sources */,
 				9DE2B7231D2348CB0045892F /* check_in.xcdatamodeld in Sources */,
+				9DD49EA31D58DE110057401D /* ServiceCell.swift in Sources */,
 				9DE2B7311D2349AF0045892F /* Client+CoreDataProperties.swift in Sources */,
 				7BE478BE1D1F660400E31624 /* AppDelegate.swift in Sources */,
 			);

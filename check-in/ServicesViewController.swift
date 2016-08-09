@@ -1,34 +1,35 @@
 //
-//  StylistsViewController.swift
+//  ServicesViewController.swift
 //  check-in
 //
-//  Created by Joel on 8/5/16.
+//  Created by Joel on 8/8/16.
 //  Copyright © 2016 JediMaster. All rights reserved.
 //
 
+import Foundation
 import UIKit
-import CoreData
 
-
-class StylistsViewController: UIViewController, AddStylistVCDelegate {
+class ServicesViewController: UIViewController, AddServiceVCDelegate {
     
     @IBOutlet var tableview: UITableView!
     
-    var addStylistPopOverVC: AddStylistViewController!
-    var stylists = Array<Stylist>()
-
+    var addServiceVC: AddServiceViewController!
+    var services = Array<Service>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getStylistRecords()
+        getServiceRecords()
+        
     }
+    
+    // PRAGMA: Tableview methods
     
     func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]? {
         let deleted = UITableViewRowAction(style: .Destructive, title: "Eliminar") { action, index in
-            let stylist = self.stylists[indexPath.row]
-            stylist.status = "deleted"
-            self.updateStylistRecord(stylist.id, status: stylist.status)
-            self.stylists.removeAtIndex(indexPath.row)
+            let service = self.services[indexPath.row]
+            service.status = "deleted"
+            self.updateServiceRecord(service.id, status: service.status)
+            self.services.removeAtIndex(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         }
         deleted.backgroundColor = UIColor.redColor()
@@ -37,7 +38,7 @@ class StylistsViewController: UIViewController, AddStylistVCDelegate {
     }
     
     func tableView(tableView:UITableView!, numberOfRowsInSection section:Int)->Int{
-        return self.stylists.count
+        return self.services.count
     }
     
     
@@ -46,10 +47,10 @@ class StylistsViewController: UIViewController, AddStylistVCDelegate {
     }
     
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
-        let cell = tableView.dequeueReusableCellWithIdentifier("stylistCell", forIndexPath: indexPath) as! StyleListCell
-        let stylist = self.stylists[indexPath.row]
-        cell.name.text = stylist.name
-        if (stylist.status == "available") {
+        let cell = tableView.dequeueReusableCellWithIdentifier("serviceCell", forIndexPath: indexPath) as! ServiceCell
+        let service = self.services[indexPath.row]
+        cell.name.text = service.name
+        if (service.status == "available") {
             cell.availableSwitch.setOn(true, animated: true)
         }
         else {
@@ -61,7 +62,7 @@ class StylistsViewController: UIViewController, AddStylistVCDelegate {
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let vw = UIView()
         let titleLabel = UILabel(frame: CGRectMake(16, 6, 200, 16))
-        titleLabel.text = "Estilistas"
+        titleLabel.text = "Servicios"
         titleLabel.textColor = UIColor.whiteColor()
         titleLabel.font = UIFont(name:"HelveticaNeue-Bold", size: 18.0)
         vw.addSubview(titleLabel)
@@ -70,14 +71,14 @@ class StylistsViewController: UIViewController, AddStylistVCDelegate {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        self.addStylistPopOverVC = segue.destinationViewController as! AddStylistViewController
-        self.addStylistPopOverVC.delegate = self
+        self.addServiceVC = segue.destinationViewController as! AddServiceViewController
+        self.addServiceVC.delegate = self
     }
     
-    func didEnterStylistName(name: String) {
-        postStylistRecord(name)
-        getStylistRecords()
-        self.addStylistPopOverVC.dismissViewControllerAnimated(true, completion: nil)
+    func didEnterServiceName(name: String) {
+        postServiceRecord(name)
+        getServiceRecords()
+        self.addServiceVC.dismissViewControllerAnimated(true, completion: nil)
         //url
         //session
         //request
@@ -87,9 +88,9 @@ class StylistsViewController: UIViewController, AddStylistVCDelegate {
         
     }
     
-    func postStylistRecord(name: String) {
+    func postServiceRecord(name: String) {
         // DEVELOP
-        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/develop/mobile_api/Create/create_Stylist.php")!
+        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/develop/mobile_api/Create/create_service.php")!
         
         // LIVE
         //let url:NSURL = NSURL(string: "http://www.whitecoatlabs.co/checkin/glamour/mobile_api/post_checkinEvent.php")!
@@ -106,8 +107,8 @@ class StylistsViewController: UIViewController, AddStylistVCDelegate {
                 return
             }
             
-//            let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
-//            print(responseBody)
+                        let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
+                        print(responseBody)
             dispatch_async(dispatch_get_main_queue(), {
                 //update tableview with name
             })
@@ -115,9 +116,9 @@ class StylistsViewController: UIViewController, AddStylistVCDelegate {
         task.resume()
     }
     
-    func getStylistRecords() {
+    func getServiceRecords() {
         // DEVELOP
-        let url: NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/develop/mobile_api/Get/get_stylists.php")!
+        let url: NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/develop/mobile_api/Get/get_services.php")!
         
         let session = NSURLSession.sharedSession()
         let request = NSMutableURLRequest(URL: url)
@@ -147,9 +148,8 @@ class StylistsViewController: UIViewController, AddStylistVCDelegate {
     
     func populateDataSource(array: [Dictionary<String, String>]) {
         for item in array {
-            let stylist = Stylist(status: item["status"]!, id: item["id"]!, name: item["name"]!)
-            self.stylists.append(stylist)
-        }
+            let service = Service(name: item["name"]!, id: item["id"]!, status: item["status"]!)
+            self.services.append(service)        }
         dispatch_async(dispatch_get_main_queue()) {
             self.tableview.reloadData()
         }
@@ -159,7 +159,7 @@ class StylistsViewController: UIViewController, AddStylistVCDelegate {
         let switchSelected = sender as! UISwitch
         let cellSelected = switchSelected.superview?.superview as! UITableViewCell
         let indexPath = self.tableview.indexPathForCell(cellSelected)
-        let stylist = self.stylists[(indexPath?.row)!]
+        let service = self.services[(indexPath?.row)!]
         var status: String!
         if (switchSelected.on) {
             status = "available"
@@ -167,13 +167,13 @@ class StylistsViewController: UIViewController, AddStylistVCDelegate {
         else {
             status = "unavailable"
         }
-        updateStylistRecord(stylist.id!, status: status)
+        updateServiceRecord(service.id!, status: status)
         
     }
     
-    func updateStylistRecord(id: String, status: String) {
+    func updateServiceRecord(id: String, status: String) {
         // DEVELOP
-        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/develop/mobile_api/Update/update_Stylist.php")!
+        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/develop/mobile_api/Update/update_service.php")!
         
         // LIVE
         //let url:NSURL = NSURL(string: "http://www.whitecoatlabs.co/checkin/glamour/mobile_api/post_checkinEvent.php")!
@@ -190,21 +190,22 @@ class StylistsViewController: UIViewController, AddStylistVCDelegate {
                 return
             }
             
-//            let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
-//            print(responseBody)
+                        let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
+                        print(responseBody)
+            
         })
         task.resume()
     }
 }
 
-class Stylist: NSObject {
-    var status: String!
-    var id: String!
+class Service: NSObject {
     var name: String!
+    var id: String!
+    var status: String!
     
-    init(status: String, id: String, name: String) {
-        self.status = status
-        self.id = id
+    init(name: String, id: String, status: String) {
         self.name = name
+        self.id = id
+        self.status = status
     }
 }

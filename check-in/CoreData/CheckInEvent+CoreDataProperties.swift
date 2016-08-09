@@ -23,4 +23,6 @@ extension CheckInEvent {
     @NSManaged var checkinTimestamp: NSDate?
     @NSManaged var completedTimestamp: NSDate?
     @NSManaged var phone: String?
+    @NSManaged var stylist: String?
+    @NSManaged var service: String?
 }

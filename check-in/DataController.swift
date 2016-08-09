@@ -94,6 +94,8 @@ class DataController: NSObject {
                         checkinEvent.name = object["name"] as? String
                         checkinEvent.phone = object["phone"] as? String
                         checkinEvent.status = object["status"] as? String
+                        checkinEvent.service = object["service"] as? String
+                        checkinEvent.stylist = object["stylist"] as? String
                         do {
                             try appDelegate.managedObjectContext.save()
                         }
@@ -122,6 +124,8 @@ class DataController: NSObject {
                             checkinEvent.name = object["name"] as? String
                             checkinEvent.phone = object["phone"] as? String
                             checkinEvent.status = object["status"] as? String
+                            checkinEvent.stylist = object["stylist"] as? String
+                            checkinEvent.service = object["service"] as? String
                             do {
                                 try appDelegate.managedObjectContext.save()
                             }

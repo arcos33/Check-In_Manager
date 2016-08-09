@@ -14,4 +14,6 @@ class ActiveClientsCell: UITableViewCell {
     @IBOutlet var name: UILabel!
     @IBOutlet var type: UILabel!
     @IBOutlet var appointmentTime: UILabel!
+    @IBOutlet var serviceLabel: UILabel!
+    @IBOutlet var stylistLabel: UILabel!
 }

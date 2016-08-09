@@ -52,18 +52,21 @@ class ActiveClientsViewController: UIViewController {
         let secondsDifference = checkinEvent.checkinTimestamp?.timeIntervalSinceNow
         let minsDif = abs(secondsDifference! / 60)
         let minsDifInt = Int(minsDif)
-        cell.type.text = "\(minsDifInt)"
+        cell.type.text = "\(minsDifInt) mins"
         let df = NSDateFormatter()
         df.dateFormat = "hh:mm a"
         cell.appointmentTime.text = df.stringFromDate(checkinEvent.checkinTimestamp!)
+        
+        cell.serviceLabel.text = checkinEvent.service
+        cell.stylistLabel.text = checkinEvent.stylist
         return cell
     }
     
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let vw = UIView()
-        let titleLabel = UILabel(frame: CGRectMake(16, 6, 200, 16))
-        titleLabel.text = "Clientes Esperando"
+        let titleLabel = UILabel(frame: CGRectMake(16, 6, 750, 16))
+        titleLabel.text = "Nombre                  Servicio                  Estilista                                             Espera"
         titleLabel.textColor = UIColor.whiteColor()
         titleLabel.font = UIFont(name:"HelveticaNeue-Bold", size: 18.0)
         vw.addSubview(titleLabel)
@@ -141,5 +144,10 @@ class ActiveClientsViewController: UIViewController {
         })
         task.resume()
 
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+//        let cell = tableView.cellForRowAtIndexPath(indexPath)
+//        cell?.accessoryType = .Checkmark
     }
 }

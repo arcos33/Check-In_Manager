@@ -11,28 +11,53 @@ import UIKit
 class LoginViewController:UIViewController {
     @IBOutlet var passwordTextField: UITextField!
     @IBOutlet var usernameTextField: UITextField!
-    
     @IBOutlet var credentialsView: UIView!
+    
+    var appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    
+    //------------------------------------------------------------------------------
+    // MARK: Lifecycle Methods
+    //------------------------------------------------------------------------------
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        // DEVELOP
-        self.passwordTextField.text = "glamour"
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(goToMainUI), name: "didSetUser", object: nil)
     }
     
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
     
+    //------------------------------------------------------------------------------
+    // MARK: Action Methods
+    //------------------------------------------------------------------------------
     @IBAction func authenticaUser(sender: AnyObject) {
-        if (usernameTextField.text == "glamour") && passwordTextField.text == "glamour"  {
-            performSegueWithIdentifier("checkInSegue", sender: sender)
+        let dataController = DataController.sharedInstance
+        dataController.setURLIdentifierForUser(self.usernameTextField.text!)
+    }
+    
+    //------------------------------------------------------------------------------
+    // MARK: Private Methods
+    //------------------------------------------------------------------------------
+    @objc private func goToMainUI() {
+        if (self.usernameTextField.text == "demo" || self.usernameTextField.text == "develop") {
+            dispatch_async(dispatch_get_main_queue(), { 
+                self.performSegueWithIdentifier("checkInSegue", sender: self)
+            })
         }
         else {
-            shakeView(credentialsView)
+            if (self.usernameTextField.text == "glamour") && passwordTextField.text == "glamour"  {
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.performSegueWithIdentifier("checkInSegue", sender: self)
+                    })
+            }
+            else {
+                shakeView(credentialsView)
+            }
         }
     }
-    func shakeView(shakeView: UIView) {
+    
+    private func shakeView(shakeView: UIView) {
         let shake = CABasicAnimation(keyPath: "position")
         let xDelta = CGFloat(5)
         shake.duration = 0.15

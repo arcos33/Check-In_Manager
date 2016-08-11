@@ -15,15 +15,25 @@ class ServicesViewController: UIViewController, AddServiceVCDelegate {
     
     var addServiceVC: AddServiceViewController!
     var services = Array<Service>()
-    
+    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let cellIdentifier = "serviceCell"
+
+    //------------------------------------------------------------------------------
+    // MARK: Lifecycle Methods
+    //------------------------------------------------------------------------------
     override func viewDidLoad() {
         super.viewDidLoad()
         getServiceRecords()
-        
     }
     
-    // PRAGMA: Tableview methods
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        self.addServiceVC = segue.destinationViewController as! AddServiceViewController
+        self.addServiceVC.delegate = self
+    }
     
+    //------------------------------------------------------------------------------
+    // MARK: TableView Methods
+    //------------------------------------------------------------------------------
     func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]? {
         let deleted = UITableViewRowAction(style: .Destructive, title: "Eliminar") { action, index in
             let service = self.services[indexPath.row]
@@ -47,7 +57,7 @@ class ServicesViewController: UIViewController, AddServiceVCDelegate {
     }
     
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
-        let cell = tableView.dequeueReusableCellWithIdentifier("serviceCell", forIndexPath: indexPath) as! ServiceCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ServiceCell
         let service = self.services[indexPath.row]
         cell.name.text = service.name
         if (service.status == "available") {
@@ -70,30 +80,20 @@ class ServicesViewController: UIViewController, AddServiceVCDelegate {
         return vw
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        self.addServiceVC = segue.destinationViewController as! AddServiceViewController
-        self.addServiceVC.delegate = self
-    }
-    
+    //------------------------------------------------------------------------------
+    // MARK: AddServiceDelegate Methods
+    //------------------------------------------------------------------------------
     func didEnterServiceName(name: String) {
         postServiceRecord(name)
-        getServiceRecords()
         self.addServiceVC.dismissViewControllerAnimated(true, completion: nil)
-        //url
-        //session
-        //request
-        // perform post request
-        // reload data
-        // request string
-        
     }
     
-    func postServiceRecord(name: String) {
-        // DEVELOP
-        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/develop/mobile_api/Create/create_service.php")!
+    //------------------------------------------------------------------------------
+    // MARK: Private Methods
+    //------------------------------------------------------------------------------
+    private func postServiceRecord(name: String) {
+        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.user)/mobile_api/create/create_service.php")!
         
-        // LIVE
-        //let url:NSURL = NSURL(string: "http://www.whitecoatlabs.co/checkin/glamour/mobile_api/post_checkinEvent.php")!
         let session = NSURLSession.sharedSession()
         let request = NSMutableURLRequest(URL: url)
         request.HTTPMethod = "POST"
@@ -103,7 +103,7 @@ class ServicesViewController: UIViewController, AddServiceVCDelegate {
         
         let task = session.uploadTaskWithRequest(request, fromData: jsonRequestString, completionHandler: { (data, response, error) in
             guard let _:NSData = data, let _:NSURLResponse = response where error == nil else {
-                print(error)
+                print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
                 return
             }
             
@@ -111,14 +111,15 @@ class ServicesViewController: UIViewController, AddServiceVCDelegate {
                         print(responseBody)
             dispatch_async(dispatch_get_main_queue(), {
                 //update tableview with name
+                self.getServiceRecords()
+
             })
         })
         task.resume()
     }
     
-    func getServiceRecords() {
-        // DEVELOP
-        let url: NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/develop/mobile_api/Get/get_services.php")!
+    private func getServiceRecords() {
+        let url: NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.user)/mobile_api/get/get_services.php")!
         
         let session = NSURLSession.sharedSession()
         let request = NSMutableURLRequest(URL: url)
@@ -131,23 +132,27 @@ class ServicesViewController: UIViewController, AddServiceVCDelegate {
                 if responseBody != "null" {
                     do {
                         let jsonResponseString = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as! [Dictionary<String, String>]
+                        self.services = []
                         self.populateDataSource(jsonResponseString)
                     }
                     catch {
-                        print("error = \(error)")
+                        print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
                     }
                 }
             }
             else {
-                print("error = \(error)")
+                print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
             }
             
         }
         task.resume()
     }
     
-    func populateDataSource(array: [Dictionary<String, String>]) {
+    private func populateDataSource(array: [Dictionary<String, String>]) {
         for item in array {
+            if item["status"] == "deleted" {
+                continue
+            }
             let service = Service(name: item["name"]!, id: item["id"]!, status: item["status"]!)
             self.services.append(service)        }
         dispatch_async(dispatch_get_main_queue()) {
@@ -155,6 +160,32 @@ class ServicesViewController: UIViewController, AddServiceVCDelegate {
         }
     }
     
+    private func updateServiceRecord(id: String, status: String) {
+        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.user)/mobile_api/update/update_service.php")!
+        
+        let session = NSURLSession.sharedSession()
+        let request = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "POST"
+        request.cachePolicy = .ReloadIgnoringLocalCacheData
+        
+        let jsonRequestString = "id=\(id)&status=\(status)" .dataUsingEncoding(NSUTF8StringEncoding)
+        
+        let task = session.uploadTaskWithRequest(request, fromData: jsonRequestString, completionHandler: { (data, response, error) in
+            guard let _:NSData = data, let _:NSURLResponse = response where error == nil else {
+                print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
+                return
+            }
+            
+            let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
+            print(responseBody)
+            
+        })
+        task.resume()
+    }
+
+    //------------------------------------------------------------------------------
+    // MARK: Action Methods
+    //------------------------------------------------------------------------------
     @IBAction func switchChanged(sender: AnyObject) {
         let switchSelected = sender as! UISwitch
         let cellSelected = switchSelected.superview?.superview as! UITableViewCell
@@ -167,34 +198,9 @@ class ServicesViewController: UIViewController, AddServiceVCDelegate {
         else {
             status = "unavailable"
         }
+        service.status = status
         updateServiceRecord(service.id!, status: status)
         
-    }
-    
-    func updateServiceRecord(id: String, status: String) {
-        // DEVELOP
-        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/develop/mobile_api/Update/update_service.php")!
-        
-        // LIVE
-        //let url:NSURL = NSURL(string: "http://www.whitecoatlabs.co/checkin/glamour/mobile_api/post_checkinEvent.php")!
-        let session = NSURLSession.sharedSession()
-        let request = NSMutableURLRequest(URL: url)
-        request.HTTPMethod = "POST"
-        request.cachePolicy = .ReloadIgnoringLocalCacheData
-        
-        let jsonRequestString = "id=\(id)&status=\(status)" .dataUsingEncoding(NSUTF8StringEncoding)
-        
-        let task = session.uploadTaskWithRequest(request, fromData: jsonRequestString, completionHandler: { (data, response, error) in
-            guard let _:NSData = data, let _:NSURLResponse = response where error == nil else {
-                print(error)
-                return
-            }
-            
-                        let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
-                        print(responseBody)
-            
-        })
-        task.resume()
     }
 }
 

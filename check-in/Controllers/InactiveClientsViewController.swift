@@ -19,9 +19,11 @@ class InactiveClientsViewController: UIViewController {
     
     var checkInEvents: Array<CheckInEvent>?
     var appDelegate: AppDelegate!
-    
     let cellIdentifier = "inactiveCheckInCell"
     
+    //------------------------------------------------------------------------------
+    // MARK: Lifecycle Methods
+    //------------------------------------------------------------------------------
     override func viewDidLoad() {
         NSNotificationCenter.defaultCenter().addObserver(
             self,
@@ -33,8 +35,35 @@ class InactiveClientsViewController: UIViewController {
         fetchCompletedCheckinRecords()
     }
     
-    // UITableView methods
+    //------------------------------------------------------------------------------
+    // MARK: Private Methods
+    //------------------------------------------------------------------------------
+    @objc private func reloadData() {
+        fetchCompletedCheckinRecords()
+    }
     
+    private func fetchCompletedCheckinRecords() {
+        self.appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        let fetch = NSFetchRequest(entityName: "CheckInEvent")
+        fetch.returnsObjectsAsFaults = false
+        fetch.predicate = NSPredicate(format: "status == 'completed'")
+        let sd = NSSortDescriptor(key: "completedTimestamp", ascending: true, selector: nil)
+        fetch.sortDescriptors = [sd]
+        
+        do {
+            self.checkInEvents = try appDelegate.managedObjectContext.executeFetchRequest(fetch) as? Array<CheckInEvent>
+        }
+        catch {
+            print("error: \(#file) \(#line) \(error)")
+        }
+        
+        self.tableview.reloadData()
+    }
+    
+    //------------------------------------------------------------------------------
+    // MARK: TableView Methods
+    //------------------------------------------------------------------------------
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.checkInEvents != nil ? self.checkInEvents!.count : 0
     }
@@ -46,16 +75,16 @@ class InactiveClientsViewController: UIViewController {
         df.dateFormat = "hh:mm a"
         cell.appointmentTime.text = df.stringFromDate(checkInEvent.completedTimestamp!)
         cell.name.text = checkInEvent.name
-        let fetch = NSFetchRequest(entityName: "ServiceType")
-        fetch.returnsObjectsAsFaults = false
-        fetch.predicate = NSPredicate(format: "uniqueID == \(String(checkInEvent.serviceTypeID as! Int))")
-        do {
-            let serviceTypes = try self.appDelegate.managedObjectContext.executeFetchRequest(fetch)
-            //print (serviceTypes.count)
-        }
-        catch {
-            print("error: \(error)")
-        }
+//        let fetch = NSFetchRequest(entityName: "ServiceType")
+//        fetch.returnsObjectsAsFaults = false
+//        fetch.predicate = NSPredicate(format: "uniqueID == \(String(checkInEvent.serviceTypeID as! Int))")
+//        do {
+//            let serviceTypes = try self.appDelegate.managedObjectContext.executeFetchRequest(fetch)
+//            //print (serviceTypes.count)
+//        }
+//        catch {
+//            print("error: \(#file) \(#line) \(error)")
+//        }
         return cell
     }
 
@@ -69,29 +98,5 @@ class InactiveClientsViewController: UIViewController {
         //vw.backgroundColor = UIColor(red: 0.70, green: 0.89, blue: 1.00, alpha: 1.00)
         vw.backgroundColor = UIColor.redColor()
         return vw
-    }
-
-    func fetchCompletedCheckinRecords() {
-        self.appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        
-        let fetch = NSFetchRequest(entityName: "CheckInEvent")
-        fetch.returnsObjectsAsFaults = false
-        fetch.predicate = NSPredicate(format: "status == 'completed'")
-        let sd = NSSortDescriptor(key: "completedTimestamp", ascending: true, selector: nil)
-        fetch.sortDescriptors = [sd]
-
-        do {
-            self.checkInEvents = try appDelegate.managedObjectContext.executeFetchRequest(fetch) as? Array<CheckInEvent>
-            //print("inactive checkInEvents = \(self.checkInEvents)")
-        }
-        catch {
-            print("error:\(error)")
-        }
-        
-        self.tableview.reloadData()
-    }
-    
-    func reloadData() {
-        fetchCompletedCheckinRecords()
     }
 }

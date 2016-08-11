@@ -13,33 +13,103 @@ import CoreData
 class ActiveClientsViewController: UIViewController {
     
     @IBOutlet var tableview: UITableView!
-    
     @IBOutlet var name: UILabel!
     @IBOutlet var checkInTime: UILabel!
     @IBOutlet var type: UILabel!
     
     var checkInEvents: Array<CheckInEvent>?
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-    
     let cellIdentifier = "activeCheckInCell"
     
+    //------------------------------------------------------------------------------
+    // MARK: Lifecycle Methods
+    //------------------------------------------------------------------------------
     override func viewDidLoad() {
         self.tableview.tableFooterView = UIView(frame: CGRect.zero)
         fetchCheckedinClients()
-        
         NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(reloadData), userInfo: nil, repeats: true)
-        
     }
     
-    func reloadData() {
-        DataController.sharedInstance.dataRequest()
+    //------------------------------------------------------------------------------
+    // MARK: Private Methods
+    //------------------------------------------------------------------------------
+    @objc private func reloadData() {
+        // TODO: Make sure this only gets called once
+        DataController.sharedInstance.getCheckinRecords()
         fetchCheckedinClients()
         self.tableview.reloadData()
     }
     
+    private func saveChanges() {
+        do {
+            try self.appDelegate.managedObjectContext.save()
+        }
+        catch {
+            print("error: \(#file) \(#line) \(error)")
+        }
+    }
     
-    // UITableView methods
+    private func fetchCheckedinClients () {
+        let fetch = NSFetchRequest(entityName: "CheckInEvent")
+        fetch.returnsObjectsAsFaults = false
+        fetch.predicate = NSPredicate(format: "status == 'checkedin'")
+        let sd = NSSortDescriptor(key: "checkinTimestamp", ascending: true, selector: nil)
+        fetch.sortDescriptors = [sd]
+        do {
+            self.checkInEvents = try self.appDelegate.managedObjectContext.executeFetchRequest(fetch) as? Array<CheckInEvent>
+        }
+        catch {
+            print("error: \(#file) \(#line) \(error)")
+        }
+    }
     
+    private func updateCheckInEvent(checkinEvent: CheckInEvent!) {
+        let url:NSURL = NSURL(string: "http://www.whitecoatlabs.co/checkin/\(self.appDelegate.user)/mobile_api/update_checkinEvent.php")!
+        
+        let session = NSURLSession.sharedSession()
+        let request = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "POST"
+        request.cachePolicy = .ReloadIgnoringLocalCacheData
+        
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let dateString = dateFormatter.stringFromDate(checkinEvent.completedTimestamp!)
+        
+        let jsonRequestString = "id=\(checkinEvent.uniqueID!)&completedTimestamp=\(dateString)&status=\(checkinEvent.status!)" .dataUsingEncoding(NSUTF8StringEncoding)
+        
+        let task = session.uploadTaskWithRequest(request, fromData: jsonRequestString, completionHandler: { (data, response, error) in
+            guard let _:NSData = data, let _:NSURLResponse = response where error == nil else {
+                print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
+                return
+            }
+            
+            //            let responseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
+            //            print("Response = \(responseString!)")
+        })
+        task.resume()
+    }
+    
+    private func createPdfFromView(aView: UIView, saveToDocumentsWithFileName fileName: String)
+    {
+        let pdfData = NSMutableData()
+        UIGraphicsBeginPDFContextToData(pdfData, aView.bounds, nil)
+        UIGraphicsBeginPDFPage()
+        
+        guard let pdfContext = UIGraphicsGetCurrentContext() else { return }
+        
+        aView.layer.renderInContext(pdfContext)
+        UIGraphicsEndPDFContext()
+        
+        if let documentDirectories = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first {
+            let documentsFileName = documentDirectories + "/" + fileName
+            debugPrint(documentsFileName)
+            pdfData.writeToFile(documentsFileName, atomically: true)
+        }
+    }
+    
+    //------------------------------------------------------------------------------
+    // MARK: TableView Methods
+    //------------------------------------------------------------------------------
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.checkInEvents != nil ? self.checkInEvents!.count : 0
     }
@@ -61,7 +131,6 @@ class ActiveClientsViewController: UIViewController {
         cell.stylistLabel.text = checkinEvent.stylist
         return cell
     }
-    
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let vw = UIView()
@@ -89,65 +158,5 @@ class ActiveClientsViewController: UIViewController {
         complete.backgroundColor = UIColor.redColor()
         
         return [complete]
-    }
-    
-    func saveChanges() {
-        do {
-            try self.appDelegate.managedObjectContext.save()
-        }
-        catch {
-            print("eror: \(error)")
-        }
-    }
-    
-    func fetchCheckedinClients () {
-        let fetch = NSFetchRequest(entityName: "CheckInEvent")
-        fetch.returnsObjectsAsFaults = false
-        fetch.predicate = NSPredicate(format: "status == 'checkedin'")
-        let sd = NSSortDescriptor(key: "checkinTimestamp", ascending: true, selector: nil)
-        fetch.sortDescriptors = [sd]
-        do {
-            self.checkInEvents = try self.appDelegate.managedObjectContext.executeFetchRequest(fetch) as? Array<CheckInEvent>
-            //print("active checkInEvents = \(self.checkInEvents)")
-        }
-        catch {
-            print("error:\(error)")
-        }
-    }
-    
-    func updateCheckInEvent(checkinEvent: CheckInEvent!) {
-        // DEVELOP
-        let url:NSURL = NSURL(string: "http://www.whitecoatlabs.co/checkin/develop/mobile_api/update_checkinEvent.php")!
-        
-        // LIVE
-        //let url:NSURL = NSURL(string: "http://www.whitecoatlabs.co/checkin/glamour/mobile_api/update_checkinEvent.php")!
-        let session = NSURLSession.sharedSession()
-        let request = NSMutableURLRequest(URL: url)
-        request.HTTPMethod = "POST"
-        request.cachePolicy = .ReloadIgnoringLocalCacheData
-        
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        let dateString = dateFormatter.stringFromDate(checkinEvent.completedTimestamp!)
-        
-        let jsonRequestString = "id=\(checkinEvent.uniqueID!)&completedTimestamp=\(dateString)&status=\(checkinEvent.status!)" .dataUsingEncoding(NSUTF8StringEncoding)
-        
-        let task = session.uploadTaskWithRequest(request, fromData: jsonRequestString, completionHandler: { (data, response, error) in
-            guard let _:NSData = data, let _:NSURLResponse = response where error == nil else {
-                print(error)
-                return
-            }
-            
-            let responseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
-            print("Response = \(responseString!)")
-            
-        })
-        task.resume()
-
-    }
-    
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-//        let cell = tableView.cellForRowAtIndexPath(indexPath)
-//        cell?.accessoryType = .Checkmark
     }
 }

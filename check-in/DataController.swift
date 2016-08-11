@@ -12,6 +12,7 @@ import UIKit
 
 class DataController: NSObject {
     static let sharedInstance = DataController()
+    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
     //var managedObjectContext: NSManagedObjectContext
     
@@ -43,15 +44,12 @@ class DataController: NSObject {
      }
      */
     
-    func dataRequest()
+    func getCheckinRecords()
     {
         // Get all checkinEvents for today from DB server.
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        // DEVELOP
-        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/develop/mobile_api/get_checkinEvents.php")!
+        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(appDelegate.user)/mobile_api/get/get_checkinEvents.php")!
         
-        // LIVE
-        //let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/glamour/mobile_api/get_checkinEvents.php")!
         let session = NSURLSession.sharedSession()
         
         let request = NSMutableURLRequest(URL: url)
@@ -61,7 +59,7 @@ class DataController: NSObject {
         let task = session.dataTaskWithRequest(request) { (let data, let response, let error) in
             
             guard let _:NSData = data, let _:NSURLResponse = response  where error == nil else {
-                print("error = \(error)")
+                print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
                 return
             }
             let responseBody = NSString(data: data!, encoding: NSUTF8StringEncoding)
@@ -77,11 +75,14 @@ class DataController: NSObject {
                     checkinEvents = try appDelegate.managedObjectContext.executeFetchRequest(fetch) as? [CheckInEvent]
                 }
                 catch {
-                    print("error = \(error)")
+                    print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
                 }
                 
                 if checkinEvents?.count == 0 {
                     // If the response body is valid JSON then iterate through all dictionaries and save checkinEvents to coredata.
+                    let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
+                    print("responseBody: \(responseBody)")
+                    print()
                     let jsonResponseString: AnyObject = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as! NSArray
                     for object in jsonResponseString as! [Dictionary<String,AnyObject>] {
                         let tempId = object["id"]!
@@ -100,7 +101,7 @@ class DataController: NSObject {
                             try appDelegate.managedObjectContext.save()
                         }
                         catch {
-                            print("error: \(error)")
+                            print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
                         }
                     }
                 }
@@ -130,15 +131,48 @@ class DataController: NSObject {
                                 try appDelegate.managedObjectContext.save()
                             }
                             catch {
-                                print("error: \(error)")
+                                print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
                             }
                         }
                     }
                 }
             }
             catch {
-                print(error)
+                print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
             }
+        }
+        task.resume()
+    }
+    
+    func setURLIdentifierForUser(user: String) {
+        let url: NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/company_mapping.php")!
+        let session = NSURLSession.sharedSession()
+        let request = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "POST"
+        request.cachePolicy = .ReloadIgnoringLocalCacheData
+        
+        let jsonRequest = "username=\(user)".dataUsingEncoding(NSUTF8StringEncoding)
+        let task = session.uploadTaskWithRequest(request, fromData: jsonRequest) { (data, response, error) in
+            guard let data: NSData = data, let _:NSURLResponse = response where error == nil else {
+                print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
+                return
+            }
+            
+            do {
+                let jsonResponse = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments) as! [Dictionary<String, String>]
+                for dict in jsonResponse {
+                    let appdelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                    appdelegate.user = dict["baseURL"]!
+                    NSNotificationCenter.defaultCenter().postNotificationName("didSetUser", object: nil)
+                }
+                
+            }
+            catch {
+                print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
+            }
+            
+//            let responseBody = String(data: data, encoding: NSUTF8StringEncoding)
+//            print(responseBody)
         }
         task.resume()
     }

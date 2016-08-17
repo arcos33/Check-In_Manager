@@ -13,13 +13,23 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var user: String!
+    var companyPath: String!
+    var companyName: String!
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         let documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
         print(documentsPath)
+        
+        // This sets the iPad to never go into sleep mode.
         UIApplication.sharedApplication().idleTimerDisabled = true
+        
+        if (NSUserDefaults.standardUserDefaults().valueForKey("companyName") as? String) != nil {
+            self.companyName = NSUserDefaults.standardUserDefaults().valueForKey("companyName") as? String
+        }
+        if (NSUserDefaults.standardUserDefaults().valueForKey("companyPath") as? String) != nil {
+            self.companyPath = NSUserDefaults.standardUserDefaults().valueForKey("companyPath") as? String
+        }
         
         return true
     }

@@ -21,6 +21,11 @@
 		9D45252B1D302ED500B5B98B /* CheckInEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4525291D302ED500B5B98B /* CheckInEvent.swift */; };
 		9D45252C1D302ED500B5B98B /* CheckInEvent+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D45252A1D302ED500B5B98B /* CheckInEvent+CoreDataProperties.swift */; };
 		9D5F62401D5A6FD100183499 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D5F623F1D5A6FD100183499 /* Assets.xcassets */; };
+		9DB85AF51D62968D00B76DA7 /* CheckinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB85AF41D62968D00B76DA7 /* CheckinViewController.swift */; };
+		9DB85AF71D6296C500B76DA7 /* ServicesOfferedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB85AF61D6296C500B76DA7 /* ServicesOfferedTableViewController.swift */; };
+		9DB85AF91D62970C00B76DA7 /* StylistsOfferedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB85AF81D62970C00B76DA7 /* StylistsOfferedTableViewController.swift */; };
+		9DB85AFB1D6297FD00B76DA7 /* NSUserDefaults+CheckIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB85AFA1D6297FD00B76DA7 /* NSUserDefaults+CheckIn.swift */; };
+		9DB85AFD1D62A50200B76DA7 /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB85AFC1D62A50200B76DA7 /* DashboardViewController.swift */; };
 		9DD2494D1D599CB30007FF63 /* ReportsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD2494C1D599CB30007FF63 /* ReportsViewController.swift */; };
 		9DD49EA11D58DDFB0057401D /* ServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD49EA01D58DDFB0057401D /* ServicesViewController.swift */; };
 		9DD49EA31D58DE110057401D /* ServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD49EA21D58DE110057401D /* ServiceCell.swift */; };
@@ -73,6 +78,11 @@
 		9D4525291D302ED500B5B98B /* CheckInEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckInEvent.swift; path = CoreData/CheckInEvent.swift; sourceTree = "<group>"; };
 		9D45252A1D302ED500B5B98B /* CheckInEvent+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CheckInEvent+CoreDataProperties.swift"; path = "CoreData/CheckInEvent+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		9D5F623F1D5A6FD100183499 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9DB85AF41D62968D00B76DA7 /* CheckinViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckinViewController.swift; sourceTree = "<group>"; };
+		9DB85AF61D6296C500B76DA7 /* ServicesOfferedTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServicesOfferedTableViewController.swift; sourceTree = "<group>"; };
+		9DB85AF81D62970C00B76DA7 /* StylistsOfferedTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StylistsOfferedTableViewController.swift; sourceTree = "<group>"; };
+		9DB85AFA1D6297FD00B76DA7 /* NSUserDefaults+CheckIn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSUserDefaults+CheckIn.swift"; sourceTree = "<group>"; };
+		9DB85AFC1D62A50200B76DA7 /* DashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
 		9DD2494C1D599CB30007FF63 /* ReportsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportsViewController.swift; sourceTree = "<group>"; };
 		9DD49EA01D58DDFB0057401D /* ServicesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServicesViewController.swift; sourceTree = "<group>"; };
 		9DD49EA21D58DE110057401D /* ServiceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceCell.swift; sourceTree = "<group>"; };
@@ -141,6 +151,7 @@
 				9DEF6B351D262EB80004C92A /* Controllers */,
 				7BE478BD1D1F660400E31624 /* AppDelegate.swift */,
 				7BE478CC1D1F660400E31624 /* Info.plist */,
+				9DB85AFA1D6297FD00B76DA7 /* NSUserDefaults+CheckIn.swift */,
 			);
 			path = "check-in";
 			sourceTree = "<group>";
@@ -187,6 +198,16 @@
 			name = Stylist;
 			sourceTree = "<group>";
 		};
+		9DB85AFE1D62B4E900B76DA7 /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				9DD2494B1D5985810007FF63 /* InactiveClients */,
+				9DD2494A1D5985710007FF63 /* ActiveClients */,
+				9DB85AFC1D62A50200B76DA7 /* DashboardViewController.swift */,
+			);
+			name = Dashboard;
+			sourceTree = "<group>";
+		};
 		9DD249491D5974160007FF63 /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -227,13 +248,15 @@
 		9DEF6B351D262EB80004C92A /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				9DD2494B1D5985810007FF63 /* InactiveClients */,
-				9DD2494A1D5985710007FF63 /* ActiveClients */,
+				9DB85AFE1D62B4E900B76DA7 /* Dashboard */,
+				9DB85AF41D62968D00B76DA7 /* CheckinViewController.swift */,
 				9D14C6B81D2343D8001BCFD1 /* DataController.swift */,
 				9DEF6B381D262ED30004C92A /* LoginViewController.swift */,
-				9DD49E9F1D58DDEB0057401D /* Services */,
-				9D37E4E21D55679700DD4F7E /* Stylist */,
 				9DD2494C1D599CB30007FF63 /* ReportsViewController.swift */,
+				9DD49E9F1D58DDEB0057401D /* Services */,
+				9DB85AF61D6296C500B76DA7 /* ServicesOfferedTableViewController.swift */,
+				9D37E4E21D55679700DD4F7E /* Stylist */,
+				9DB85AF81D62970C00B76DA7 /* StylistsOfferedTableViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -372,14 +395,19 @@
 			files = (
 				9D45252C1D302ED500B5B98B /* CheckInEvent+CoreDataProperties.swift in Sources */,
 				9DEF6B3C1D262ED30004C92A /* LoginViewController.swift in Sources */,
+				9DB85AFB1D6297FD00B76DA7 /* NSUserDefaults+CheckIn.swift in Sources */,
 				9DD49EA11D58DDFB0057401D /* ServicesViewController.swift in Sources */,
 				9D4525241D302B0500B5B98B /* InactiveClientsCell.swift in Sources */,
 				9DEF6B3A1D262ED30004C92A /* ActiveClientsViewController.swift in Sources */,
 				9D14C6B91D2343D8001BCFD1 /* DataController.swift in Sources */,
+				9DB85AFD1D62A50200B76DA7 /* DashboardViewController.swift in Sources */,
 				9DD2494D1D599CB30007FF63 /* ReportsViewController.swift in Sources */,
 				9D37E4E11D55637F00DD4F7E /* StylistsViewController.swift in Sources */,
+				9DB85AF71D6296C500B76DA7 /* ServicesOfferedTableViewController.swift in Sources */,
+				9DB85AF51D62968D00B76DA7 /* CheckinViewController.swift in Sources */,
 				9D45252B1D302ED500B5B98B /* CheckInEvent.swift in Sources */,
 				9DD49EA51D58E64E0057401D /* AddServiceViewController.swift in Sources */,
+				9DB85AF91D62970C00B76DA7 /* StylistsOfferedTableViewController.swift in Sources */,
 				9DE2B7321D2349AF0045892F /* Client.swift in Sources */,
 				9DEF6B3B1D262ED30004C92A /* InactiveClientsViewController.swift in Sources */,
 				9D37E4E41D5567B200DD4F7E /* StylistCell.swift in Sources */,

@@ -48,7 +48,7 @@ class DataController: NSObject {
     {
         // Get all checkinEvents for today from DB server.
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(appDelegate.user)/mobile_api/get/get_checkinEvents.php")!
+        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(appDelegate.companyPath)/mobile_api/get/get_checkinEvents.php")!
         
         let session = NSURLSession.sharedSession()
         
@@ -83,7 +83,7 @@ class DataController: NSObject {
                     let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
                     print("responseBody: \(responseBody)")
                     print()
-                    let jsonResponseString: AnyObject = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as! NSArray
+                    let jsonResponseString: AnyObject = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as! [Dictionary<String, AnyObject>]
                     for object in jsonResponseString as! [Dictionary<String,AnyObject>] {
                         let tempId = object["id"]!
                         let checkinEvent = NSEntityDescription.insertNewObjectForEntityForName("CheckInEvent", inManagedObjectContext: appDelegate.managedObjectContext) as! CheckInEvent
@@ -104,6 +104,7 @@ class DataController: NSObject {
                             print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
                         }
                     }
+                    NSNotificationCenter.defaultCenter().postNotificationName("DataControllerDidReceiveCheckinRecordsNotification", object: nil)
                 }
                 else {
                     var existingCheckinEventIDS = Array<Int>()
@@ -135,6 +136,7 @@ class DataController: NSObject {
                             }
                         }
                     }
+                    NSNotificationCenter.defaultCenter().postNotificationName("DataControllerDidReceiveCheckinRecordsNotification", object: nil)
                 }
             }
             catch {
@@ -144,14 +146,14 @@ class DataController: NSObject {
         task.resume()
     }
     
-    func setURLIdentifierForUser(user: String) {
+    func setURLIdentifierForCompany(companyID: String) {
         let url: NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/company_mapping.php")!
         let session = NSURLSession.sharedSession()
         let request = NSMutableURLRequest(URL: url)
         request.HTTPMethod = "POST"
         request.cachePolicy = .ReloadIgnoringLocalCacheData
         
-        let jsonRequest = "username=\(user)".dataUsingEncoding(NSUTF8StringEncoding)
+        let jsonRequest = "company_id=\(companyID)".dataUsingEncoding(NSUTF8StringEncoding)
         let task = session.uploadTaskWithRequest(request, fromData: jsonRequest) { (data, response, error) in
             guard let data: NSData = data, let _:NSURLResponse = response where error == nil else {
                 print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
@@ -159,11 +161,24 @@ class DataController: NSObject {
             }
             
             do {
+                let responseBody = String(data: data, encoding: NSUTF8StringEncoding)
+                if responseBody == "null" {
+                    NSNotificationCenter.defaultCenter().postNotificationName("DataControllerDidReceiveCompanyIDNotification", object: false)
+                    return
+                }
+                
                 let jsonResponse = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments) as! [Dictionary<String, String>]
                 for dict in jsonResponse {
-                    let appdelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-                    appdelegate.user = dict["baseURL"]!
-                    NSNotificationCenter.defaultCenter().postNotificationName("didSetUser", object: nil)
+                    if (NSUserDefaults.standardUserDefaults().valueForKey("companyPath") as? String) == nil {
+                        NSUserDefaults.standardUserDefaults().setObject(dict["baseURL"], forKey: "companyPath")
+                    }
+                    self.appDelegate.companyPath = dict["baseURL"]!
+                    
+                    if (NSUserDefaults.standardUserDefaults().valueForKey("companyName") as? String) == nil {
+                        NSUserDefaults.standardUserDefaults().setObject(dict["company_name"], forKey: "companyName")
+                    }
+                    self.appDelegate.companyName = dict["company_name"]!
+                    NSNotificationCenter.defaultCenter().postNotificationName("DataControllerDidReceiveCompanyIDNotification", object: true);
                 }
                 
             }
@@ -173,6 +188,29 @@ class DataController: NSObject {
             
 //            let responseBody = String(data: data, encoding: NSUTF8StringEncoding)
 //            print(responseBody)
+        }
+        task.resume()
+    }
+    
+    func checkCredentials(username: String, password: String) {
+        let url = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/get/get_users.php")!
+        let session = NSURLSession.sharedSession()
+        let request = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "POST"
+        request.cachePolicy = .ReloadIgnoringLocalCacheData
+        
+        let jsonRequest = "username=\(username)&password=\(password)" .dataUsingEncoding(NSUTF8StringEncoding)
+        
+        let task = session.uploadTaskWithRequest(request, fromData: jsonRequest) { (data, response, error) in
+            let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
+            if responseBody == "correct" {
+                NSNotificationCenter.defaultCenter().postNotificationName("DataControllerDidReceiveAuthenticationNotification", object: true)
+            }
+            else {
+                NSNotificationCenter.defaultCenter().postNotificationName("DataControllerDidReceiveAuthenticationNotification", object: false)
+            }
+//            print("response = \(responseBody)")
+//            print()
         }
         task.resume()
     }

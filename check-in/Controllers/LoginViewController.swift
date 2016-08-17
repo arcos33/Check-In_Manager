@@ -12,16 +12,40 @@ class LoginViewController:UIViewController {
     @IBOutlet var passwordTextField: UITextField!
     @IBOutlet var usernameTextField: UITextField!
     @IBOutlet var credentialsView: UIView!
+    @IBOutlet var companyIDTextField: UITextField!
+    @IBOutlet var submitButton: UIButton!
+    @IBOutlet var loginButton: UIButton!
     
+    @IBOutlet var companyNameLabel: UILabel!
     var appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let dataController = DataController.sharedInstance
+    
     
     //------------------------------------------------------------------------------
     // MARK: Lifecycle Methods
     //------------------------------------------------------------------------------
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(goToMainUI), name: "didSetUser", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateUI_companyIdAuthentication), name: "DataControllerDidReceiveCompanyIDNotification", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateUI_usernamePasswordAuthentication), name: "DataControllerDidReceiveAuthenticationNotification", object: nil)
+        
+        if (NSUserDefaults.standardUserDefaults().valueForKey("companyPath") as? String) != nil {
+            self.usernameTextField.hidden = false
+            self.passwordTextField.hidden = false
+            self.loginButton.hidden = false
+            self.companyNameLabel.hidden = false
+            self.submitButton.hidden = true
+            self.companyIDTextField.hidden = true
+            self.companyNameLabel.text = NSUserDefaults.standardUserDefaults().valueForKey("companyName") as? String
+
+        }
+        else {
+            self.usernameTextField.hidden = true
+            self.passwordTextField.hidden = true
+            self.loginButton.hidden = true
+            self.companyNameLabel.hidden = true
+        }
     }
     
     override func prefersStatusBarHidden() -> Bool {
@@ -32,29 +56,56 @@ class LoginViewController:UIViewController {
     // MARK: Action Methods
     //------------------------------------------------------------------------------
     @IBAction func authenticaUser(sender: AnyObject) {
-        let dataController = DataController.sharedInstance
-        dataController.setURLIdentifierForUser(self.usernameTextField.text!)
+        self.dataController.checkCredentials(self.usernameTextField.text!, password: self.passwordTextField.text!)
+    }
+    
+    @IBAction func authenticateCompanyId(sender: AnyObject) {
+        self.dataController.setURLIdentifierForCompany(self.companyIDTextField.text!)
     }
     
     //------------------------------------------------------------------------------
     // MARK: Private Methods
     //------------------------------------------------------------------------------
-    @objc private func goToMainUI() {
-        if (self.usernameTextField.text == "demo" || self.usernameTextField.text == "develop") {
-            dispatch_async(dispatch_get_main_queue(), { 
+    @objc private func updateUI_usernamePasswordAuthentication(notification: NSNotification) {
+        let authenticationDidPass = notification.object as! Bool
+        if authenticationDidPass == true {
+            dispatch_async(dispatch_get_main_queue(), {
                 self.performSegueWithIdentifier("checkInSegue", sender: self)
             })
         }
         else {
-            if (self.usernameTextField.text == "glamour") && passwordTextField.text == "glamour"  {
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.performSegueWithIdentifier("checkInSegue", sender: self)
-                    })
-            }
-            else {
-                shakeView(credentialsView)
-            }
+            dispatch_async(dispatch_get_main_queue(), {
+                self.shakeView(self.credentialsView)
+            })
         }
+    }
+    
+    @objc private func updateUI_companyIdAuthentication(notification: NSNotification) {
+        let didSetCompanyPath = notification.object as! Bool
+        if didSetCompanyPath == true {
+            dispatch_async(dispatch_get_main_queue(), {
+                self.usernameTextField.hidden = false
+                self.passwordTextField.hidden = false
+                self.loginButton.hidden = false
+                self.companyNameLabel.hidden = false
+                self.companyIDTextField.hidden = true
+                self.submitButton.hidden = true
+            })
+        }
+        else {
+            dispatch_async(dispatch_get_main_queue(), {
+                self.presentAlert("El numero que ingreso no es valido", title: "Invalido")
+            })
+        }
+        dispatch_async(dispatch_get_main_queue()) {
+            self.companyNameLabel.text = NSUserDefaults.standardUserDefaults().valueForKey("companyName") as? String
+        }
+    }
+    
+    private  func presentAlert(message: String, title: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .Cancel, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
     }
     
     private func shakeView(shakeView: UIView) {
@@ -75,6 +126,4 @@ class LoginViewController:UIViewController {
         shake.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         shakeView.layer.addAnimation(shake, forKey: "position")
     }
-    
-    
 }

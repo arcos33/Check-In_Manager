@@ -92,7 +92,7 @@ class ServicesViewController: UIViewController, AddServiceVCDelegate {
     // MARK: Private Methods
     //------------------------------------------------------------------------------
     private func postServiceRecord(name: String) {
-        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.user)/mobile_api/create/create_service.php")!
+        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/create/create_service.php")!
         
         let session = NSURLSession.sharedSession()
         let request = NSMutableURLRequest(URL: url)
@@ -119,7 +119,7 @@ class ServicesViewController: UIViewController, AddServiceVCDelegate {
     }
     
     private func getServiceRecords() {
-        let url: NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.user)/mobile_api/get/get_services.php")!
+        let url: NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/get/get_services.php")!
         
         let session = NSURLSession.sharedSession()
         let request = NSMutableURLRequest(URL: url)
@@ -161,7 +161,7 @@ class ServicesViewController: UIViewController, AddServiceVCDelegate {
     }
     
     private func updateServiceRecord(id: String, status: String) {
-        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.user)/mobile_api/update/update_service.php")!
+        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/update/update_service.php")!
         
         let session = NSURLSession.sharedSession()
         let request = NSMutableURLRequest(URL: url)
@@ -201,17 +201,5 @@ class ServicesViewController: UIViewController, AddServiceVCDelegate {
         service.status = status
         updateServiceRecord(service.id!, status: status)
         
-    }
-}
-
-class Service: NSObject {
-    var name: String!
-    var id: String!
-    var status: String!
-    
-    init(name: String, id: String, status: String) {
-        self.name = name
-        self.id = id
-        self.status = status
     }
 }

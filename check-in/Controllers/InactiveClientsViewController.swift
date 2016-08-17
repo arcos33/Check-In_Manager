@@ -28,7 +28,7 @@ class InactiveClientsViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(
             self,
             selector: #selector(reloadData),
-            name: "reloadTable",
+            name: "ActiveClientsVCDidReceiveCompletedCheckinEvent",
             object: nil)
 
         self.tableview.tableFooterView = UIView(frame: CGRect.zero)
@@ -75,16 +75,6 @@ class InactiveClientsViewController: UIViewController {
         df.dateFormat = "hh:mm a"
         cell.appointmentTime.text = df.stringFromDate(checkInEvent.completedTimestamp!)
         cell.name.text = checkInEvent.name
-//        let fetch = NSFetchRequest(entityName: "ServiceType")
-//        fetch.returnsObjectsAsFaults = false
-//        fetch.predicate = NSPredicate(format: "uniqueID == \(String(checkInEvent.serviceTypeID as! Int))")
-//        do {
-//            let serviceTypes = try self.appDelegate.managedObjectContext.executeFetchRequest(fetch)
-//            //print (serviceTypes.count)
-//        }
-//        catch {
-//            print("error: \(#file) \(#line) \(error)")
-//        }
         return cell
     }
 

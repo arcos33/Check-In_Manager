@@ -85,7 +85,7 @@ class StylistsViewController: UIViewController, AddStylistVCDelegate {
     // MARK: Private Methods
     //------------------------------------------------------------------------------
     private func postStylistRecord(name: String) {
-        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.user)/mobile_api/create/create_stylist.php")!
+        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/create/create_stylist.php")!
 
         let session = NSURLSession.sharedSession()
         let request = NSMutableURLRequest(URL: url)
@@ -110,7 +110,7 @@ class StylistsViewController: UIViewController, AddStylistVCDelegate {
     }
     
     private func getStylistRecords() {
-        let url: NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.user)/mobile_api/get/get_stylists.php")!
+        let url: NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/get/get_stylists.php")!
         
         let session = NSURLSession.sharedSession()
         let request = NSMutableURLRequest(URL: url)
@@ -153,7 +153,7 @@ class StylistsViewController: UIViewController, AddStylistVCDelegate {
     }
     
     private func updateStylistRecord(id: String, status: String) {
-        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.user)/mobile_api/update/update_stylist.php")!
+        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/update/update_stylist.php")!
         
         let session = NSURLSession.sharedSession()
         let request = NSMutableURLRequest(URL: url)
@@ -203,14 +203,3 @@ class StylistsViewController: UIViewController, AddStylistVCDelegate {
     }
 }
 
-class Stylist: NSObject {
-    var status: String!
-    var id: String!
-    var name: String!
-    
-    init(status: String, id: String, name: String) {
-        self.status = status
-        self.id = id
-        self.name = name
-    }
-}

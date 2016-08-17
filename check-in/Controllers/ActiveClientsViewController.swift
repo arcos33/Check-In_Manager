@@ -18,6 +18,12 @@ class ActiveClientsViewController: UIViewController {
     @IBOutlet var type: UILabel!
     
     var checkInEvents: Array<CheckInEvent>?
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(handleRefresh), forControlEvents: UIControlEvents.ValueChanged)
+        
+        return refreshControl
+    }()
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     let cellIdentifier = "activeCheckInCell"
     
@@ -26,18 +32,23 @@ class ActiveClientsViewController: UIViewController {
     //------------------------------------------------------------------------------
     override func viewDidLoad() {
         self.tableview.tableFooterView = UIView(frame: CGRect.zero)
-        fetchCheckedinClients()
-        NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(reloadData), userInfo: nil, repeats: true)
+        self.tableview.addSubview(self.refreshControl)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(fetchCheckedinClients), name: "DataControllerDidReceiveCheckinRecordsNotification", object: nil)
     }
     
+    override func viewWillAppear(animated: Bool) {
+        reloadData()
+    }
     //------------------------------------------------------------------------------
     // MARK: Private Methods
-    //------------------------------------------------------------------------------
-    @objc private func reloadData() {
-        // TODO: Make sure this only gets called once
-        DataController.sharedInstance.getCheckinRecords()
-        fetchCheckedinClients()
+    //------------------------------------------------------------------------------x
+    @objc private func handleRefresh(refreshControl: UIRefreshControl) {
         self.tableview.reloadData()
+        self.refreshControl.endRefreshing()
+    }
+    
+    private func reloadData() {
+        DataController.sharedInstance.getCheckinRecords()
     }
     
     private func saveChanges() {
@@ -49,7 +60,7 @@ class ActiveClientsViewController: UIViewController {
         }
     }
     
-    private func fetchCheckedinClients () {
+    @objc private func fetchCheckedinClients () {
         let fetch = NSFetchRequest(entityName: "CheckInEvent")
         fetch.returnsObjectsAsFaults = false
         fetch.predicate = NSPredicate(format: "status == 'checkedin'")
@@ -61,10 +72,13 @@ class ActiveClientsViewController: UIViewController {
         catch {
             print("error: \(#file) \(#line) \(error)")
         }
+        dispatch_async(dispatch_get_main_queue()) { 
+            self.tableview.reloadData()
+        }
     }
     
     private func updateCheckInEvent(checkinEvent: CheckInEvent!) {
-        let url:NSURL = NSURL(string: "http://www.whitecoatlabs.co/checkin/\(self.appDelegate.user)/mobile_api/update_checkinEvent.php")!
+        let url:NSURL = NSURL(string: "http://www.whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/update_checkinEvent.php")!
         
         let session = NSURLSession.sharedSession()
         let request = NSMutableURLRequest(URL: url)
@@ -139,7 +153,6 @@ class ActiveClientsViewController: UIViewController {
         titleLabel.textColor = UIColor.whiteColor()
         titleLabel.font = UIFont(name:"HelveticaNeue-Bold", size: 18.0)
         vw.addSubview(titleLabel)
-        //vw.backgroundColor = UIColor(red: 0.70, green: 0.89, blue: 1.00, alpha: 1.00)
         vw.backgroundColor = UIColor(red: 0.00, green: 0.50, blue: 0.00, alpha: 1.00)
         return vw
     }
@@ -151,7 +164,7 @@ class ActiveClientsViewController: UIViewController {
             checkedinEvent.completedTimestamp = NSDate()
             self.saveChanges()
             self.updateCheckInEvent(checkedinEvent)
-            NSNotificationCenter.defaultCenter().postNotificationName("reloadTable", object: nil)
+            NSNotificationCenter.defaultCenter().postNotificationName("ActiveClientsVCDidReceiveCompletedCheckinEvent", object: nil)
             self.checkInEvents?.removeAtIndex(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         }

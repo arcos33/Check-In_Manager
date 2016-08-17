@@ -28,7 +28,8 @@ class ReportsViewController: UIViewController, MFMailComposeViewControllerDelega
     
     @IBOutlet var emailTextField: UITextField!
     @IBOutlet var sendPDFButton: UIButton!
-
+    @IBOutlet var tableview: UITableView!
+    
     var titleLabel: UILabel!
     let cellIdentifier = "reportsCell"
     
@@ -53,7 +54,7 @@ class ReportsViewController: UIViewController, MFMailComposeViewControllerDelega
     }
     
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return 150
     }
     
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
@@ -75,7 +76,7 @@ class ReportsViewController: UIViewController, MFMailComposeViewControllerDelega
         if self.emailTextField.text?.characters.count > 0 {
             //self.emailTextField.resignFirstResponder()
             let identifier = String(NSDate())
-            createPdfFromView(self.view, saveToDocumentsWithIdentifier: identifier)
+            createPdfFromView(self.tableview, saveToDocumentsWithIdentifier: identifier)
         }
         else {
             alert("Correo Electronico", message: "Necesita ingresar un correo electronico")
@@ -131,6 +132,9 @@ class ReportsViewController: UIViewController, MFMailComposeViewControllerDelega
                 mailComposer.addAttachmentData(fileData, mimeType: "application/pdf", fileName: fileName)
                 presentViewController(mailComposer, animated: true, completion: nil)
             }
+        }
+        else {
+            alert("Email", message: "Este iPad no ha sido configurado con una cuenta de email")
         }
     }
     

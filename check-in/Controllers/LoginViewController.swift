@@ -15,8 +15,10 @@ class LoginViewController:UIViewController {
     @IBOutlet var companyIDTextField: UITextField!
     @IBOutlet var submitButton: UIButton!
     @IBOutlet var loginButton: UIButton!
-    
     @IBOutlet var companyNameLabel: UILabel!
+    
+    var activityIndicator = UIActivityIndicatorView(frame: CGRectMake(0, 0, 50, 50)) as UIActivityIndicatorView
+    
     var appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     let dataController = DataController.sharedInstance
     
@@ -26,7 +28,8 @@ class LoginViewController:UIViewController {
     //------------------------------------------------------------------------------
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+        setupActivityIndidator()
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateUI_companyIdAuthentication), name: "DataControllerDidReceiveCompanyIDNotification", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateUI_usernamePasswordAuthentication), name: "DataControllerDidReceiveAuthenticationNotification", object: nil)
         
@@ -56,50 +59,65 @@ class LoginViewController:UIViewController {
     // MARK: Action Methods
     //------------------------------------------------------------------------------
     @IBAction func authenticaUser(sender: AnyObject) {
+        self.companyIDTextField.resignFirstResponder()
+        self.view.addSubview(self.activityIndicator)
+        self.activityIndicator.startAnimating()
+        
         self.dataController.checkCredentials(self.usernameTextField.text!, password: self.passwordTextField.text!)
     }
     
     @IBAction func authenticateCompanyId(sender: AnyObject) {
+        self.passwordTextField.resignFirstResponder()
+        self.view.addSubview(self.activityIndicator)
+        self.activityIndicator.startAnimating()
+
         self.dataController.setURLIdentifierForCompany(self.companyIDTextField.text!)
     }
     
     //------------------------------------------------------------------------------
     // MARK: Private Methods
     //------------------------------------------------------------------------------
-    @objc private func updateUI_usernamePasswordAuthentication(notification: NSNotification) {
-        let authenticationDidPass = notification.object as! Bool
-        if authenticationDidPass == true {
-            dispatch_async(dispatch_get_main_queue(), {
-                self.performSegueWithIdentifier("checkInSegue", sender: self)
-            })
-        }
-        else {
-            dispatch_async(dispatch_get_main_queue(), {
-                self.shakeView(self.credentialsView)
-            })
-        }
+    func setupActivityIndidator() {
+        self.activityIndicator.center = self.view.center
+        self.activityIndicator.hidesWhenStopped = true
+        self.activityIndicator.activityIndicatorViewStyle = .Gray
     }
     
+    @objc private func updateUI_usernamePasswordAuthentication(notification: NSNotification) {
+        let authenticationDidPass = notification.object as! Bool
+        dispatch_async(dispatch_get_main_queue(), {
+            
+            self.activityIndicator.stopAnimating()
+            
+            if authenticationDidPass == true {
+                self.performSegueWithIdentifier("checkInSegue", sender: self)
+            }
+            else {
+                self.shakeView(self.credentialsView)
+            }
+        })
+    }
+    
+    
     @objc private func updateUI_companyIdAuthentication(notification: NSNotification) {
-        let didSetCompanyPath = notification.object as! Bool
-        if didSetCompanyPath == true {
-            dispatch_async(dispatch_get_main_queue(), {
+        dispatch_async(dispatch_get_main_queue(), {
+            
+            self.activityIndicator.stopAnimating()
+
+            let didSetCompanyPath = notification.object as! Bool
+            if didSetCompanyPath == true {
                 self.usernameTextField.hidden = false
                 self.passwordTextField.hidden = false
                 self.loginButton.hidden = false
                 self.companyNameLabel.hidden = false
                 self.companyIDTextField.hidden = true
                 self.submitButton.hidden = true
-            })
-        }
-        else {
-            dispatch_async(dispatch_get_main_queue(), {
+            }
+            else {
                 self.presentAlert("El numero que ingreso no es valido", title: "Invalido")
-            })
-        }
-        dispatch_async(dispatch_get_main_queue()) {
+            }
             self.companyNameLabel.text = NSUserDefaults.standardUserDefaults().valueForKey("companyName") as? String
-        }
+        })
     }
     
     private  func presentAlert(message: String, title: String) {

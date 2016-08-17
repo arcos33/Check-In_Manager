@@ -36,7 +36,7 @@
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="develop" borderStyle="roundedRect" placeholder="Username" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zgP-OO-vf9">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zgP-OO-vf9">
                                         <rect key="frame" x="14" y="73" width="200" height="50"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -173,13 +173,13 @@
                                 <exclude reference="48U-7q-Xnv"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="CIb-jf-wdd"/>
                                 <exclude reference="9sj-Qj-znl"/>
                                 <exclude reference="ZyX-OG-Jzz"/>
                                 <exclude reference="13o-g8-fWz"/>
                                 <exclude reference="pHQ-My-WWT"/>
                                 <exclude reference="tPb-mH-o9K"/>
                                 <exclude reference="we5-dj-5wD"/>
+                                <exclude reference="CIb-jf-wdd"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular">
@@ -188,13 +188,13 @@
                                 <include reference="48U-7q-Xnv"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="CIb-jf-wdd"/>
                                 <include reference="9sj-Qj-znl"/>
                                 <include reference="ZyX-OG-Jzz"/>
                                 <include reference="13o-g8-fWz"/>
                                 <include reference="pHQ-My-WWT"/>
                                 <include reference="tPb-mH-o9K"/>
                                 <include reference="we5-dj-5wD"/>
+                                <exclude reference="CIb-jf-wdd"/>
                             </mask>
                         </variation>
                     </view>
@@ -942,6 +942,7 @@
                     <connections>
                         <outlet property="emailTextField" destination="qKO-Xx-2yS" id="hs4-hI-Cvg"/>
                         <outlet property="sendPDFButton" destination="Jft-gR-HWj" id="mnf-v3-Jle"/>
+                        <outlet property="tableview" destination="OKZ-bA-PnJ" id="6hh-PO-Fnh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HOq-Hy-v9u" userLabel="First Responder" sceneMemberID="firstResponder"/>

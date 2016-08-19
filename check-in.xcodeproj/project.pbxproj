@@ -67,7 +67,7 @@
 		62050B81114BD9E64CF83640 /* Pods-check-in.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-check-in.debug.xcconfig"; path = "Pods/Target Support Files/Pods-check-in/Pods-check-in.debug.xcconfig"; sourceTree = "<group>"; };
 		63012BD6260AC0AD502A7F56 /* Pods-check-inTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-check-inTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-check-inTests/Pods-check-inTests.release.xcconfig"; sourceTree = "<group>"; };
 		6FAFD07F14921811E24A3A52 /* Pods-check-inTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-check-inTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-check-inTests/Pods-check-inTests.debug.xcconfig"; sourceTree = "<group>"; };
-		7BE478BA1D1F660400E31624 /* Checkin- Back.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Checkin- Back.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7BE478BA1D1F660400E31624 /* Check-in.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Check-in.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BE478BD1D1F660400E31624 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7BE478C21D1F660400E31624 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7BE478CA1D1F660400E31624 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -179,7 +179,7 @@
 		7BE478BB1D1F660400E31624 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7BE478BA1D1F660400E31624 /* Checkin- Back.app */,
+				7BE478BA1D1F660400E31624 /* Check-in.app */,
 				7BE478D11D1F660400E31624 /* check-inTests.xctest */,
 				7BE478DC1D1F660400E31624 /* check-inUITests.xctest */,
 			);
@@ -335,7 +335,7 @@
 			);
 			name = "check-in";
 			productName = "check-in";
-			productReference = 7BE478BA1D1F660400E31624 /* Checkin- Back.app */;
+			productReference = 7BE478BA1D1F660400E31624 /* Check-in.app */;
 			productType = "com.apple.product-type.application";
 		};
 		7BE478D01D1F660400E31624 /* check-inTests */ = {
@@ -755,7 +755,7 @@
 				INFOPLIST_FILE = "check-in/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "whitecoatlabs.check-in";
-				PRODUCT_NAME = "Checkin- Back";
+				PRODUCT_NAME = "Check-in";
 				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
@@ -770,7 +770,7 @@
 				INFOPLIST_FILE = "check-in/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "whitecoatlabs.check-in";
-				PRODUCT_NAME = "Checkin- Back";
+				PRODUCT_NAME = "Check-in";
 				PROVISIONING_PROFILE = "";
 			};
 			name = Release;

@@ -210,5 +210,4 @@ class ReportsViewController: UIViewController, MFMailComposeViewControllerDelega
         default: return
         }
     }
-    
 }

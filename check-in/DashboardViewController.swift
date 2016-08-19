@@ -37,6 +37,14 @@ class DashboardViewController: UIViewController {
                 // By default Selected image will take tint color set in self.tabBar.tintColor
                 barItem.selectedImage = UIImage(named: "Report Card Filled")?.imageWithRenderingMode(.AlwaysOriginal)
             }
+            else if barItem.tag == 3 {
+                // Default image
+                barItem.image = UIImage(named: "Settings")?.imageWithRenderingMode(.AlwaysOriginal)
+                
+                // By default Selected image will take tint color set in self.tabBar.tintColor
+                barItem.selectedImage = UIImage(named: "Settings Filled")?.imageWithRenderingMode(.AlwaysOriginal)
+                
+            }
         }
     }
 

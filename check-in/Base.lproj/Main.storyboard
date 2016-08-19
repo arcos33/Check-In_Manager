@@ -211,6 +211,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="323" y="271.5"/>
         </scene>
         <!--Dashboard View Controller-->
         <scene sceneID="5Tg-vc-w1V">
@@ -603,7 +604,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NfQ-Sm-x0N" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1115" y="1158"/>
+            <point key="canvasLocation" x="1965" y="1086"/>
         </scene>
         <!--Add Service View Controller-->
         <scene sceneID="SSe-1B-cz7">
@@ -660,7 +661,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ho4-S2-nWb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1493" y="1158"/>
+            <point key="canvasLocation" x="2305" y="1086"/>
         </scene>
         <!--Stylists View Controller-->
         <scene sceneID="rGf-Sk-zI2">
@@ -753,7 +754,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="y6G-9b-Xal" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1115" y="850"/>
+            <point key="canvasLocation" x="1965" y="773.25"/>
         </scene>
         <!--Services View Controller-->
         <scene sceneID="V4a-FB-rgK">
@@ -846,7 +847,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZMX-fx-rmy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1493" y="850"/>
+            <point key="canvasLocation" x="2305" y="791.625"/>
         </scene>
         <!--Reports View Controller-->
         <scene sceneID="iYZ-Pq-DY1">
@@ -1166,7 +1167,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HOq-Hy-v9u" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2085" y="1119.75"/>
+            <point key="canvasLocation" x="1309" y="1002.75"/>
         </scene>
         <!--Check In View Controller-->
         <scene sceneID="RA2-Qe-7NL">
@@ -1439,7 +1440,27 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s5C-jr-Tw8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1475" y="-605"/>
+            <point key="canvasLocation" x="2021" y="-624.75"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="eaG-wL-vRq">
+            <objects>
+                <viewController id="922-wa-vpi" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Diz-vP-2Rs"/>
+                        <viewControllerLayoutGuide type="bottom" id="1mo-Ct-mxw"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="j8e-rq-sim">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" tag="3" title="" image="Settings" id="Qd9-go-WEr">
+                        <inset key="imageInsets" minX="0.0" minY="8" maxX="0.0" maxY="-8"/>
+                    </tabBarItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9gx-VM-q3I" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1185" y="-450.75"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="Swd-vm-UAw">
@@ -1455,6 +1476,7 @@
                         <segue destination="Tgo-un-2jN" kind="relationship" relationship="viewControllers" id="TL9-uV-afK"/>
                         <segue destination="psR-B3-qSN" kind="relationship" relationship="viewControllers" id="9gK-HH-kP9"/>
                         <segue destination="JHA-v1-euL" kind="relationship" relationship="viewControllers" id="3CB-yA-PZf"/>
+                        <segue destination="922-wa-vpi" kind="relationship" relationship="viewControllers" id="2T9-8h-0iB"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bpl-cl-iK7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1491,7 +1513,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iCj-12-uA5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2447" y="-690.75"/>
+            <point key="canvasLocation" x="2555" y="-740.25"/>
         </scene>
         <!--Stylists Offered Table View Controller-->
         <scene sceneID="UBA-A0-8ML">
@@ -1523,10 +1545,11 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dCf-24-6fE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2044" y="-372.75"/>
+            <point key="canvasLocation" x="2582" y="-450.75"/>
         </scene>
     </scenes>
     <resources>
+        <image name="Settings" width="37" height="37"/>
         <image name="checkmark" width="37" height="37"/>
         <image name="company_logo" width="551" height="321"/>
         <image name="dashboard" width="37" height="37"/>

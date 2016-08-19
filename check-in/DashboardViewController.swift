@@ -20,5 +20,24 @@ class DashboardViewController: UIViewController {
             self.tabBarController?.tabBar.hidden = true
         }
     }
+    
+    override func viewDidLoad() {
+        for barItem in (self.tabBarController?.tabBar.items)! {
+            if barItem.tag == 0 {
+                // Default image
+                barItem.image = UIImage(named: "dashboard")?.imageWithRenderingMode(.AlwaysOriginal)
+                
+                // By default Selected image will take tint color set in self.tabBar.tintColor
+                barItem.selectedImage = UIImage(named: "Dashboard Filled")?.imageWithRenderingMode(.AlwaysOriginal)
+            }
+            else if barItem.tag == 2 {
+                // Default image
+                barItem.image = UIImage(named: "report")?.imageWithRenderingMode(.AlwaysOriginal)
+                
+                // By default Selected image will take tint color set in self.tabBar.tintColor
+                barItem.selectedImage = UIImage(named: "Report Card Filled")?.imageWithRenderingMode(.AlwaysOriginal)
+            }
+        }
+    }
 
 }

@@ -212,7 +212,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
         </scene>
-        <!--Back-->
+        <!--Dashboard View Controller-->
         <scene sceneID="5Tg-vc-w1V">
             <objects>
                 <viewController id="Tgo-un-2jN" customClass="DashboardViewController" customModule="Checkin__Back" customModuleProvider="target" sceneMemberID="viewController">
@@ -271,6 +271,9 @@
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qxO-zl-aMQ">
                                 <rect key="frame" x="300" y="351" width="300" height="249"/>
+                                <variation key="heightClass=regular" misplaced="YES">
+                                    <rect key="frame" x="300" y="551" width="300" height="249"/>
+                                </variation>
                                 <connections>
                                     <segue destination="ONr-MG-J8L" kind="embed" id="6DY-dX-oh3"/>
                                 </connections>
@@ -302,7 +305,9 @@
                             </mask>
                         </variation>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Back" image="home" id="Ely-VN-UZ2"/>
+                    <tabBarItem key="tabBarItem" title="" image="dashboard" id="Ely-VN-UZ2">
+                        <inset key="imageInsets" minX="0.0" minY="8" maxX="0.0" maxY="-8"/>
+                    </tabBarItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B9R-3g-gQh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -843,7 +848,7 @@
             </objects>
             <point key="canvasLocation" x="1493" y="850"/>
         </scene>
-        <!--Reports-->
+        <!--Reports View Controller-->
         <scene sceneID="iYZ-Pq-DY1">
             <objects>
                 <viewController id="JHA-v1-euL" customClass="ReportsViewController" customModule="Checkin__Back" customModuleProvider="target" sceneMemberID="viewController">
@@ -1150,7 +1155,9 @@
                             </mask>
                         </variation>
                     </view>
-                    <tabBarItem key="tabBarItem" tag="2" title="Reports" image="reports" id="0pv-eG-Ce6"/>
+                    <tabBarItem key="tabBarItem" tag="2" title="" image="report" id="0pv-eG-Ce6">
+                        <inset key="imageInsets" minX="0.0" minY="8" maxX="0.0" maxY="-8"/>
+                    </tabBarItem>
                     <connections>
                         <outlet property="emailTextField" destination="qKO-Xx-2yS" id="hs4-hI-Cvg"/>
                         <outlet property="sendPDFButton" destination="Jft-gR-HWj" id="mnf-v3-Jle"/>
@@ -1161,7 +1168,7 @@
             </objects>
             <point key="canvasLocation" x="2085" y="1119.75"/>
         </scene>
-        <!--Checkin-->
+        <!--Check In View Controller-->
         <scene sceneID="RA2-Qe-7NL">
             <objects>
                 <viewController id="psR-B3-qSN" customClass="CheckInViewController" customModule="Checkin__Back" customModuleProvider="target" sceneMemberID="viewController">
@@ -1420,7 +1427,9 @@
                             </mask>
                         </variation>
                     </view>
-                    <tabBarItem key="tabBarItem" tag="1" enabled="NO" title="Checkin" image="check" id="abg-NV-8n6"/>
+                    <tabBarItem key="tabBarItem" tag="1" enabled="NO" title="" image="checkmark" id="abg-NV-8n6">
+                        <inset key="imageInsets" minX="0.0" minY="8" maxX="0.0" maxY="-8"/>
+                    </tabBarItem>
                     <connections>
                         <outlet property="nameTextField" destination="6zv-75-hXY" id="DRe-vk-AQp"/>
                         <outlet property="phoneTextField" destination="e2V-V4-j9i" id="QRg-n9-HHF"/>
@@ -1437,10 +1446,10 @@
             <objects>
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="0Gb-7C-LTv" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" id="6wC-bf-kux">
+                    <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="6wC-bf-kux">
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="barTintColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
                         <segue destination="Tgo-un-2jN" kind="relationship" relationship="viewControllers" id="TL9-uV-afK"/>
@@ -1518,10 +1527,10 @@
         </scene>
     </scenes>
     <resources>
-        <image name="check" width="64" height="64"/>
+        <image name="checkmark" width="37" height="37"/>
         <image name="company_logo" width="551" height="321"/>
-        <image name="home" width="24" height="24"/>
+        <image name="dashboard" width="37" height="37"/>
         <image name="log-in_background" width="512" height="512"/>
-        <image name="reports" width="24" height="24"/>
+        <image name="report" width="37" height="37"/>
     </resources>
 </document>

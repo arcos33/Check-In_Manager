@@ -14,6 +14,9 @@ class DataController: NSObject {
     static let sharedInstance = DataController()
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
+    lazy var configuration: NSURLSessionConfiguration = NSURLSessionConfiguration.defaultSessionConfiguration()
+    lazy var session: NSURLSession = NSURLSession(configuration: self.configuration)
+    
     //var managedObjectContext: NSManagedObjectContext
     
     override private init() {} // This prevents others from using the default '()' initializer for this class.
@@ -186,8 +189,8 @@ class DataController: NSObject {
                 print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
             }
             
-//            let responseBody = String(data: data, encoding: NSUTF8StringEncoding)
-//            print(responseBody)
+            //            let responseBody = String(data: data, encoding: NSUTF8StringEncoding)
+            //            print(responseBody)
         }
         task.resume()
     }
@@ -209,9 +212,33 @@ class DataController: NSObject {
             else {
                 NSNotificationCenter.defaultCenter().postNotificationName("DataControllerDidReceiveAuthenticationNotification", object: false)
             }
-//            print("response = \(responseBody)")
-//            print()
+            //            print("response = \(responseBody)")
+            //            print()
         }
         task.resume()
+    }
+    
+    func downloadImage(completion: (NSData -> Void)) {
+        let urlString = "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyName)/check-in_image.png"
+        let url = NSURL(string: urlString)!
+        let request = NSURLRequest(URL: url)
+        let dataTask = self.session.dataTaskWithRequest(request) { (data, response, error) in
+            if (error == nil) {
+                if let httpResponse = response as? NSHTTPURLResponse {
+                    switch httpResponse.statusCode {
+                    case 200:
+                        if let data = data {
+                            completion(data)
+                        }
+                    default:
+                        print("HTTP Response Code: \(httpResponse.statusCode)")
+                    }
+                }
+            }
+            else {
+                print("Error Downloading File Class:\(#file)\n Line:\(#line)\n Error:\(error)")
+            }
+        }
+        dataTask.resume()
     }
 }

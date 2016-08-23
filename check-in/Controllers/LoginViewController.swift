@@ -77,6 +77,26 @@ class LoginViewController:UIViewController {
     //------------------------------------------------------------------------------
     // MARK: Private Methods
     //------------------------------------------------------------------------------
+    func getDocumentsDirectory() -> NSString {
+        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+        let documentsDirectory = paths[0]
+        return documentsDirectory
+    }
+    
+    func getImageFromDocumentsDirectory(filename: String) -> UIImage? {
+        let docDir = NSSearchPathDirectory.DocumentDirectory
+        let userDomainMask = NSSearchPathDomainMask.UserDomainMask
+        let paths = NSSearchPathForDirectoriesInDomains(docDir, userDomainMask, true)
+        if paths.count > 0 {
+            let dirPath: String = paths[0]
+            let readPath = (dirPath as NSString).stringByAppendingPathComponent("check-in_image.png")
+            if let image = UIImage(contentsOfFile: readPath) {
+                return image
+            }
+        }
+        return nil
+    }
+    
     func setupActivityIndidator() {
         self.activityIndicator.center = self.view.center
         self.activityIndicator.hidesWhenStopped = true
@@ -91,6 +111,7 @@ class LoginViewController:UIViewController {
             
             if authenticationDidPass == true {
                 self.performSegueWithIdentifier("checkInSegue", sender: self)
+                self.setCheckinImage()
             }
             else {
                 self.shakeView(self.credentialsView)
@@ -124,6 +145,25 @@ class LoginViewController:UIViewController {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .Cancel, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    private func setCheckinImage() {
+        // Check to see if there is an image already saved in the doc dir. If ther is then save that image to the appDelegate property. If there is not then save it to the doc dir and save to appDelegate property.
+        if let companyImage = getImageFromDocumentsDirectory("check-in_image.png") {
+            self.appDelegate.companyImage = companyImage
+        }
+        else {
+            let dataController: DataController = DataController.sharedInstance
+            dataController.downloadImage { (data) in
+                dispatch_async(dispatch_get_main_queue(), {
+                    let image = UIImage(data: data)!
+                    self.appDelegate.companyImage = image
+                    let data = UIImagePNGRepresentation(image)
+                    let fileName = self.getDocumentsDirectory().stringByAppendingPathComponent("check-in_image.png")
+                    data?.writeToFile(fileName, atomically: true)
+                })
+            }
+        }
     }
     
     private func shakeView(shakeView: UIView) {

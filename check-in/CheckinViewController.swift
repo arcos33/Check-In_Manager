@@ -23,6 +23,7 @@ class CheckInViewController: UIViewController, StylistTableDelegate, ServicesOff
     @IBOutlet var nameTextField: UITextField!
     @IBOutlet var stylistButton: UIButton!
     @IBOutlet var servicesButton: UIButton!
+    @IBOutlet var companyImageView: UIImageView!
     
     var stylistTable:StylistsOfferedTableViewController?
     var servicesTable:ServicesOfferedTableViewController?
@@ -40,6 +41,12 @@ class CheckInViewController: UIViewController, StylistTableDelegate, ServicesOff
     //------------------------------------------------------------------------------
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let image = self.appDelegate.companyImage {
+            self.companyImageView.image = image
+        }
+        else {
+            self.companyImageView.image = UIImage(named: "placeholder")
+        }
     }
     
     override func prefersStatusBarHidden() -> Bool {

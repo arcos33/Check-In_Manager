@@ -9,7 +9,7 @@
         <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="LoginViewController" customModule="Checkin__Back" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="LoginViewController" customModule="Check_in" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -216,13 +216,13 @@
         <!--Dashboard View Controller-->
         <scene sceneID="5Tg-vc-w1V">
             <objects>
-                <viewController id="Tgo-un-2jN" customClass="DashboardViewController" customModule="Checkin__Back" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Tgo-un-2jN" customClass="DashboardViewController" customModule="Check_in" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ed2-Ws-ble"/>
                         <viewControllerLayoutGuide type="bottom" id="YXp-BS-ud7"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="O4E-hv-cMd">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VLB-V4-j33">
@@ -270,7 +270,7 @@
                                     <segue destination="KiO-0a-VQ0" kind="embed" id="tJ3-aJ-kge"/>
                                 </connections>
                             </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qxO-zl-aMQ">
+                            <containerView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qxO-zl-aMQ">
                                 <rect key="frame" x="300" y="351" width="300" height="249"/>
                                 <variation key="heightClass=regular" misplaced="YES">
                                     <rect key="frame" x="300" y="551" width="300" height="249"/>
@@ -317,7 +317,7 @@
         <!--Active Clients View Controller-->
         <scene sceneID="ZYj-EY-OVv">
             <objects>
-                <viewController id="pnk-U3-DNd" customClass="ActiveClientsViewController" customModule="Checkin__Back" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="pnk-U3-DNd" customClass="ActiveClientsViewController" customModule="Check_in" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Nhn-NX-R8R"/>
                         <viewControllerLayoutGuide type="bottom" id="OhC-8P-9UY"/>
@@ -330,7 +330,7 @@
                                 <rect key="frame" x="16" y="40" width="568" height="75"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="activeCheckInCell" id="9s4-qc-xhB" customClass="ActiveClientsCell" customModule="Checkin__Back" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="activeCheckInCell" id="9s4-qc-xhB" customClass="ActiveClientsCell" customModule="Check_in" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="568" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9s4-qc-xhB" id="GKs-gI-fIZ">
@@ -446,7 +446,7 @@
         <!--Inactive Clients View Controller-->
         <scene sceneID="PrB-yv-B9I">
             <objects>
-                <viewController id="g8c-zS-elW" customClass="InactiveClientsViewController" customModule="Checkin__Back" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="g8c-zS-elW" customClass="InactiveClientsViewController" customModule="Check_in" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="9Rn-Os-0zo"/>
                         <viewControllerLayoutGuide type="bottom" id="SNL-Ub-FpO"/>
@@ -462,7 +462,7 @@
                                     <constraint firstAttribute="height" constant="216" id="Bc4-QB-bch"/>
                                 </constraints>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="inactiveCheckInCell" id="wop-xM-ihu" customClass="InactiveClientsCell" customModule="Checkin__Back" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="inactiveCheckInCell" id="wop-xM-ihu" customClass="InactiveClientsCell" customModule="Check_in" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="568" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wop-xM-ihu" id="Vhv-zj-T1a">
@@ -554,7 +554,7 @@
         <!--Add Stylist View Controller-->
         <scene sceneID="FCK-PS-uDh">
             <objects>
-                <viewController id="CR4-0T-iSg" customClass="AddStylistViewController" customModule="Checkin__Back" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="CR4-0T-iSg" customClass="AddStylistViewController" customModule="Check_in" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="af2-8O-9nY"/>
                         <viewControllerLayoutGuide type="bottom" id="Lb5-fA-t4D"/>
@@ -609,7 +609,7 @@
         <!--Add Service View Controller-->
         <scene sceneID="SSe-1B-cz7">
             <objects>
-                <viewController id="QFg-kw-oL6" customClass="AddServiceViewController" customModule="Checkin__Back" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="QFg-kw-oL6" customClass="AddServiceViewController" customModule="Check_in" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="lgL-NG-aug"/>
                         <viewControllerLayoutGuide type="bottom" id="dhg-ye-10N"/>
@@ -666,7 +666,7 @@
         <!--Stylists View Controller-->
         <scene sceneID="rGf-Sk-zI2">
             <objects>
-                <viewController id="KiO-0a-VQ0" customClass="StylistsViewController" customModule="Checkin__Back" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="KiO-0a-VQ0" customClass="StylistsViewController" customModule="Check_in" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="3WV-JD-Bea"/>
                         <viewControllerLayoutGuide type="bottom" id="PAX-pq-oLb"/>
@@ -679,7 +679,7 @@
                                 <rect key="frame" x="16" y="0.0" width="268" height="184"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="stylistCell" id="alI-7R-PzK" customClass="StyleListCell" customModule="Checkin__Back" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="stylistCell" id="alI-7R-PzK" customClass="StyleListCell" customModule="Check_in" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="268" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="alI-7R-PzK" id="r2y-rp-dIb">
@@ -759,7 +759,7 @@
         <!--Services View Controller-->
         <scene sceneID="V4a-FB-rgK">
             <objects>
-                <viewController id="ONr-MG-J8L" customClass="ServicesViewController" customModule="Checkin__Back" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="ONr-MG-J8L" customClass="ServicesViewController" customModule="Check_in" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="LPp-cX-aDQ"/>
                         <viewControllerLayoutGuide type="bottom" id="vUD-B3-lwb"/>
@@ -772,7 +772,7 @@
                                 <rect key="frame" x="16" y="0.0" width="268" height="233"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="serviceCell" id="JrT-7N-sq6" customClass="ServiceCell" customModule="Checkin__Back" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="serviceCell" id="JrT-7N-sq6" customClass="ServiceCell" customModule="Check_in" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="268" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JrT-7N-sq6" id="4n9-dG-B5t">
@@ -852,27 +852,27 @@
         <!--Reports View Controller-->
         <scene sceneID="iYZ-Pq-DY1">
             <objects>
-                <viewController id="JHA-v1-euL" customClass="ReportsViewController" customModule="Checkin__Back" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="JHA-v1-euL" customClass="ReportsViewController" customModule="Check_in" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Mh0-32-fh1"/>
                         <viewControllerLayoutGuide type="bottom" id="8N1-Vc-adx"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="7zZ-84-sba">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="OKZ-bA-PnJ">
                                 <rect key="frame" x="20" y="152" width="560" height="357"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="reportsCell" id="bls-ou-uX9" customClass="ReportsCustomCell" customModule="Checkin__Back" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="reportsCell" id="bls-ou-uX9" customClass="ReportsCustomCell" customModule="Check_in" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="560" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bls-ou-uX9" id="co6-ba-aDp">
                                             <rect key="frame" x="0.0" y="0.0" width="560" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jVM-uN-O9O">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jVM-uN-O9O">
                                                     <rect key="frame" x="68" y="13" width="120" height="18"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="120" id="ctf-9Y-t1Y">
@@ -883,7 +883,7 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Check-in time" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d8k-JL-0h1">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Check-in time" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d8k-JL-0h1">
                                                     <rect key="frame" x="257" y="13" width="107" height="18"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="107" id="gMD-9L-Fbc">
@@ -894,7 +894,7 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Service" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i48-rQ-s0N">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Service" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i48-rQ-s0N">
                                                     <rect key="frame" x="384" y="13" width="59" height="18"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="59" id="e0X-fo-h5J">
@@ -905,7 +905,7 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stylist" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ov3-m8-rdq">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Stylist" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ov3-m8-rdq">
                                                     <rect key="frame" x="463" y="13" width="77" height="18"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="77" id="QLz-4r-0EK">
@@ -916,7 +916,7 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="200" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EsT-dd-3sr">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="200" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EsT-dd-3sr">
                                                     <rect key="frame" x="20" y="13" width="28" height="18"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="28" id="tLK-u5-kWY"/>
@@ -963,20 +963,20 @@
                                             <outlet property="stylistLabel" destination="ov3-m8-rdq" id="BOe-Dj-0D7"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="reportsHeaderView" id="j4R-l2-7Jx" customClass="ReportsHeaderView" customModule="Checkin__Back" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="reportsHeaderView" id="j4R-l2-7Jx" customClass="ReportsHeaderView" customModule="Check_in" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="72" width="560" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="j4R-l2-7Jx" id="olj-eo-8IF">
                                             <rect key="frame" x="0.0" y="0.0" width="560" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="CHECK-IN" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T3z-kc-bBN">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="CHECK-IN" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T3z-kc-bBN">
                                                     <rect key="frame" x="249" y="14" width="107" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="ESTILISTA" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8ez-mx-wdN">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="ESTILISTA" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8ez-mx-wdN">
                                                     <rect key="frame" x="465" y="11" width="47" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="47" id="Ndg-Bh-R3R">
@@ -997,7 +997,7 @@
                                                         </mask>
                                                     </variation>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="SERVICIO" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="irx-fE-Jdo">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="SERVICIO" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="irx-fE-Jdo">
                                                     <rect key="frame" x="386" y="11" width="57" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="57" id="Gtv-Tm-lIh">
@@ -1018,7 +1018,7 @@
                                                         </mask>
                                                     </variation>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="NOMBRE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vm9-wZ-LtF">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="NOMBRE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vm9-wZ-LtF">
                                                     <rect key="frame" x="73" y="14" width="45" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="45" id="Yay-yw-V62">
@@ -1172,13 +1172,13 @@
         <!--Check In View Controller-->
         <scene sceneID="RA2-Qe-7NL">
             <objects>
-                <viewController id="psR-B3-qSN" customClass="CheckInViewController" customModule="Checkin__Back" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="psR-B3-qSN" customClass="CheckInViewController" customModule="Check_in" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Tsl-Wo-d7f"/>
                         <viewControllerLayoutGuide type="bottom" id="68W-8G-RTf"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Gjb-CV-y3Q">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="I6n-Ui-aKB">
@@ -1388,7 +1388,7 @@
                                     </mask>
                                 </variation>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="company_logo" translatesAutoresizingMaskIntoConstraints="NO" id="9pU-vU-UEA">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="9pU-vU-UEA">
                                 <rect key="frame" x="36" y="409" width="240" height="128"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="268" id="K0g-ai-wjl"/>
@@ -1432,6 +1432,7 @@
                         <inset key="imageInsets" minX="0.0" minY="8" maxX="0.0" maxY="-8"/>
                     </tabBarItem>
                     <connections>
+                        <outlet property="companyImageView" destination="9pU-vU-UEA" id="pcN-8X-Tz8"/>
                         <outlet property="nameTextField" destination="6zv-75-hXY" id="DRe-vk-AQp"/>
                         <outlet property="phoneTextField" destination="e2V-V4-j9i" id="QRg-n9-HHF"/>
                         <outlet property="servicesButton" destination="ONY-eN-gz0" id="olL-DK-A4Z"/>
@@ -1451,6 +1452,7 @@
                         <viewControllerLayoutGuide type="bottom" id="1mo-Ct-mxw"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="j8e-rq-sim">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -1486,7 +1488,7 @@
         <!--Services Offered Table View Controller-->
         <scene sceneID="C1W-2y-27Z">
             <objects>
-                <tableViewController id="eY7-sA-qOr" customClass="ServicesOfferedTableViewController" customModule="Checkin__Back" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="eY7-sA-qOr" customClass="ServicesOfferedTableViewController" customModule="Check_in" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="30f-L5-12g">
                         <rect key="frame" x="0.0" y="0.0" width="150" height="300"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1518,7 +1520,7 @@
         <!--Stylists Offered Table View Controller-->
         <scene sceneID="UBA-A0-8ML">
             <objects>
-                <tableViewController id="weg-wj-jo0" customClass="StylistsOfferedTableViewController" customModule="Checkin__Back" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="weg-wj-jo0" customClass="StylistsOfferedTableViewController" customModule="Check_in" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="tdA-3h-QOT">
                         <rect key="frame" x="0.0" y="0.0" width="250" height="300"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1551,9 +1553,9 @@
     <resources>
         <image name="Settings" width="37" height="37"/>
         <image name="checkmark" width="37" height="37"/>
-        <image name="company_logo" width="551" height="321"/>
         <image name="dashboard" width="37" height="37"/>
         <image name="log-in_background" width="512" height="512"/>
+        <image name="placeholder" width="275" height="134"/>
         <image name="report" width="37" height="37"/>
     </resources>
 </document>

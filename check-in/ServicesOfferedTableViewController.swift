@@ -18,6 +18,8 @@ class ServicesOfferedTableViewController: UITableViewController {
     var didSetProvider:Bool!
     var providerSelected:String!
     var delegate: ServicesOfferedTableDelegate?
+    var appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let dataController = DataController.sharedInstance
     
     
     //------------------------------------------------------------------------------
@@ -25,21 +27,23 @@ class ServicesOfferedTableViewController: UITableViewController {
     //------------------------------------------------------------------------------
     override func viewDidLoad() {
         super.viewDidLoad()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateTableFromNotification) , name: "CheckinVCDidReceiveServicesNotification", object: nil)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        self.dataController.getServices { (services) in
+            dispatch_async(dispatch_get_main_queue(), {
+                for item in services {
+                    if item.status == "available" {
+                        self.services.append(item)
+                    }
+                }
+                self.tableView.reloadData()
+            })
+        }
     }
     
     override func prefersStatusBarHidden() -> Bool {
         return true
-    }
-    
-    //------------------------------------------------------------------------------
-    // MARK: Private Methods
-    //------------------------------------------------------------------------------
-    @objc private func updateTableFromNotification(notification: NSNotification) {
-        self.services = notification.object! as! [Service]
-        dispatch_async(dispatch_get_main_queue(), {
-            self.tableView.reloadData()
-        })
     }
     
     //------------------------------------------------------------------------------

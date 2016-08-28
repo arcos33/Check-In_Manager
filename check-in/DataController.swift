@@ -100,6 +100,9 @@ class DataController: NSObject {
                         checkinEvent.status = object["status"] as? String
                         checkinEvent.service = object["service"] as? String
                         checkinEvent.stylist = object["stylist"] as? String
+                        checkinEvent.ticketNumber = object["ticketNumber"] as? String
+                        checkinEvent.paymentType = object["paymentType"] as? String
+                        
                         do {
                             try appDelegate.managedObjectContext.save()
                         }
@@ -131,6 +134,9 @@ class DataController: NSObject {
                             checkinEvent.status = object["status"] as? String
                             checkinEvent.stylist = object["stylist"] as? String
                             checkinEvent.service = object["service"] as? String
+                            checkinEvent.ticketNumber = object["ticketNumber"] as? String
+                            checkinEvent.paymentType = object["paymentType"] as? String
+                            
                             do {
                                 try appDelegate.managedObjectContext.save()
                             }
@@ -241,4 +247,430 @@ class DataController: NSObject {
         }
         dataTask.resume()
     }
+    
+    func updateCheckInEventAtCellIndex(checkinEvent: CheckInEvent!, index: NSInteger) {
+        let url:NSURL = NSURL(string: "http://www.whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/update/update_checkinEvent.php")!
+        
+        let session = NSURLSession.sharedSession()
+        let request = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "POST"
+        request.cachePolicy = .ReloadIgnoringLocalCacheData
+        
+        var requestString = String("id=\(checkinEvent.uniqueID!)")
+        if (checkinEvent.completedTimestamp != nil) {
+            requestString = requestString.stringByAppendingString(String("&completedTimestamp=\(checkinEvent.completedTimestamp!)"))
+        }
+        if (checkinEvent.status != nil) {
+            requestString = requestString.stringByAppendingString(String("&status=\(checkinEvent.status!)"))
+        }
+        if (checkinEvent.stylist != nil) {
+            requestString = requestString.stringByAppendingString(String("&stylist=\(checkinEvent.stylist!)"))
+        }
+        if (checkinEvent.service != nil) {
+            requestString = requestString.stringByAppendingString(String("&service=\(checkinEvent.service!)"))
+        }
+        if (checkinEvent.paymentType != nil) {
+            requestString = requestString.stringByAppendingString(String("&paymentType=\(checkinEvent.paymentType!)"))
+        }
+        if (checkinEvent.ticketNumber != nil) {
+            requestString = requestString.stringByAppendingString(String("&ticketNumber=\(checkinEvent.ticketNumber!)"))
+        }
+        
+        let jsonRequestString = requestString .dataUsingEncoding(NSUTF8StringEncoding)
+        
+        let task = session.uploadTaskWithRequest(request, fromData: jsonRequestString, completionHandler: { (data, response, error) in
+            guard let _:NSData = data, let _:NSURLResponse = response where error == nil else {
+                print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
+                return
+            }
+            
+            let responseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
+            if responseString == "Successfully updated CheckinEvent record" {
+                NSNotificationCenter.defaultCenter().postNotificationName("DataControllerDidReceiveCheckinRecordsNotification", object: index)
+            }
+        })
+        task.resume()
+    }
+    
+    func getStylists(completion: (([Stylist]) -> Void)) {
+        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/get/get_stylists.php")!
+        let session = NSURLSession.sharedSession()
+        let request = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "POST"
+        request.cachePolicy = .ReloadIgnoringLocalCacheData
+        
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        
+        let task = session.dataTaskWithRequest(request) {(let data, let response, let error) in
+            guard let _:NSData = data, let _:NSURLResponse = response  where error == nil else {
+                print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
+                return
+            }
+            do {
+                let jsonResponse = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments)
+                let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
+                if responseBody != "null" {
+                    var stylists = [Stylist]()
+                    var stylistMapping = Dictionary<String, AnyObject>()
+                    
+                    for object in jsonResponse as! [Dictionary<String, String>] {
+                        
+                        let stylist = Stylist(status: object["status"]!, id: object["id"]!, name: object["name"]!)
+                        if (stylistMapping[object["id"]!] == nil) {
+                            let objectID = object["id"]!
+                            stylistMapping[objectID] = stylist
+                        }
+                        else { // update it
+                            stylist.status = object["status"]
+                            stylistMapping[object["id"]!] = stylist
+                        }
+                    }
+                    var origIdArray = Array<String>()
+                    for stylist in stylists {
+                        origIdArray.append(stylist.id)
+                    }
+                    
+                    stylists = []
+                    for (_, value) in stylistMapping {
+                        let stylist = value as! Stylist
+                        stylists.append(stylist)
+                    }
+                    var newIdArray = Array<String>()
+                    for stylist in stylists {
+                        newIdArray.append(stylist.id)
+                    }
+                    
+                    if origIdArray != newIdArray {
+                        completion(stylists)
+                        origIdArray = []
+                        newIdArray = []
+                    }
+                    
+                }
+            }
+            catch {
+                print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
+            }
+        }
+        task.resume()
+    }
+    
+    func getServices(completion: (([Service]) -> Void)) {
+        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/get/get_services.php")!
+        let session = NSURLSession.sharedSession()
+        let request = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "POST"
+        request.cachePolicy = .ReloadIgnoringLocalCacheData
+        
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        
+        let task = session.dataTaskWithRequest(request) {(let data, let response, let error) in
+            guard let _:NSData = data, let _:NSURLResponse = response  where error == nil else {
+                print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
+                return
+            }
+            do {
+                let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
+                var services = [Service]()
+                var serviceMapping = Dictionary<String, AnyObject>()
+                
+                if responseBody != "null" {
+                    let jsonResponseString = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments)
+                    for object in jsonResponseString as! [Dictionary<String, String>] {
+                        let service = Service(name: object["name"]!, id: object["id"]!, status: object["status"]!)
+                        if (serviceMapping[object["id"]!] == nil) {
+                            serviceMapping[object["id"]!] = service
+                        }
+                        else { // update it
+                            service.status = object["status"]
+                            serviceMapping[object["id"]!] = service
+                        }
+                    }
+                    var origIdArray = Array<String>()
+                    for service in services {
+                        origIdArray.append(service.id)
+                    }
+                    
+                    services = []
+                    for (_, value) in serviceMapping {
+                        let service = value as! Service
+                        if service.status == "available" {
+                            services.append(service)
+                        }
+                    }
+                    var newIdArray = Array<String>()
+                    for service in services {
+                        newIdArray.append(service.id)
+                    }
+                    
+                    if origIdArray != newIdArray {
+                        completion(services)
+                        
+                        origIdArray = []
+                        newIdArray = []
+                    }
+                }
+                
+            }
+            catch {
+                print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
+            }
+        }
+        task.resume()
+    }
+    
+    func getPayments(completion: (([Payment]) -> Void)) {
+        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/get/get_payments.php")!
+        let session = NSURLSession.sharedSession()
+        let request = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "POST"
+        request.cachePolicy = .ReloadIgnoringLocalCacheData
+        
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        
+        let task = session.dataTaskWithRequest(request) {(let data, let response, let error) in
+            guard let _:NSData = data, let _:NSURLResponse = response  where error == nil else {
+                print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
+                return
+            }
+            do {
+                let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
+                var payments = [Payment]()
+                var paymentMapping = Dictionary<String, AnyObject>()
+                
+                if responseBody != "null" {
+                    let jsonResponseString = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments)
+                    for object in jsonResponseString as! [Dictionary<String, String>] {
+                        let payment = Payment(name: object["name"]!, id: object["id"]!, status: object["status"]!)
+                        if (paymentMapping[object["id"]!] == nil) {
+                            paymentMapping[object["id"]!] = payment
+                        }
+                        else { // update it
+                            payment.status = object["status"]
+                            paymentMapping[object["id"]!] = payment
+                        }
+                    }
+                    var origIdArray = Array<String>()
+                    for payment in payments {
+                        origIdArray.append(payment.id)
+                    }
+                    
+                    payments = []
+                    for (_, value) in paymentMapping {
+                        let payment = value as! Payment
+                        if payment.status == "available" {
+                            payments.append(payment)
+                        }
+                    }
+                    var newIdArray = Array<String>()
+                    for payment in payments {
+                        newIdArray.append(payment.id)
+                    }
+                    
+                    if origIdArray != newIdArray {
+                        completion(payments)
+                        
+                        origIdArray = []
+                        newIdArray = []
+                    }
+                }
+                
+            }
+            catch {
+                print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
+            }
+        }
+        task.resume()
+    }
+    
+    func updateStylistRecord(id: String, status: String) {
+        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/update/update_stylist.php")!
+        
+        let session = NSURLSession.sharedSession()
+        let request = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "POST"
+        request.cachePolicy = .ReloadIgnoringLocalCacheData
+        
+        let jsonRequestString = "id=\(id)&status=\(status)" .dataUsingEncoding(NSUTF8StringEncoding)
+        
+        let task = session.uploadTaskWithRequest(request, fromData: jsonRequestString, completionHandler: { (data, response, error) in
+            guard let _:NSData = data, let _:NSURLResponse = response where error == nil else {
+                print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
+                return
+            }
+            //            let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
+            //            print(responseBody)
+        })
+        task.resume()
+    }
+    
+    func updateServiceRecord(id: String, status: String) {
+        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/update/update_service.php")!
+        
+        let session = NSURLSession.sharedSession()
+        let request = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "POST"
+        request.cachePolicy = .ReloadIgnoringLocalCacheData
+        
+        let jsonRequestString = "id=\(id)&status=\(status)" .dataUsingEncoding(NSUTF8StringEncoding)
+        
+        let task = session.uploadTaskWithRequest(request, fromData: jsonRequestString, completionHandler: { (data, response, error) in
+            guard let _:NSData = data, let _:NSURLResponse = response where error == nil else {
+                print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
+                return
+            }
+            
+            let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
+            print(responseBody)
+            
+        })
+        task.resume()
+    }
+    
+    func updateCheckInEvent(checkinEvent: CheckInEvent!) {
+        let url:NSURL = NSURL(string: "http://www.whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/update_checkinEvent.php")!
+        
+        let session = NSURLSession.sharedSession()
+        let request = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "POST"
+        request.cachePolicy = .ReloadIgnoringLocalCacheData
+        
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let dateString = dateFormatter.stringFromDate(checkinEvent.completedTimestamp!)
+        
+        let jsonRequestString = "id=\(checkinEvent.uniqueID!)&completedTimestamp=\(dateString)&status=\(checkinEvent.status!)" .dataUsingEncoding(NSUTF8StringEncoding)
+        
+        let task = session.uploadTaskWithRequest(request, fromData: jsonRequestString, completionHandler: { (data, response, error) in
+            guard let _:NSData = data, let _:NSURLResponse = response where error == nil else {
+                print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
+                return
+            }
+            
+            //            let responseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
+            //            print("Response = \(responseString!)")
+        })
+        task.resume()
+    }
+    
+    func postServiceRecord(name: String, completion: (([Service]) -> Void)) {
+        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/create/create_service.php")!
+        
+        let session = NSURLSession.sharedSession()
+        let request = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "POST"
+        request.cachePolicy = .ReloadIgnoringLocalCacheData
+        
+        let jsonRequestString = "name=\(name)&status=available" .dataUsingEncoding(NSUTF8StringEncoding)
+        
+        let task = session.uploadTaskWithRequest(request, fromData: jsonRequestString, completionHandler: { (data, response, error) in
+            guard let _:NSData = data, let _:NSURLResponse = response where error == nil else {
+                print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
+                return
+            }
+            
+            let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
+            print(responseBody)
+            self.getServices({ (services) in
+                completion(services)
+            })
+        })
+        task.resume()
+    }
+    
+    func postStylistRecord(name: String, completion: (([Stylist]) -> Void)) {
+        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/create/create_stylist.php")!
+        
+        let session = NSURLSession.sharedSession()
+        let request = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "POST"
+        request.cachePolicy = .ReloadIgnoringLocalCacheData
+        
+        let jsonRequestString = "name=\(name)&status=available" .dataUsingEncoding(NSUTF8StringEncoding)
+        
+        let task = session.uploadTaskWithRequest(request, fromData: jsonRequestString, completionHandler: { (data, response, error) in
+            guard let _:NSData = data, let _:NSURLResponse = response where error == nil else {
+                print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
+                return
+            }
+            
+            //            let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
+            //            print(responseBody)
+            self.getStylists({ (stylists) in
+                completion(stylists)
+            })
+        })
+        task.resume()
+    }
+    
+    func postCheckinEvent(phone: String, name: String, completion: () -> Void ) {
+        
+        let tempCleanString1 = phone.stringByReplacingOccurrencesOfString("(", withString: "")
+        let tempCleanString2 = tempCleanString1.stringByReplacingOccurrencesOfString(")", withString: "")
+        let tempCleanString3 = tempCleanString2.stringByReplacingOccurrencesOfString("-", withString: "")
+        
+        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/create/create_checkinEvent.php")!
+        
+        let session = NSURLSession.sharedSession()
+        let request = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "POST"
+        request.cachePolicy = .ReloadIgnoringLocalCacheData
+        
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let tempCheckinTime = dateFormatter.stringFromDate(NSDate())
+        let tempCompletedTimestamp = dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: 0))
+        
+        let jsonRequestString = "checkinTimestamp=\(tempCheckinTime)&completedTimestamp=\(tempCompletedTimestamp)&name=\(name)&phone=\(tempCleanString3)&status=checkedin" .dataUsingEncoding(NSUTF8StringEncoding)
+        
+        let task = session.uploadTaskWithRequest(request, fromData: jsonRequestString, completionHandler: { (data, response, error) in
+            guard let _:NSData = data, let _:NSURLResponse = response where error == nil else {
+                print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
+                return
+            }
+            
+            //                let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
+            //                print(responseBody)
+            //                print()
+            do {
+                let jsonResponse = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as! [Dictionary<String, AnyObject>]
+                for object in jsonResponse {
+                    dispatch_async(dispatch_get_main_queue(), {
+                        let tempId = object["id"]!
+                        let df = NSDateFormatter()
+                        df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                        
+                        let checkinEvent = NSEntityDescription.insertNewObjectForEntityForName("CheckInEvent", inManagedObjectContext: self.appDelegate.managedObjectContext) as? CheckInEvent
+                        checkinEvent!.checkinTimestamp = df.dateFromString(object["checkinTimestamp"]! as! String)
+                        checkinEvent!.completedTimestamp = df.dateFromString(object["completedTimestamp"]! as! String)
+                        checkinEvent!.uniqueID = NSNumber(int: tempId.intValue)
+                        checkinEvent!.name = object["name"] as? String
+                        checkinEvent!.phone = object["phone"] as? String
+                        checkinEvent!.status = object["status"] as? String
+                        checkinEvent!.service = object["service"] as? String
+                        checkinEvent!.stylist = object["stylist"] as? String
+                        checkinEvent!.ticketNumber = object["ticketNumber"] as? String
+                        checkinEvent!.paymentType = object["paymentType"] as? String
+                        do {
+                            try self.appDelegate.managedObjectContext.save()
+                        }
+                        catch {
+                            print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
+                        }
+                    })
+                }
+            }
+            catch {
+                print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
+            }
+            
+            completion()
+            
+        })
+        task.resume()
+    }
+    
 }

@@ -41,6 +41,18 @@ class LoginViewController:UIViewController {
             self.submitButton.hidden = true
             self.companyIDTextField.hidden = true
             self.companyNameLabel.text = NSUserDefaults.standardUserDefaults().valueForKey("companyName") as? String
+            
+            // This is used to pre-poluate username when demoing or developing.
+            switch self.appDelegate.companyName {
+            case "develop":
+                self.usernameTextField.text = "develop"
+                self.passwordTextField.becomeFirstResponder()
+            case "demo":
+                self.usernameTextField.text = "demo"
+                self.passwordTextField.becomeFirstResponder()
+            default:
+                self.usernameTextField.text = ""
+            }
 
         }
         else {
@@ -184,4 +196,12 @@ class LoginViewController:UIViewController {
         shake.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         shakeView.layer.addAnimation(shake, forKey: "position")
     }
-}
+
+    //------------------------------------------------------------------------------
+    // MARK: UITexfield Delegate Methods
+    //------------------------------------------------------------------------------
+    func textFieldShouldReturn(textField: UITextField!) -> Bool {
+        textField.resignFirstResponder()
+        authenticaUser(self)
+        return true
+    }}

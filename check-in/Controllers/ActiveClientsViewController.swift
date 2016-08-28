@@ -10,12 +10,18 @@ import Foundation
 import UIKit
 import CoreData
 
+protocol ActiveClientsDelegate {
+    func didSelectCheckinEvent(checkinEvent: CheckInEvent, index: NSInteger)
+}
+
 class ActiveClientsViewController: UIViewController {
     
     @IBOutlet var tableview: UITableView!
     @IBOutlet var name: UILabel!
     @IBOutlet var checkInTime: UILabel!
     @IBOutlet var type: UILabel!
+    
+    var delegate: ActiveClientsDelegate?
     
     var checkInEvents: Array<CheckInEvent>?
     lazy var refreshControl: UIRefreshControl = {
@@ -26,6 +32,7 @@ class ActiveClientsViewController: UIViewController {
     }()
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     let cellIdentifier = "activeCheckInCell"
+    let dataController = DataController.sharedInstance
     
     //------------------------------------------------------------------------------
     // MARK: Lifecycle Methods
@@ -34,6 +41,9 @@ class ActiveClientsViewController: UIViewController {
         self.tableview.tableFooterView = UIView(frame: CGRect.zero)
         self.tableview.addSubview(self.refreshControl)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(fetchCheckedinClients), name: "DataControllerDidReceiveCheckinRecordsNotification", object: nil)
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(didReceiveCompletedCheckinEvent), name: "ActiveClientsVCDidReceiveCompletedCheckinEvent", object: nil)
+        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -41,14 +51,36 @@ class ActiveClientsViewController: UIViewController {
     }
     //------------------------------------------------------------------------------
     // MARK: Private Methods
-    //------------------------------------------------------------------------------x
+    //------------------------------------------------------------------------------
+    @objc private func getCheckinEvents(notification: NSNotification) {
+        self.dataController.getCheckinRecords()
+        dispatch_async(dispatch_get_main_queue()) {
+            let index = notification.object as! NSInteger
+            let indexPath = NSIndexPath(forRow:index, inSection: 0)
+            self.tableview.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: .None)
+
+//            self.selectRowAndReloadTable({
+//                self.tableview.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: .None)
+//            })
+        }
+    }
+    
+    private func selectRowAndReloadTable(completion: (() -> Void)) {
+        self.tableview.reloadData()
+        completion()
+    }
+    
     @objc private func handleRefresh(refreshControl: UIRefreshControl) {
         self.tableview.reloadData()
         self.refreshControl.endRefreshing()
     }
     
     private func reloadData() {
-        DataController.sharedInstance.getCheckinRecords()
+        self.dataController.getCheckinRecords()
+    }
+    
+    @objc private func didReceiveCompletedCheckinEvent() {
+        self.dataController.getCheckinRecords()
     }
     
     private func saveChanges() {
@@ -60,7 +92,17 @@ class ActiveClientsViewController: UIViewController {
         }
     }
     
-    @objc private func fetchCheckedinClients () {
+    @objc private func fetchCheckedinClients(notification: NSNotification) {
+        
+        if let index = notification.object as? NSInteger {
+            finishFetching(index, indexIsPassed: true)
+        }
+        else {
+            finishFetching(nil, indexIsPassed: false)
+        }
+    }
+    
+    private func finishFetching(index: NSInteger?, indexIsPassed: Bool) {
         let fetch = NSFetchRequest(entityName: "CheckInEvent")
         fetch.returnsObjectsAsFaults = false
         fetch.predicate = NSPredicate(format: "status == 'checkedin'")
@@ -72,35 +114,13 @@ class ActiveClientsViewController: UIViewController {
         catch {
             print("error: \(#file) \(#line) \(error)")
         }
-        dispatch_async(dispatch_get_main_queue()) { 
+        dispatch_async(dispatch_get_main_queue()) {
             self.tableview.reloadData()
-        }
-    }
-    
-    private func updateCheckInEvent(checkinEvent: CheckInEvent!) {
-        let url:NSURL = NSURL(string: "http://www.whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/update_checkinEvent.php")!
-        
-        let session = NSURLSession.sharedSession()
-        let request = NSMutableURLRequest(URL: url)
-        request.HTTPMethod = "POST"
-        request.cachePolicy = .ReloadIgnoringLocalCacheData
-        
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        let dateString = dateFormatter.stringFromDate(checkinEvent.completedTimestamp!)
-        
-        let jsonRequestString = "id=\(checkinEvent.uniqueID!)&completedTimestamp=\(dateString)&status=\(checkinEvent.status!)" .dataUsingEncoding(NSUTF8StringEncoding)
-        
-        let task = session.uploadTaskWithRequest(request, fromData: jsonRequestString, completionHandler: { (data, response, error) in
-            guard let _:NSData = data, let _:NSURLResponse = response where error == nil else {
-                print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
-                return
+            if indexIsPassed == true {
+                let indexPath = NSIndexPath(forRow: index!, inSection: 0)
+                self.tableview.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: .None)
             }
-            
-            //            let responseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
-            //            print("Response = \(responseString!)")
-        })
-        task.resume()
+        }
     }
     
     private func createPdfFromView(aView: UIView, saveToDocumentsWithFileName fileName: String)
@@ -133,10 +153,6 @@ class ActiveClientsViewController: UIViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ActiveClientsCell
         cell.name.text = checkinEvent.name
         
-        let secondsDifference = checkinEvent.checkinTimestamp?.timeIntervalSinceNow
-        let minsDif = abs(secondsDifference! / 60)
-        let minsDifInt = Int(minsDif)
-        cell.type.text = "\(minsDifInt) mins"
         let df = NSDateFormatter()
         df.dateFormat = "hh:mm a"
         cell.appointmentTime.text = df.stringFromDate(checkinEvent.checkinTimestamp!)
@@ -149,27 +165,16 @@ class ActiveClientsViewController: UIViewController {
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let vw = UIView()
         let titleLabel = UILabel(frame: CGRectMake(16, 6, 750, 16))
-        titleLabel.text = "Nombre                  Servicio                  Estilista                                             Espera"
+        titleLabel.text = "Nombre         Servicio        Estilista           Espera"
         titleLabel.textColor = UIColor.whiteColor()
         titleLabel.font = UIFont(name:"HelveticaNeue-Bold", size: 18.0)
         vw.addSubview(titleLabel)
         vw.backgroundColor = UIColor(red: 0.00, green: 0.50, blue: 0.00, alpha: 1.00)
         return vw
     }
-    
-    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]? {
-        let complete = UITableViewRowAction(style: .Destructive, title: "Completado") { action, index in
-            let checkedinEvent = self.checkInEvents![indexPath.row]
-            checkedinEvent.status = "completed"
-            checkedinEvent.completedTimestamp = NSDate()
-            self.saveChanges()
-            self.updateCheckInEvent(checkedinEvent)
-            NSNotificationCenter.defaultCenter().postNotificationName("ActiveClientsVCDidReceiveCompletedCheckinEvent", object: nil)
-            self.checkInEvents?.removeAtIndex(indexPath.row)
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        }
-        complete.backgroundColor = UIColor.redColor()
         
-        return [complete]
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.delegate?.didSelectCheckinEvent(self.checkInEvents![indexPath.row], index: indexPath.row)
     }
+    
 }

@@ -1,25 +1,26 @@
 //
-//  StylistsOfferedTableViewController.swift
+//  PaymentTypesOfferedTableViewController.swift
 //  check-in
 //
-//  Created by Joel on 8/15/16.
+//  Created by Joel on 8/27/16.
 //  Copyright © 2016 JediMaster. All rights reserved.
 //
 
 import UIKit
 
-protocol StylistsOfferedTableDelegate {
-    func didSelectStylist(stylist: String)
+protocol PaymentTypesOfferedTableDelegate {
+    func didSelectPayment(payment: String)
 }
 
-class StylistsOfferedTableViewController: UITableViewController {
+class PaymentTypesOfferedTableViewController: UITableViewController {
     
-    var stylists = [Stylist]()
-    var didSetStylist:Bool!
-    var stylistSelected:String!
-    var delegate: StylistsOfferedTableDelegate?
+    var payments = [Payment]()
+    var didSetProvider:Bool!
+    var providerSelected:String!
+    var delegate: PaymentTypesOfferedTableDelegate?
+    var appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     let dataController = DataController.sharedInstance
-    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    
     
     //------------------------------------------------------------------------------
     // MARK: Lifecycle Methods
@@ -29,11 +30,11 @@ class StylistsOfferedTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-        self.dataController.getStylists { (stylists) in
+        self.dataController.getPayments { (payments) in
             dispatch_async(dispatch_get_main_queue(), {
-                for item in stylists {
+                for item in payments {
                     if item.status == "available" {
-                        self.stylists.append(item)
+                        self.payments.append(item)
                     }
                 }
                 self.tableView.reloadData()
@@ -50,9 +51,9 @@ class StylistsOfferedTableViewController: UITableViewController {
     //------------------------------------------------------------------------------
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         // Try to get a cell
-        let stylist = self.stylists[indexPath.row] as Stylist
+        let payment = self.payments[indexPath.row] as Payment
         let cell = UITableViewCell()
-        cell.textLabel?.text = stylist.name!
+        cell.textLabel?.text = payment.name
         cell.textLabel?.textAlignment = .Center
         return cell
     }
@@ -62,14 +63,14 @@ class StylistsOfferedTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.stylists.count
+        return self.payments.count
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.didSetStylist = true
-        let stylist = self.stylists[indexPath.row]
-        self.stylistSelected = stylist.name!
+        self.didSetProvider = true
+        let payment = self.payments[indexPath.row]
+        self.providerSelected = payment.name
         self.dismissViewControllerAnimated(true, completion: nil)
-        self.delegate?.didSelectStylist(stylist.name!)
+        self.delegate?.didSelectPayment(payment.name)
     }
 }

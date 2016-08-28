@@ -25,4 +25,6 @@ extension CheckInEvent {
     @NSManaged var phone: String?
     @NSManaged var stylist: String?
     @NSManaged var service: String?
+    @NSManaged var paymentType: String?
+    @NSManaged var ticketNumber: String?
 }

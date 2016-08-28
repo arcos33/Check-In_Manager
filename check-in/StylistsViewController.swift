@@ -18,13 +18,18 @@ class StylistsViewController: UIViewController, AddStylistVCDelegate {
     var stylists = Array<Stylist>()
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     let cellIdentifier = "stylistCell"
-
+    let dataController = DataController.sharedInstance
+    
     //------------------------------------------------------------------------------
     // MARK: Lifecycle Methods
     //------------------------------------------------------------------------------
     override func viewDidLoad() {
-        super.viewDidLoad()
-        getStylistRecords()
+        self.dataController.getStylists { (stylists) in
+            dispatch_async(dispatch_get_main_queue(), {
+                self.stylists = stylists
+                self.tableview.reloadData()
+            })
+        }
     }
     
     //------------------------------------------------------------------------------
@@ -34,7 +39,7 @@ class StylistsViewController: UIViewController, AddStylistVCDelegate {
         let deleted = UITableViewRowAction(style: .Destructive, title: "Eliminar") { action, index in
             let stylist = self.stylists[indexPath.row]
             stylist.status = "deleted"
-            self.updateStylistRecord(stylist.id, status: stylist.status)
+            self.dataController.updateStylistRecord(stylist.id, status: stylist.status)
             self.stylists.removeAtIndex(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         }
@@ -84,61 +89,6 @@ class StylistsViewController: UIViewController, AddStylistVCDelegate {
     //------------------------------------------------------------------------------
     // MARK: Private Methods
     //------------------------------------------------------------------------------
-    private func postStylistRecord(name: String) {
-        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/create/create_stylist.php")!
-
-        let session = NSURLSession.sharedSession()
-        let request = NSMutableURLRequest(URL: url)
-        request.HTTPMethod = "POST"
-        request.cachePolicy = .ReloadIgnoringLocalCacheData
-        
-        let jsonRequestString = "name=\(name)&status=available" .dataUsingEncoding(NSUTF8StringEncoding)
-        
-        let task = session.uploadTaskWithRequest(request, fromData: jsonRequestString, completionHandler: { (data, response, error) in
-            guard let _:NSData = data, let _:NSURLResponse = response where error == nil else {
-                print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
-                return
-            }
-            
-//            let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
-//            print(responseBody)
-            dispatch_async(dispatch_get_main_queue(), {
-                self.getStylistRecords()
-            })
-        })
-        task.resume()
-    }
-    
-    private func getStylistRecords() {
-        let url: NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/get/get_stylists.php")!
-        
-        let session = NSURLSession.sharedSession()
-        let request = NSMutableURLRequest(URL: url)
-        request.HTTPMethod = "POST"
-        request.cachePolicy = .ReloadIgnoringLocalCacheData
-        
-        let task = session.dataTaskWithRequest(request) { (let data, let response, let error) in
-            if error == nil {
-                let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
-                if responseBody != "null" {
-                    do {
-                        let jsonResponseString = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as! [Dictionary<String, String>]
-                        self.stylists = []
-                        self.populateDataSource(jsonResponseString)
-                    }
-                    catch {
-                        print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
-                    }
-                }
-            }
-            else {
-                print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
-            }
-            
-        }
-        task.resume()
-    }
-    
     private func populateDataSource(array: [Dictionary<String, String>]) {
         for item in array {
             if item["status"] == "deleted" {
@@ -151,30 +101,7 @@ class StylistsViewController: UIViewController, AddStylistVCDelegate {
             self.tableview.reloadData()
         }
     }
-    
-    private func updateStylistRecord(id: String, status: String) {
-        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/update/update_stylist.php")!
-        
-        let session = NSURLSession.sharedSession()
-        let request = NSMutableURLRequest(URL: url)
-        request.HTTPMethod = "POST"
-        request.cachePolicy = .ReloadIgnoringLocalCacheData
-        
-        let jsonRequestString = "id=\(id)&status=\(status)" .dataUsingEncoding(NSUTF8StringEncoding)
-        
-        let task = session.uploadTaskWithRequest(request, fromData: jsonRequestString, completionHandler: { (data, response, error) in
-            guard let _:NSData = data, let _:NSURLResponse = response where error == nil else {
-                print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
-                return
-            }
-            
-            //            let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
-            //            print(responseBody)
-        })
-        task.resume()
-    }
 
-    
     //------------------------------------------------------------------------------
     // MARK: Action Methods
     //------------------------------------------------------------------------------
@@ -191,15 +118,21 @@ class StylistsViewController: UIViewController, AddStylistVCDelegate {
             status = "unavailable"
         }
         stylist.status = status
-        updateStylistRecord(stylist.id!, status: status)
+        self.dataController.updateStylistRecord(stylist.id, status: stylist.status)
     }
     
     //------------------------------------------------------------------------------
     // MARK: AddStylistVCDelegate Delegate Methods
     //------------------------------------------------------------------------------\
     func didEnterStylistName(name: String) {
-        postStylistRecord(name)
-        self.addStylistPopOverVC.dismissViewControllerAnimated(true, completion: nil)
+        self.dataController.postStylistRecord(name) { (stylists) in
+            dispatch_async(dispatch_get_main_queue(), {
+                self.stylists = stylists
+                self.tableview.reloadData()
+                self.addStylistPopOverVC.dismissViewControllerAnimated(true, completion: nil)
+
+            })
+        }
     }
 }
 

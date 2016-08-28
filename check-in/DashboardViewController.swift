@@ -9,7 +9,12 @@
 import Foundation
 import UIKit
 
-class DashboardViewController: UIViewController {
+class DashboardViewController: UIViewController, ActiveClientsDelegate {
+    var activeClientDetailsTVC: ActiveClientDetailsTableViewController!
+    var activeClientsVC: ActiveClientsViewController!
+    var selectedCheckinEvent: CheckInEvent!
+    
+    
     override func viewWillAppear(animated: Bool) {
         self.tabBarController?.tabBar.hidden = false
     }
@@ -47,5 +52,38 @@ class DashboardViewController: UIViewController {
             }
         }
     }
-
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        switch segue.identifier! {
+        case "ActiveClientDetailsSegue":
+            self.activeClientDetailsTVC = segue.destinationViewController as! ActiveClientDetailsTableViewController
+            print()
+        case "showCheckedinClientsTable":
+            self.activeClientsVC = segue.destinationViewController as! ActiveClientsViewController
+            self.activeClientsVC.delegate = self
+            
+        default:
+            print()
+        }
+    }
+    
+    func didSelectCheckinEvent(checkinEvent: CheckInEvent, index: NSInteger) {
+        self.activeClientDetailsTVC.titleLabel.text = checkinEvent.name
+        
+        self.activeClientDetailsTVC.stylistNameButton.hidden = false
+        self.activeClientDetailsTVC.stylistNameButton.setTitle(checkinEvent.stylist == "" ? "Nombre" : checkinEvent.stylist, forState: .Normal)
+        
+        self.activeClientDetailsTVC.serviceNameButton.hidden = false
+        self.activeClientDetailsTVC.serviceNameButton.setTitle(checkinEvent.service == "" ? "Nombre" : checkinEvent.service, forState: .Normal)
+        
+        self.activeClientDetailsTVC.paymentTypeButton.hidden = false
+        self.activeClientDetailsTVC.paymentTypeButton.setTitle(checkinEvent.paymentType == nil ? "Nombre" : checkinEvent.paymentType, forState: .Normal)
+        
+       
+        self.activeClientDetailsTVC.completedButton.hidden = false
+        self.activeClientDetailsTVC.DeleteButton.hidden = false
+        
+        self.activeClientDetailsTVC.checkinEvent = checkinEvent
+        self.activeClientDetailsTVC.selectedIndex = index
+    }
 }

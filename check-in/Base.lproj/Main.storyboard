@@ -285,7 +285,7 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jUi-tn-eJP">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                 <variation key="heightClass=regular" misplaced="YES">
-                                    <rect key="frame" x="500" y="60" width="452" height="500"/>
+                                    <rect key="frame" x="500" y="60" width="400" height="402"/>
                                 </variation>
                                 <connections>
                                     <segue destination="i3n-pC-mIA" kind="embed" identifier="ActiveClientDetailsSegue" id="MVt-qu-oV6"/>
@@ -359,15 +359,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                        <label key="tableHeaderView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cliente" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0rx-9i-G5i">
+                        <label key="tableHeaderView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0rx-9i-G5i">
                             <rect key="frame" x="0.0" y="0.0" width="240" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <view key="tableFooterView" contentMode="scaleToFill" id="o1U-rg-eUj">
-                            <rect key="frame" x="0.0" y="316" width="240" height="128"/>
+                            <rect key="frame" x="0.0" y="360" width="240" height="128"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1g2-bl-eI3">
@@ -385,6 +385,11 @@
                                     <state key="normal" title="Completado">
                                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     </state>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                            <integer key="value" value="5"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
                                     <variation key="default">
                                         <mask key="constraints">
                                             <exclude reference="0eX-XH-2at"/>
@@ -392,7 +397,7 @@
                                         </mask>
                                     </variation>
                                     <variation key="heightClass=regular" misplaced="YES">
-                                        <rect key="frame" x="196" y="20" width="130" height="44"/>
+                                        <rect key="frame" x="246" y="20" width="130" height="44"/>
                                         <mask key="constraints">
                                             <include reference="0eX-XH-2at"/>
                                             <include reference="Vzv-EV-8CP"/>
@@ -409,8 +414,13 @@
                                     <state key="normal" title="Eliminar">
                                         <color key="titleColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
                                     </state>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                            <integer key="value" value="5"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
                                     <variation key="heightClass=regular" misplaced="YES">
-                                        <rect key="frame" x="196" y="78" width="130" height="44"/>
+                                        <rect key="frame" x="246" y="78" width="130" height="44"/>
                                     </variation>
                                     <connections>
                                         <action selector="deleteCheckinEvent:" destination="i3n-pC-mIA" eventType="touchUpInside" id="gnt-0Q-9ws"/>
@@ -469,10 +479,10 @@
                                                     <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="59" id="vUU-65-12n">
-                                                            <variation key="heightClass=regular" constant="62"/>
+                                                            <variation key="heightClass=regular" constant="80"/>
                                                         </constraint>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="default">
@@ -488,7 +498,21 @@
                                                 </label>
                                                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="65D-JT-hyT">
                                                     <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="55" id="e1c-K8-bbC"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                     <state key="normal" title="Nombre"/>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="e1c-K8-bbC"/>
+                                                        </mask>
+                                                    </variation>
+                                                    <variation key="heightClass=regular">
+                                                        <mask key="constraints">
+                                                            <include reference="e1c-K8-bbC"/>
+                                                        </mask>
+                                                    </variation>
                                                     <connections>
                                                         <segue destination="eY7-sA-qOr" kind="popoverPresentation" identifier="servicesOfferedTVCSegue" popoverAnchorView="65D-JT-hyT" id="Z0d-IO-wbm">
                                                             <popoverArrowDirection key="popoverArrowDirection" left="YES"/>
@@ -541,18 +565,41 @@
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Estilista" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A4K-kL-IxN">
                                                     <rect key="frame" x="-42" y="-21" width="42" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="69" id="p0K-ve-bL6">
+                                                            <variation key="heightClass=regular" constant="80"/>
+                                                        </constraint>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
-                                                    <variation key="heightClass=regular" misplaced="YES">
-                                                        <rect key="frame" x="16" y="11" width="62" height="21"/>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="p0K-ve-bL6"/>
+                                                        </mask>
+                                                    </variation>
+                                                    <variation key="heightClass=regular">
+                                                        <mask key="constraints">
+                                                            <include reference="p0K-ve-bL6"/>
+                                                        </mask>
                                                     </variation>
                                                 </label>
                                                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RLV-9i-0wX">
                                                     <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="55" id="gbR-yI-aLP"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                     <state key="normal" title="Nombre"/>
-                                                    <variation key="heightClass=regular" misplaced="YES">
-                                                        <rect key="frame" x="94" y="7" width="55" height="30"/>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="gbR-yI-aLP"/>
+                                                        </mask>
+                                                    </variation>
+                                                    <variation key="heightClass=regular">
+                                                        <mask key="constraints">
+                                                            <include reference="gbR-yI-aLP"/>
+                                                        </mask>
                                                     </variation>
                                                     <connections>
                                                         <segue destination="weg-wj-jo0" kind="popoverPresentation" identifier="stylistsOfferedTVCSegue" popoverAnchorView="RLV-9i-0wX" id="t8n-2B-cCQ">
@@ -611,6 +658,31 @@
                                             <rect key="frame" x="0.0" y="0.0" width="240" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4WI-96-GKY">
+                                                    <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="72" id="vgK-fi-gx4">
+                                                            <variation key="heightClass=regular" constant="55"/>
+                                                        </constraint>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                    <state key="normal" title="Nombre"/>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="vgK-fi-gx4"/>
+                                                        </mask>
+                                                    </variation>
+                                                    <variation key="heightClass=regular">
+                                                        <mask key="constraints">
+                                                            <include reference="vgK-fi-gx4"/>
+                                                        </mask>
+                                                    </variation>
+                                                    <connections>
+                                                        <segue destination="nug-0h-ozd" kind="popoverPresentation" identifier="paymentsOfferedTVCSegue" popoverAnchorView="4WI-96-GKY" id="uKb-EL-A1w">
+                                                            <popoverArrowDirection key="popoverArrowDirection" down="YES"/>
+                                                        </segue>
+                                                    </connections>
+                                                </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Forma de pago" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RFI-Lu-UJc">
                                                     <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                                     <constraints>
@@ -618,7 +690,7 @@
                                                             <variation key="heightClass=regular" constant="140"/>
                                                         </constraint>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="default">
@@ -632,15 +704,6 @@
                                                         </mask>
                                                     </variation>
                                                 </label>
-                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4WI-96-GKY">
-                                                    <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                                    <state key="normal" title="Nombre"/>
-                                                    <connections>
-                                                        <segue destination="nug-0h-ozd" kind="popoverPresentation" identifier="paymentsOfferedTVCSegue" popoverAnchorView="4WI-96-GKY" id="uKb-EL-A1w">
-                                                            <popoverArrowDirection key="popoverArrowDirection" down="YES"/>
-                                                        </segue>
-                                                    </connections>
-                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="RFI-Lu-UJc" firstAttribute="leading" secondItem="70c-Ce-qAF" secondAttribute="leading" constant="8" id="Wgy-e0-wl1">
@@ -648,14 +711,14 @@
                                                 </constraint>
                                                 <constraint firstItem="RFI-Lu-UJc" firstAttribute="centerY" secondItem="70c-Ce-qAF" secondAttribute="centerY" id="j5W-NI-BUw"/>
                                                 <constraint firstItem="4WI-96-GKY" firstAttribute="leading" secondItem="RFI-Lu-UJc" secondAttribute="trailing" constant="4" id="niU-XN-hbq">
-                                                    <variation key="heightClass=regular" constant="16"/>
+                                                    <variation key="heightClass=regular" constant="8"/>
                                                 </constraint>
                                                 <constraint firstItem="4WI-96-GKY" firstAttribute="baseline" secondItem="RFI-Lu-UJc" secondAttribute="baseline" id="uSY-ZQ-GCI"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="subviews">
-                                                    <exclude reference="RFI-Lu-UJc"/>
                                                     <exclude reference="4WI-96-GKY"/>
+                                                    <exclude reference="RFI-Lu-UJc"/>
                                                 </mask>
                                                 <mask key="constraints">
                                                     <exclude reference="niU-XN-hbq"/>
@@ -666,8 +729,8 @@
                                             </variation>
                                             <variation key="heightClass=regular">
                                                 <mask key="subviews">
-                                                    <include reference="RFI-Lu-UJc"/>
                                                     <include reference="4WI-96-GKY"/>
+                                                    <include reference="RFI-Lu-UJc"/>
                                                 </mask>
                                                 <mask key="constraints">
                                                     <include reference="niU-XN-hbq"/>
@@ -685,14 +748,14 @@
                                             <rect key="frame" x="0.0" y="0.0" width="240" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Numero de recibo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nlp-ij-Hxl">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cantidad" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nlp-ij-Hxl">
                                                     <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="120" id="xMj-Nj-w1F">
-                                                            <variation key="heightClass=regular" constant="140"/>
+                                                            <variation key="heightClass=regular" constant="160"/>
                                                         </constraint>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="default">
@@ -706,7 +769,7 @@
                                                         </mask>
                                                     </variation>
                                                 </label>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZWZ-Dr-vth">
+                                                <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZWZ-Dr-vth">
                                                     <rect key="frame" x="-25" y="-30" width="97" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="25" id="ixO-fw-bKs">
@@ -761,6 +824,89 @@
                                             </variation>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="bVL-Gx-j0z">
+                                        <rect key="frame" x="0.0" y="298" width="240" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bVL-Gx-j0z" id="B9R-4i-Aii">
+                                            <rect key="frame" x="0.0" y="0.0" width="240" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Numero de recibo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2pm-Y1-30g">
+                                                    <rect key="frame" x="-42" y="-21" width="42" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="120" id="cjY-Pt-qkQ">
+                                                            <variation key="heightClass=regular" constant="160"/>
+                                                        </constraint>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="cjY-Pt-qkQ"/>
+                                                        </mask>
+                                                    </variation>
+                                                    <variation key="heightClass=regular">
+                                                        <mask key="constraints">
+                                                            <include reference="cjY-Pt-qkQ"/>
+                                                        </mask>
+                                                    </variation>
+                                                </label>
+                                                <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nca-aK-cg2">
+                                                    <rect key="frame" x="-25" y="-30" width="97" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="25" id="vOh-qv-3n6">
+                                                            <variation key="heightClass=regular" constant="60"/>
+                                                        </constraint>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="vOh-qv-3n6"/>
+                                                        </mask>
+                                                    </variation>
+                                                    <variation key="heightClass=regular">
+                                                        <mask key="constraints">
+                                                            <include reference="vOh-qv-3n6"/>
+                                                        </mask>
+                                                    </variation>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="2pm-Y1-30g" firstAttribute="leading" secondItem="B9R-4i-Aii" secondAttribute="leading" constant="24" id="Cp2-hR-gIG">
+                                                    <variation key="heightClass=regular" constant="16"/>
+                                                </constraint>
+                                                <constraint firstItem="nca-aK-cg2" firstAttribute="baseline" secondItem="2pm-Y1-30g" secondAttribute="baseline" id="Zsv-Fu-XRz"/>
+                                                <constraint firstItem="2pm-Y1-30g" firstAttribute="centerY" secondItem="B9R-4i-Aii" secondAttribute="centerY" id="pNG-1Z-FmK"/>
+                                                <constraint firstItem="nca-aK-cg2" firstAttribute="leading" secondItem="2pm-Y1-30g" secondAttribute="trailing" constant="8" id="tHL-XL-5oC"/>
+                                            </constraints>
+                                            <variation key="default">
+                                                <mask key="subviews">
+                                                    <exclude reference="2pm-Y1-30g"/>
+                                                    <exclude reference="nca-aK-cg2"/>
+                                                </mask>
+                                                <mask key="constraints">
+                                                    <exclude reference="Zsv-Fu-XRz"/>
+                                                    <exclude reference="tHL-XL-5oC"/>
+                                                    <exclude reference="Cp2-hR-gIG"/>
+                                                    <exclude reference="pNG-1Z-FmK"/>
+                                                </mask>
+                                            </variation>
+                                            <variation key="heightClass=regular">
+                                                <mask key="subviews">
+                                                    <include reference="2pm-Y1-30g"/>
+                                                    <include reference="nca-aK-cg2"/>
+                                                </mask>
+                                                <mask key="constraints">
+                                                    <include reference="Zsv-Fu-XRz"/>
+                                                    <include reference="tHL-XL-5oC"/>
+                                                    <include reference="Cp2-hR-gIG"/>
+                                                    <include reference="pNG-1Z-FmK"/>
+                                                </mask>
+                                            </variation>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -771,8 +917,10 @@
                     </tableView>
                     <connections>
                         <outlet property="DeleteButton" destination="UPk-OI-D0V" id="qzT-r6-Txt"/>
+                        <outlet property="amountChargedTextField" destination="ZWZ-Dr-vth" id="Q1D-fe-iL6"/>
                         <outlet property="completedButton" destination="1g2-bl-eI3" id="jon-s0-pPg"/>
                         <outlet property="paymentTypeButton" destination="4WI-96-GKY" id="3J0-vU-7yB"/>
+                        <outlet property="receiptNumberTextField" destination="nca-aK-cg2" id="oLe-9k-qU6"/>
                         <outlet property="serviceNameButton" destination="65D-JT-hyT" id="Vgd-lK-1hP"/>
                         <outlet property="stylistNameButton" destination="RLV-9i-0wX" id="B3h-ZC-nLw"/>
                         <outlet property="titleLabel" destination="0rx-9i-G5i" id="hq8-WS-IB0"/>
@@ -798,56 +946,50 @@
                                 <rect key="frame" x="16" y="40" width="568" height="75"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="activeCheckInCell" id="9s4-qc-xhB" customClass="ActiveClientsCell" customModule="Check_in" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="activeCheckInCell" id="9s4-qc-xhB" customClass="ActiveClientsCell" customModule="Check_in" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="568" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9s4-qc-xhB" id="GKs-gI-fIZ">
                                             <rect key="frame" x="0.0" y="0.0" width="568" height="69"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Cristiano R" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="6Uv-q3-9Db">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Cristiano R" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="6Uv-q3-9Db">
                                                     <rect key="frame" x="16" y="23" width="150" height="24"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="100" id="TSO-KA-Sy7"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                    <variation key="heightClass=regular" misplaced="YES">
-                                                        <rect key="frame" x="16" y="25" width="100" height="21"/>
-                                                    </variation>
+                                                    <color key="highlightedColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Servicio" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EYD-xJ-NFf">
                                                     <rect key="frame" x="182" y="23" width="100" height="24"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="100" id="nxL-Lk-xTn"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                    <variation key="heightClass=regular" misplaced="YES">
-                                                        <rect key="frame" x="132" y="25" width="100" height="21"/>
-                                                    </variation>
+                                                    <color key="highlightedColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="12:52pm" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U9f-Oq-P6y">
                                                     <rect key="frame" x="338" y="23" width="100" height="24"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="100" id="WSi-0h-m2k"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
+                                                    <color key="highlightedColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
                                                     <variation key="heightClass=regular" misplaced="YES">
-                                                        <rect key="frame" x="452" y="25" width="100" height="21"/>
+                                                        <rect key="frame" x="467" y="23" width="100" height="24"/>
                                                     </variation>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Estilista" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Po-TK-GFx">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Estilista" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Po-TK-GFx">
                                                     <rect key="frame" x="250" y="23" width="69" height="24"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
+                                                    <color key="highlightedColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
                                                     <variation key="heightClass=regular" misplaced="YES">
-                                                        <rect key="frame" x="242" y="25" width="194" height="21"/>
+                                                        <rect key="frame" x="242" y="23" width="209" height="24"/>
                                                     </variation>
                                                 </label>
                                             </subviews>
@@ -923,7 +1065,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kFm-du-rBd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2846" y="62"/>
+            <point key="canvasLocation" x="2853" y="179.625"/>
         </scene>
         <!--Inactive Clients View Controller-->
         <scene sceneID="PrB-yv-B9I">
@@ -944,7 +1086,7 @@
                                     <constraint firstAttribute="height" constant="216" id="Bc4-QB-bch"/>
                                 </constraints>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="inactiveCheckInCell" id="wop-xM-ihu" customClass="InactiveClientsCell" customModule="Check_in" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="inactiveCheckInCell" id="wop-xM-ihu" customClass="InactiveClientsCell" customModule="Check_in" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="568" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wop-xM-ihu" id="Vhv-zj-T1a">
@@ -1958,12 +2100,15 @@
             <objects>
                 <tableViewController id="nug-0h-ozd" customClass="PaymentTypesOfferedTableViewController" customModule="Check_in" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Ct5-fo-7Jq">
+                        <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="e3X-Xz-q0X">
+                                <rect key="frame" x="0.0" y="28" width="150" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="e3X-Xz-q0X" id="PoX-T2-nTV">
+                                    <rect key="frame" x="0.0" y="0.0" width="150" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>

@@ -152,24 +152,26 @@ class ActiveClientsViewController: UIViewController {
         let checkinEvent = self.checkInEvents![indexPath.row]
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ActiveClientsCell
         cell.name.text = checkinEvent.name
-        
-        let df = NSDateFormatter()
-        df.dateFormat = "hh:mm a"
-        cell.appointmentTime.text = df.stringFromDate(checkinEvent.checkinTimestamp!)
+        cell.appointmentTime.text = NSDate.getTimeInHoursAndMinutes(checkinEvent.checkinTimestamp!)
         
         cell.serviceLabel.text = checkinEvent.service
         cell.stylistLabel.text = checkinEvent.stylist
+        let aView = UIView.init(frame: cell.frame)
+        aView.backgroundColor = UIColor(red: 0.00, green: 122.0/255.0, blue: 1.0, alpha: 1.00)
+        cell.selectedBackgroundView = aView
+        
         return cell
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let vw = UIView()
         let titleLabel = UILabel(frame: CGRectMake(16, 6, 750, 16))
-        titleLabel.text = "Nombre         Servicio        Estilista           Espera"
+        titleLabel.text = "Cliente         Servicio        Estilista           Espera"
         titleLabel.textColor = UIColor.whiteColor()
         titleLabel.font = UIFont(name:"HelveticaNeue-Bold", size: 18.0)
         vw.addSubview(titleLabel)
-        vw.backgroundColor = UIColor(red: 0.00, green: 0.50, blue: 0.00, alpha: 1.00)
+        vw.backgroundColor = UIColor.lightGrayColor()
+        //vw.backgroundColor = UIColor(red: 0.00, green: 0.50, blue: 0.00, alpha: 1.00)
         return vw
     }
         

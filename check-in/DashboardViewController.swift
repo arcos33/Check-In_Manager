@@ -71,13 +71,13 @@ class DashboardViewController: UIViewController, ActiveClientsDelegate {
         self.activeClientDetailsTVC.titleLabel.text = checkinEvent.name
         
         self.activeClientDetailsTVC.stylistNameButton.hidden = false
-        self.activeClientDetailsTVC.stylistNameButton.setTitle(checkinEvent.stylist == "" ? "Nombre" : checkinEvent.stylist, forState: .Normal)
+        self.activeClientDetailsTVC.stylistNameButton.setTitle(checkinEvent.stylist == "" || checkinEvent.stylist == nil ? "?" : checkinEvent.stylist, forState: .Normal)
         
         self.activeClientDetailsTVC.serviceNameButton.hidden = false
-        self.activeClientDetailsTVC.serviceNameButton.setTitle(checkinEvent.service == "" ? "Nombre" : checkinEvent.service, forState: .Normal)
+        self.activeClientDetailsTVC.serviceNameButton.setTitle(checkinEvent.service == "" || checkinEvent.service == nil ? "?" : checkinEvent.service, forState: .Normal)
         
         self.activeClientDetailsTVC.paymentTypeButton.hidden = false
-        self.activeClientDetailsTVC.paymentTypeButton.setTitle(checkinEvent.paymentType == nil ? "Nombre" : checkinEvent.paymentType, forState: .Normal)
+        self.activeClientDetailsTVC.paymentTypeButton.setTitle(checkinEvent.paymentType == "" || checkinEvent.paymentType == nil ? "?" : checkinEvent.paymentType, forState: .Normal)
         
        
         self.activeClientDetailsTVC.completedButton.hidden = false
@@ -85,5 +85,11 @@ class DashboardViewController: UIViewController, ActiveClientsDelegate {
         
         self.activeClientDetailsTVC.checkinEvent = checkinEvent
         self.activeClientDetailsTVC.selectedIndex = index
+        
+        self.activeClientDetailsTVC.amountChargedTextField.hidden = false
+        self.activeClientDetailsTVC.amountChargedTextField.text = checkinEvent.amountCharged
+        
+        self.activeClientDetailsTVC.receiptNumberTextField.hidden = false
+        self.activeClientDetailsTVC.receiptNumberTextField.text = checkinEvent.ticketNumber
     }
 }

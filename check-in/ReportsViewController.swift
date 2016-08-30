@@ -44,7 +44,7 @@ class ReportsViewController: UIViewController, MFMailComposeViewControllerDelega
         self.titleLabel = UILabel(frame: CGRectMake(280, 100, 700, 50))
         let df = NSDateFormatter()
         df.dateFormat = "MM-dd-yyyy"
-        let dateString = df.stringFromDate(NSDate())
+        let dateString = df.stringFromDate(NSDate.getCurrentLocalDate())
         self.titleLabel.text = "Reporte de dia (\(dateString))"
         self.view.addSubview(self.titleLabel)
         self.titleLabel.hidden = true
@@ -97,7 +97,7 @@ class ReportsViewController: UIViewController, MFMailComposeViewControllerDelega
     @IBAction func sendEmailWithAttachment(sender: AnyObject) {
         if self.emailTextField.text?.characters.count > 0 {
             //self.emailTextField.resignFirstResponder()
-            let identifier = String(NSDate())
+            let identifier = String(NSDate.getCurrentLocalDate())
             generatePDF(identifier)
             //createPdfFromView(self.tableview, saveToDocumentsWithIdentifier: identifier)
         }
@@ -177,7 +177,7 @@ class ReportsViewController: UIViewController, MFMailComposeViewControllerDelega
     
     func generatePDF(fileName: String) {
         let v1 = self.tableview
-        let identifier = String(NSDate())
+        let identifier = String(NSDate.getCurrentLocalDate())
         let documentDirectories = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first
         let dst = documentDirectories! + "/" + fileName
         

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15G31" minimumToolsVersion="Automatic">
     <entity name="CheckInEvent" representedClassName=".CheckInEvent" syncable="YES">
+        <attribute name="amountCharged" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="checkinTimestamp" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="clientID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="completedTimestamp" optional="YES" attributeType="Date" syncable="YES"/>
@@ -13,6 +14,7 @@
         <attribute name="stylist" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="ticketNumber" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="uniqueID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="updateDate" optional="YES" attributeType="Date" syncable="YES"/>
         <relationship name="client" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Client" syncable="YES"/>
     </entity>
     <entity name="Client" representedClassName=".Client" syncable="YES">
@@ -26,7 +28,7 @@
         <attribute name="uniqueID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
     </entity>
     <elements>
-        <element name="CheckInEvent" positionX="-63" positionY="-18" width="128" height="240"/>
+        <element name="CheckInEvent" positionX="-63" positionY="-18" width="128" height="270"/>
         <element name="Client" positionX="-63" positionY="9" width="128" height="105"/>
         <element name="ServiceType" positionX="-54" positionY="27" width="128" height="75"/>
     </elements>

@@ -27,4 +27,6 @@ extension CheckInEvent {
     @NSManaged var service: String?
     @NSManaged var paymentType: String?
     @NSManaged var ticketNumber: String?
+    @NSManaged var updateDate: NSDate?
+    @NSManaged var amountCharged: String?
 }

@@ -20,7 +20,9 @@ class ActiveClientDetailsTableViewController: UITableViewController, StylistsOff
     @IBOutlet var paymentTypeButton: UIButton!
     @IBOutlet var completedButton: UIButton!
     @IBOutlet var DeleteButton: UIButton!
-
+    @IBOutlet var amountChargedTextField: UITextField!
+    @IBOutlet var receiptNumberTextField: UITextField!
+    
     var appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     var stylistTable:StylistsOfferedTableViewController?
     var servicesTable:ServicesOfferedTableViewController?
@@ -69,6 +71,13 @@ class ActiveClientDetailsTableViewController: UITableViewController, StylistsOff
         self.stylistNameButton.setTitle(stylist, forState: .Normal)
         self.stylistSelected = stylist
         self.checkinEvent?.stylist = stylist
+        self.checkinEvent?.updateDate = NSDate.getCurrentLocalDate()
+        do {
+            try appDelegate.managedObjectContext.save()
+        }
+        catch {
+            print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
+        }
         self.dataController.updateCheckInEventAtCellIndex(self.checkinEvent, index: self.selectedIndex!)
     }
 
@@ -79,6 +88,13 @@ class ActiveClientDetailsTableViewController: UITableViewController, StylistsOff
         self.serviceNameButton.setTitle(service, forState: .Normal)
         self.serviceSelected = service
         self.checkinEvent?.service = service
+        self.checkinEvent?.updateDate = NSDate.getCurrentLocalDate()
+        do {
+            try appDelegate.managedObjectContext.save()
+        }
+        catch {
+            print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
+        }
         self.dataController.updateCheckInEventAtCellIndex(self.checkinEvent, index: self.selectedIndex!)
     }
 
@@ -89,27 +105,57 @@ class ActiveClientDetailsTableViewController: UITableViewController, StylistsOff
         self.paymentTypeButton.setTitle(payment, forState: .Normal)
         self.paymentSelected = payment
         self.checkinEvent?.paymentType = payment
+        self.checkinEvent?.updateDate = NSDate.getCurrentLocalDate()
+        do {
+            try appDelegate.managedObjectContext.save()
+        }
+        catch {
+            print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
+        }
         self.dataController.updateCheckInEventAtCellIndex(self.checkinEvent, index: self.selectedIndex!)
     }
     
     @IBAction func completeCheckinEvent(sender: AnyObject) {
+        self.checkinEvent!.amountCharged = self.amountChargedTextField.text
+        self.checkinEvent!.ticketNumber = self.receiptNumberTextField.text
         self.checkinEvent!.status = "completed"
-        self.checkinEvent!.completedTimestamp = NSDate()
+        self.checkinEvent!.updateDate = NSDate.getCurrentLocalDate()
+        self.checkinEvent!.completedTimestamp = NSDate.getCurrentLocalDate()
         self.saveChanges()
-        self.dataController.updateCheckInEvent(self.checkinEvent!)
-        NSNotificationCenter.defaultCenter().postNotificationName("ActiveClientsVCDidReceiveCompletedCheckinEvent", object: nil)
     }
     
     @IBAction func deleteCheckinEvent(sender: AnyObject) {
+        self.checkinEvent!.status = "deleted"
+        self.checkinEvent!.updateDate = NSDate.getCurrentLocalDate()
+        self.saveChanges()
+        
     }
     
     private func saveChanges() {
         do {
             try self.appDelegate.managedObjectContext.save()
+            self.dataController.updateCheckInEventAtCellIndex(self.checkinEvent, index: self.selectedIndex!)
+            resetFields()
+            
         }
         catch {
             print("error: \(#file) \(#line) \(error)")
         }
+    }
+    
+    private func resetFields() {
+        self.titleLabel.text = ""
+        self.serviceNameButton.setTitle("", forState: .Normal)
+        self.serviceNameButton.hidden = true
+        self.stylistNameButton.setTitle("", forState: .Normal)
+        self.stylistNameButton.hidden = true
+        self.paymentTypeButton.setTitle("", forState: .Normal)
+        self.paymentTypeButton.hidden = true
+        self.amountChargedTextField.text = ""
+        self.amountChargedTextField.hidden = true
+        self.receiptNumberTextField.text = ""
+        self.receiptNumberTextField.hidden = true
+        
     }
     
     

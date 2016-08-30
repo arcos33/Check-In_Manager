@@ -71,9 +71,8 @@ class InactiveClientsViewController: UIViewController {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let checkInEvent = self.checkInEvents![indexPath.row]
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! InactiveClientsCell
-        let df = NSDateFormatter()
-        df.dateFormat = "hh:mm a"
-        cell.appointmentTime.text = df.stringFromDate(checkInEvent.completedTimestamp!)
+
+        cell.appointmentTime.text = NSDate.getTimeInHoursAndMinutes(checkInEvent.completedTimestamp!)
         cell.name.text = checkInEvent.name
         return cell
     }
@@ -85,8 +84,8 @@ class InactiveClientsViewController: UIViewController {
         titleLabel.textColor = UIColor.whiteColor()
         titleLabel.font = UIFont(name:"HelveticaNeue-Bold", size: 18.0)
         vw.addSubview(titleLabel)
-        //vw.backgroundColor = UIColor(red: 0.70, green: 0.89, blue: 1.00, alpha: 1.00)
-        vw.backgroundColor = UIColor.redColor()
+        vw.backgroundColor = UIColor(red: 0.25, green: 0.67, blue: 0.00, alpha: 1.00)
+//        vw.backgroundColor = UIColor.redColor()
         return vw
     }
 }

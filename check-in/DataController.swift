@@ -90,10 +90,9 @@ class DataController: NSObject {
                     for object in jsonResponseString as! [Dictionary<String,AnyObject>] {
                         let tempId = object["id"]!
                         let checkinEvent = NSEntityDescription.insertNewObjectForEntityForName("CheckInEvent", inManagedObjectContext: appDelegate.managedObjectContext) as! CheckInEvent
-                        let df = NSDateFormatter()
-                        df.dateFormat = "yyyy-MM-dd HH:mm:ss"
-                        checkinEvent.checkinTimestamp = df.dateFromString(object["checkinTimestamp"]! as! String)
-                        checkinEvent.completedTimestamp = df.dateFromString(object["completedTimestamp"]! as! String)
+                        
+                        checkinEvent.checkinTimestamp = NSDate.dateFromString(object["checkinTimestamp"]! as! String)
+                        checkinEvent.completedTimestamp = NSDate.dateFromString(object["completedTimestamp"]! as! String)
                         checkinEvent.uniqueID = NSNumber(int: tempId.intValue)
                         checkinEvent.name = object["name"] as? String
                         checkinEvent.phone = object["phone"] as? String
@@ -102,6 +101,13 @@ class DataController: NSObject {
                         checkinEvent.stylist = object["stylist"] as? String
                         checkinEvent.ticketNumber = object["ticketNumber"] as? String
                         checkinEvent.paymentType = object["paymentType"] as? String
+                        checkinEvent.amountCharged = object["amountCharged"] as? String
+                        if let updateDateString = object["updateDate"]! as? String {
+                            checkinEvent.updateDate = NSDate.dateFromString(updateDateString)
+                        }
+                        else {
+                            checkinEvent.updateDate = nil
+                        }
                         
                         do {
                             try appDelegate.managedObjectContext.save()
@@ -114,29 +120,37 @@ class DataController: NSObject {
                 }
                 else {
                     var existingCheckinEventIDS = Array<Int>()
+                    var existingCheckinEventMap = Dictionary<Int, CheckInEvent>()
+                    
                     for existingCheckinEvent in checkinEvents! {
                         existingCheckinEventIDS.append((existingCheckinEvent.uniqueID?.integerValue)!)
+                        existingCheckinEventMap[(existingCheckinEvent.uniqueID?.integerValue)!] = existingCheckinEvent
                     }
                     let jsonString: AnyObject = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as! NSArray
-                    for object in jsonString as! [Dictionary<String,AnyObject>] {
-                        let tempID = object["id"]!
-                        //print(tempID.integerValue)
+                    for checkinEventDB in jsonString as! [Dictionary<String,AnyObject>] {
+                        let tempID = checkinEventDB["id"]!
+                        
+                        
                         if !existingCheckinEventIDS.contains((tempID.integerValue)!) {
                             
                             let checkinEvent = NSEntityDescription.insertNewObjectForEntityForName("CheckInEvent", inManagedObjectContext: appDelegate.managedObjectContext) as! CheckInEvent
-                            let df = NSDateFormatter()
-                            df.dateFormat = "yyyy-MM-dd HH:mm:ss"
-                            checkinEvent.checkinTimestamp = df.dateFromString(object["checkinTimestamp"]! as! String)
-                            checkinEvent.completedTimestamp = df.dateFromString(object["completedTimestamp"]! as! String)
-                            checkinEvent.uniqueID = NSNumber(int: tempID.intValue)
-                            checkinEvent.name = object["name"] as? String
-                            checkinEvent.phone = object["phone"] as? String
-                            checkinEvent.status = object["status"] as? String
-                            checkinEvent.stylist = object["stylist"] as? String
-                            checkinEvent.service = object["service"] as? String
-                            checkinEvent.ticketNumber = object["ticketNumber"] as? String
-                            checkinEvent.paymentType = object["paymentType"] as? String
-                            
+                            checkinEvent.checkinTimestamp = NSDate.dateFromString(checkinEventDB["checkinTimestamp"]! as! String)
+                            checkinEvent.completedTimestamp = NSDate.dateFromString(checkinEventDB["completedTimestamp"]! as! String)
+                            checkinEvent.uniqueID = NSNumber(int : tempID.intValue)
+                            checkinEvent.name = checkinEventDB["name"] as? String
+                            checkinEvent.phone = checkinEventDB["phone"] as? String
+                            checkinEvent.status = checkinEventDB["status"] as? String
+                            checkinEvent.stylist = checkinEventDB["stylist"] as? String
+                            checkinEvent.service = checkinEventDB["service"] as? String
+                            checkinEvent.ticketNumber = checkinEventDB["ticketNumber"] as? String
+                            checkinEvent.paymentType = checkinEventDB["paymentType"] as? String
+                            checkinEvent.amountCharged = checkinEventDB["amountCharged"] as? String
+                            if let updateDateString = checkinEventDB["updateDate"]! as? String {
+                                checkinEvent.updateDate = NSDate.dateFromString(updateDateString)
+                            }
+                            else {
+                                checkinEvent.updateDate = nil
+                            }
                             do {
                                 try appDelegate.managedObjectContext.save()
                             }
@@ -144,6 +158,41 @@ class DataController: NSObject {
                                 print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
                             }
                         }
+                        //                        else {
+                        //                            for existingCheckinEventID in existingCheckinEventIDS {
+                        //                                // Find the matching checkinEvent and determine which record has the newest info.
+                        //                                if existingCheckinEventID == Int(checkinEventDB["id"] as! String) {
+                        //                                    let existingCheckinEvent = existingCheckinEventMap[existingCheckinEventID]
+                        //
+                        //                                    if let updateDateString = checkinEventDB["updateDate"]! as? String {
+                        //                                        let updateDate = NSDate.dateFromString(updateDateString)
+                        //
+                        //                                        if existingCheckinEvent?.updateDate == nil {
+                        //                                            existingCheckinEvent?.updateDate = updateDate
+                        //                                        }
+                        //                                        else {
+                        //                                            if updateDate.compare((existingCheckinEvent?.updateDate)!) == .OrderedDescending {
+                        //                                                print("date1 is later than date 2")
+                        //                                            }
+                        //                                            else if (updateDate.compare((existingCheckinEvent?.updateDate)!) == .OrderedAscending) {
+                        //                                                print("date1 is earlier than date 2")
+                        //                                            }
+                        //                                            else{
+                        //                                                print("dates are the same")
+                        //                                                print()
+                        //                                            }
+                        //                                        }
+                        //                                        do {
+                        //                                            try appDelegate.managedObjectContext.save()
+                        //                                        }
+                        //                                        catch {
+                        //                                            print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
+                        //                                        }
+                        //                                    }
+                        //
+                        //                                }
+                        //                            }
+                        //                        }
                     }
                     NSNotificationCenter.defaultCenter().postNotificationName("DataControllerDidReceiveCheckinRecordsNotification", object: nil)
                 }
@@ -257,6 +306,9 @@ class DataController: NSObject {
         request.cachePolicy = .ReloadIgnoringLocalCacheData
         
         var requestString = String("id=\(checkinEvent.uniqueID!)")
+        let date = NSDate.stringFromDate(NSDate.getCurrentLocalDate())
+        requestString = requestString.stringByAppendingString("&updateDate=\(date)")
+        
         if (checkinEvent.completedTimestamp != nil) {
             requestString = requestString.stringByAppendingString(String("&completedTimestamp=\(checkinEvent.completedTimestamp!)"))
         }
@@ -275,6 +327,11 @@ class DataController: NSObject {
         if (checkinEvent.ticketNumber != nil) {
             requestString = requestString.stringByAppendingString(String("&ticketNumber=\(checkinEvent.ticketNumber!)"))
         }
+        
+        if (checkinEvent.amountCharged != nil) {
+            requestString = requestString.stringByAppendingString(String("&amountCharged=\(checkinEvent.amountCharged!)"))
+        }
+        
         
         let jsonRequestString = requestString .dataUsingEncoding(NSUTF8StringEncoding)
         
@@ -299,8 +356,7 @@ class DataController: NSObject {
         request.HTTPMethod = "POST"
         request.cachePolicy = .ReloadIgnoringLocalCacheData
         
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        
         
         let task = session.dataTaskWithRequest(request) {(let data, let response, let error) in
             guard let _:NSData = data, let _:NSURLResponse = response  where error == nil else {
@@ -363,9 +419,6 @@ class DataController: NSObject {
         request.HTTPMethod = "POST"
         request.cachePolicy = .ReloadIgnoringLocalCacheData
         
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        
         let task = session.dataTaskWithRequest(request) {(let data, let response, let error) in
             guard let _:NSData = data, let _:NSURLResponse = response  where error == nil else {
                 print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
@@ -427,9 +480,6 @@ class DataController: NSObject {
         let request = NSMutableURLRequest(URL: url)
         request.HTTPMethod = "POST"
         request.cachePolicy = .ReloadIgnoringLocalCacheData
-        
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         
         let task = session.dataTaskWithRequest(request) {(let data, let response, let error) in
             guard let _:NSData = data, let _:NSURLResponse = response  where error == nil else {
@@ -538,10 +588,7 @@ class DataController: NSObject {
         request.HTTPMethod = "POST"
         request.cachePolicy = .ReloadIgnoringLocalCacheData
         
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        let dateString = dateFormatter.stringFromDate(checkinEvent.completedTimestamp!)
-        
+        let dateString = NSDate.stringFromDate(checkinEvent.completedTimestamp!)
         let jsonRequestString = "id=\(checkinEvent.uniqueID!)&completedTimestamp=\(dateString)&status=\(checkinEvent.status!)" .dataUsingEncoding(NSUTF8StringEncoding)
         
         let task = session.uploadTaskWithRequest(request, fromData: jsonRequestString, completionHandler: { (data, response, error) in
@@ -549,6 +596,8 @@ class DataController: NSObject {
                 print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
                 return
             }
+            
+            NSNotificationCenter.defaultCenter().postNotificationName("ActiveClientsVCDidReceiveCompletedCheckinEvent", object: nil)
             
             //            let responseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
             //            print("Response = \(responseString!)")
@@ -619,10 +668,9 @@ class DataController: NSObject {
         request.HTTPMethod = "POST"
         request.cachePolicy = .ReloadIgnoringLocalCacheData
         
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        let tempCheckinTime = dateFormatter.stringFromDate(NSDate())
-        let tempCompletedTimestamp = dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: 0))
+        
+        let tempCheckinTime = NSDate.stringFromDate(NSDate.getCurrentLocalDate())
+        let tempCompletedTimestamp = NSDate.stringFromDate(NSDate(timeIntervalSince1970: 0))
         
         let jsonRequestString = "checkinTimestamp=\(tempCheckinTime)&completedTimestamp=\(tempCompletedTimestamp)&name=\(name)&phone=\(tempCleanString3)&status=checkedin" .dataUsingEncoding(NSUTF8StringEncoding)
         
@@ -640,20 +688,14 @@ class DataController: NSObject {
                 for object in jsonResponse {
                     dispatch_async(dispatch_get_main_queue(), {
                         let tempId = object["id"]!
-                        let df = NSDateFormatter()
-                        df.dateFormat = "yyyy-MM-dd HH:mm:ss"
                         
                         let checkinEvent = NSEntityDescription.insertNewObjectForEntityForName("CheckInEvent", inManagedObjectContext: self.appDelegate.managedObjectContext) as? CheckInEvent
-                        checkinEvent!.checkinTimestamp = df.dateFromString(object["checkinTimestamp"]! as! String)
-                        checkinEvent!.completedTimestamp = df.dateFromString(object["completedTimestamp"]! as! String)
+                        let aDate = NSDate.dateFromString(object["checkinTimestamp"]! as! String)
+                        checkinEvent!.checkinTimestamp = aDate
                         checkinEvent!.uniqueID = NSNumber(int: tempId.intValue)
                         checkinEvent!.name = object["name"] as? String
                         checkinEvent!.phone = object["phone"] as? String
                         checkinEvent!.status = object["status"] as? String
-                        checkinEvent!.service = object["service"] as? String
-                        checkinEvent!.stylist = object["stylist"] as? String
-                        checkinEvent!.ticketNumber = object["ticketNumber"] as? String
-                        checkinEvent!.paymentType = object["paymentType"] as? String
                         do {
                             try self.appDelegate.managedObjectContext.save()
                         }

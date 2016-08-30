@@ -9,14 +9,14 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "check-in/DataController.swift"
-            timestampString = "494043225.957436"
+            filePath = "check-in/NSDate+Check-in.swift"
+            timestampString = "494213335.583448"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "103"
-            endingLineNumber = "103"
-            landmarkName = "getCheckinRecords()"
-            landmarkType = "5">
+            startingLineNumber = "21"
+            endingLineNumber = "21"
+            landmarkName = "NSDate"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -25,13 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "check-in/DataController.swift"
-            timestampString = "494043304.966586"
+            filePath = "check-in/NSDate+Check-in.swift"
+            timestampString = "494213321.859193"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "124"
-            endingLineNumber = "124"
-            landmarkName = "getCheckinRecords()"
+            startingLineNumber = "13"
+            endingLineNumber = "13"
+            landmarkName = "printA()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

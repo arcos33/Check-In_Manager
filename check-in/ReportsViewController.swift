@@ -80,8 +80,14 @@ class ReportsViewController: UIViewController, MFMailComposeViewControllerDelega
         df.dateFormat = "MM/dd/yy h:mm a"
         let dateString = df.stringFromDate(checkinEvent.checkinTimestamp!)
         cell.checkintTimeLabel.text = dateString
-        cell.serviceTypeLabel.text = checkinEvent.service
-        cell.stylistLabel.text = checkinEvent.stylist
+        cell.serviceTypeLabel.text = checkinEvent.service == "" || checkinEvent.service == nil ? "sin valor" : checkinEvent.service
+        cell.stylistLabel.text = checkinEvent.stylist == "" || checkinEvent.stylist == nil ? "sin valor" : checkinEvent.stylist
+        cell.amountChargedLabel.text = checkinEvent.amountCharged == "" || checkinEvent.amountCharged == nil ? "sin valor" : "$\(checkinEvent.amountCharged!)"
+        cell.serviceTypeLabel.text = checkinEvent.service == "" || checkinEvent.service == nil ? "sin valor" : checkinEvent.service
+        cell.paymentTypeLabel.text = checkinEvent.paymentType == "" || checkinEvent.paymentType == nil ? "sin valor" : checkinEvent.paymentType
+        
+        
+
         return cell
     }
     
@@ -112,6 +118,7 @@ class ReportsViewController: UIViewController, MFMailComposeViewControllerDelega
     @objc private func update(notification: NSNotification) {
         dispatch_async(dispatch_get_main_queue()) { 
             let fetch = NSFetchRequest(entityName: "CheckInEvent")
+            fetch.predicate = self.createPredicate()
             do {
                 self.checkinEvents = try self.appDelegate.managedObjectContext.executeFetchRequest(fetch) as! [CheckInEvent]
             }
@@ -121,6 +128,26 @@ class ReportsViewController: UIViewController, MFMailComposeViewControllerDelega
             
             self.tableview.reloadData()
         }
+    }
+    
+    private func createPredicate() -> NSPredicate {
+        var predicates: [NSPredicate]! = []
+        let calendar = NSCalendar.currentCalendar()
+        let components: NSDateComponents = calendar.components([.Day, .Month, .Year], fromDate: NSDate())
+        let today = calendar.dateFromComponents(components)!
+        components.day = components.day+1
+        let tomorrow = calendar.dateFromComponents(components)!
+        
+        let subPredicateFrom = NSPredicate(format: "checkinTimestamp >= %@", today)
+        predicates.append(subPredicateFrom)
+        
+        let subPredicateTo = NSPredicate(format: "checkinTimestamp < %@", tomorrow)
+        predicates.append(subPredicateTo)
+        
+        let subPredicateCompleted = NSPredicate(format: "status == 'completed'")
+        predicates.append(subPredicateCompleted)
+        
+        return NSCompoundPredicate(type: .AndPredicateType, subpredicates: predicates)
     }
     
     private func createPdfFromView(aView: UIView, saveToDocumentsWithIdentifier fileName: String)

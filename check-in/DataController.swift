@@ -92,21 +92,37 @@ class DataController: NSObject {
                         let checkinEvent = NSEntityDescription.insertNewObjectForEntityForName("CheckInEvent", inManagedObjectContext: appDelegate.managedObjectContext) as! CheckInEvent
                         
                         checkinEvent.checkinTimestamp = NSDate.dateFromString(object["checkinTimestamp"]! as! String)
-                        checkinEvent.completedTimestamp = NSDate.dateFromString(object["completedTimestamp"]! as! String)
                         checkinEvent.uniqueID = NSNumber(int: tempId.intValue)
                         checkinEvent.name = object["name"] as? String
                         checkinEvent.phone = object["phone"] as? String
                         checkinEvent.status = object["status"] as? String
-                        checkinEvent.service = object["service"] as? String
-                        checkinEvent.stylist = object["stylist"] as? String
-                        checkinEvent.ticketNumber = object["ticketNumber"] as? String
-                        checkinEvent.paymentType = object["paymentType"] as? String
-                        checkinEvent.amountCharged = object["amountCharged"] as? String
+                        
+                        if let completedTimeStampString = object["completedTimestamp"]! as? String {
+                            checkinEvent.completedTimestamp = NSDate.dateFromString(completedTimeStampString)
+                        }
+                        
+                        if let serviceString = object["service"] as? String {
+                            checkinEvent.service = serviceString
+                        }
+                        
+                        if let stylistString = object["stylist"] as? String {
+                            checkinEvent.stylist = stylistString
+                        }
+                        
+                        if let ticketNumberString = object["ticketNumber"] as? String {
+                            checkinEvent.ticketNumber = ticketNumberString
+                        }
+                        
+                        if let paymentTypeString = object["paymentType"] as? String {
+                            checkinEvent.paymentType = paymentTypeString
+                        }
+                        
+                        if let amountChargedString = object["amountCharged"] as? String {
+                            checkinEvent.amountCharged = amountChargedString
+                        }
+                        
                         if let updateDateString = object["updateDate"]! as? String {
                             checkinEvent.updateDate = NSDate.dateFromString(updateDateString)
-                        }
-                        else {
-                            checkinEvent.updateDate = nil
                         }
                         
                         do {
@@ -135,22 +151,38 @@ class DataController: NSObject {
                             
                             let checkinEvent = NSEntityDescription.insertNewObjectForEntityForName("CheckInEvent", inManagedObjectContext: appDelegate.managedObjectContext) as! CheckInEvent
                             checkinEvent.checkinTimestamp = NSDate.dateFromString(checkinEventDB["checkinTimestamp"]! as! String)
-                            checkinEvent.completedTimestamp = NSDate.dateFromString(checkinEventDB["completedTimestamp"]! as! String)
                             checkinEvent.uniqueID = NSNumber(int : tempID.intValue)
                             checkinEvent.name = checkinEventDB["name"] as? String
                             checkinEvent.phone = checkinEventDB["phone"] as? String
                             checkinEvent.status = checkinEventDB["status"] as? String
-                            checkinEvent.stylist = checkinEventDB["stylist"] as? String
-                            checkinEvent.service = checkinEventDB["service"] as? String
-                            checkinEvent.ticketNumber = checkinEventDB["ticketNumber"] as? String
-                            checkinEvent.paymentType = checkinEventDB["paymentType"] as? String
-                            checkinEvent.amountCharged = checkinEventDB["amountCharged"] as? String
+                            
+                            if let completedTimeStampString = checkinEventDB["completedTimestamp"]! as? String {
+                                checkinEvent.completedTimestamp = NSDate.dateFromString(completedTimeStampString)
+                            }
+                            
+                            if let stylistString = checkinEventDB["stylist"] as? String {
+                                checkinEvent.stylist = stylistString
+                            }
+                            
+                            if let serviceString = checkinEventDB["service"] as? String {
+                                checkinEvent.service = serviceString
+                            }
+                            
+                            if let ticketNumberString = checkinEventDB["ticketNumber"] as? String {
+                                checkinEvent.ticketNumber = ticketNumberString
+                            }
+                            
+                            if let paymentTypeString = checkinEventDB["paymentType"] as? String {
+                                checkinEvent.paymentType = paymentTypeString
+                            }
+                            
+                            if let amountChargedString = checkinEventDB["amountCharged"] as? String {
+                                checkinEvent.amountCharged = amountChargedString
+                            }
                             if let updateDateString = checkinEventDB["updateDate"]! as? String {
                                 checkinEvent.updateDate = NSDate.dateFromString(updateDateString)
                             }
-                            else {
-                                checkinEvent.updateDate = nil
-                            }
+                            
                             do {
                                 try appDelegate.managedObjectContext.save()
                             }
@@ -297,7 +329,7 @@ class DataController: NSObject {
         dataTask.resume()
     }
     
-    func updateCheckInEventAtCellIndex(checkinEvent: CheckInEvent!, index: NSInteger) {
+    func updateCheckInEventAtCellIndex(checkinEvent: CheckInEvent!, index: NSInteger?) {
         let url:NSURL = NSURL(string: "http://www.whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/update/update_checkinEvent.php")!
         
         let session = NSURLSession.sharedSession()
@@ -324,11 +356,11 @@ class DataController: NSObject {
         if (checkinEvent.paymentType != nil) {
             requestString = requestString.stringByAppendingString(String("&paymentType=\(checkinEvent.paymentType!)"))
         }
-        if (checkinEvent.ticketNumber != nil) {
+        if (checkinEvent.ticketNumber != nil || checkinEvent.ticketNumber?.characters.count > 0) {
             requestString = requestString.stringByAppendingString(String("&ticketNumber=\(checkinEvent.ticketNumber!)"))
         }
         
-        if (checkinEvent.amountCharged != nil) {
+        if (checkinEvent.amountCharged != nil || checkinEvent.amountCharged?.characters.count > 0) {
             requestString = requestString.stringByAppendingString(String("&amountCharged=\(checkinEvent.amountCharged!)"))
         }
         
@@ -551,6 +583,8 @@ class DataController: NSObject {
                 print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
                 return
             }
+            NSNotificationCenter.defaultCenter().postNotificationName("DataControllerStylistRecordsChangedNotification", object: nil)
+
             //            let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
             //            print(responseBody)
         })
@@ -573,37 +607,14 @@ class DataController: NSObject {
                 return
             }
             
+            NSNotificationCenter.defaultCenter().postNotificationName("DataControllerServiceRecordsChangedNotification", object: nil)
+
             let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
             print(responseBody)
-            
         })
         task.resume()
     }
     
-    func updateCheckInEvent(checkinEvent: CheckInEvent!) {
-        let url:NSURL = NSURL(string: "http://www.whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/update_checkinEvent.php")!
-        
-        let session = NSURLSession.sharedSession()
-        let request = NSMutableURLRequest(URL: url)
-        request.HTTPMethod = "POST"
-        request.cachePolicy = .ReloadIgnoringLocalCacheData
-        
-        let dateString = NSDate.stringFromDate(checkinEvent.completedTimestamp!)
-        let jsonRequestString = "id=\(checkinEvent.uniqueID!)&completedTimestamp=\(dateString)&status=\(checkinEvent.status!)" .dataUsingEncoding(NSUTF8StringEncoding)
-        
-        let task = session.uploadTaskWithRequest(request, fromData: jsonRequestString, completionHandler: { (data, response, error) in
-            guard let _:NSData = data, let _:NSURLResponse = response where error == nil else {
-                print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
-                return
-            }
-            
-            NSNotificationCenter.defaultCenter().postNotificationName("ActiveClientsVCDidReceiveCompletedCheckinEvent", object: nil)
-            
-            //            let responseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
-            //            print("Response = \(responseString!)")
-        })
-        task.resume()
-    }
     
     func postServiceRecord(name: String, completion: (([Service]) -> Void)) {
         let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/create/create_service.php")!
@@ -623,6 +634,8 @@ class DataController: NSObject {
             
             let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
             print(responseBody)
+            
+            NSNotificationCenter.defaultCenter().postNotificationName("DataControllerServiceRecordsChangedNotification", object: nil)
             self.getServices({ (services) in
                 completion(services)
             })
@@ -648,6 +661,8 @@ class DataController: NSObject {
             
             //            let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
             //            print(responseBody)
+            NSNotificationCenter.defaultCenter().postNotificationName("DataControllerStylistRecordsChangedNotification", object: nil)
+
             self.getStylists({ (stylists) in
                 completion(stylists)
             })
@@ -712,6 +727,75 @@ class DataController: NSObject {
             completion()
             
         })
+        task.resume()
+    }
+    
+    func updatePromotionMessage(let promotionMessageTuple: (message: String?, status: String?)) {
+        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/update/update_promotional_message.php")!
+        
+        let session = NSURLSession.sharedSession()
+        let request = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "POST"
+        request.cachePolicy = .ReloadIgnoringLocalCacheData
+        
+        var requestString = String()
+        
+        if let messageString = promotionMessageTuple.message {
+            requestString = requestString.stringByAppendingString("content=\(messageString)")
+        }
+        
+        if let statusString = promotionMessageTuple.status {
+            if requestString.characters.count > 0 {
+                requestString = requestString.stringByAppendingString("&status=\(statusString)")
+            }
+            else {
+                requestString = requestString.stringByAppendingString("status=\(statusString)")
+            }
+        }
+        
+        
+        let jsonRequestString = requestString .dataUsingEncoding(NSUTF8StringEncoding)
+        
+        let task = session.uploadTaskWithRequest(request, fromData: jsonRequestString, completionHandler: { (data, response, error) in
+            guard let _:NSData = data, let _:NSURLResponse = response where error == nil else {
+                print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
+                return
+            }
+            
+            let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
+            print(responseBody!)
+            print()
+            
+        })
+        task.resume()
+    }
+    
+    func getPromotionalMessage(completion: (message: String, status: String) -> Void) {
+        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/get/get_promotional_messages.php")!
+        
+        let session = NSURLSession.sharedSession()
+        let request = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "POST"
+        request.cachePolicy = .ReloadIgnoringLocalCacheData
+        
+        let task = session.dataTaskWithRequest(request) { (let data, let response, let error) in
+            guard let _:NSData = data, let _:NSURLResponse = response where error == nil else {
+                print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
+                return
+            }
+            
+            do {
+                let jsonResponse = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as! [Dictionary<String, String>]
+                for dictionary in jsonResponse {
+                    completion(message: dictionary["content"]!, status: dictionary["status"]!)
+                }
+                
+            }
+            catch {
+                print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
+            }
+            
+        }
         task.resume()
     }
     

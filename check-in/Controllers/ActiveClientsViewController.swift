@@ -33,6 +33,7 @@ class ActiveClientsViewController: UIViewController {
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     let cellIdentifier = "activeCheckInCell"
     let dataController = DataController.sharedInstance
+    var cellSelected: Int?
     
     //------------------------------------------------------------------------------
     // MARK: Lifecycle Methods
@@ -41,9 +42,6 @@ class ActiveClientsViewController: UIViewController {
         self.tableview.tableFooterView = UIView(frame: CGRect.zero)
         self.tableview.addSubview(self.refreshControl)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(fetchCheckedinClients), name: "DataControllerDidReceiveCheckinRecordsNotification", object: nil)
-
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(didReceiveCompletedCheckinEvent), name: "ActiveClientsVCDidReceiveCompletedCheckinEvent", object: nil)
-        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -63,6 +61,26 @@ class ActiveClientsViewController: UIViewController {
 //                self.tableview.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: .None)
 //            })
         }
+    }
+    
+    private func createPredicate() -> NSPredicate {
+        var predicates: [NSPredicate]! = []
+        let calendar = NSCalendar.currentCalendar()
+        let components: NSDateComponents = calendar.components([.Day, .Month, .Year], fromDate: NSDate())
+        let today = calendar.dateFromComponents(components)!
+        components.day = components.day+1
+        let tomorrow = calendar.dateFromComponents(components)!
+        
+        let subPredicateFrom = NSPredicate(format: "checkinTimestamp >= %@", today)
+        predicates.append(subPredicateFrom)
+        
+        let subPredicateTo = NSPredicate(format: "checkinTimestamp < %@", tomorrow)
+        predicates.append(subPredicateTo)
+        
+        let subPredicateCompleted = NSPredicate(format: "status == 'checkedin'")
+        predicates.append(subPredicateCompleted)
+        
+        return NSCompoundPredicate(type: .AndPredicateType, subpredicates: predicates)
     }
     
     private func selectRowAndReloadTable(completion: (() -> Void)) {
@@ -93,19 +111,9 @@ class ActiveClientsViewController: UIViewController {
     }
     
     @objc private func fetchCheckedinClients(notification: NSNotification) {
-        
-        if let index = notification.object as? NSInteger {
-            finishFetching(index, indexIsPassed: true)
-        }
-        else {
-            finishFetching(nil, indexIsPassed: false)
-        }
-    }
-    
-    private func finishFetching(index: NSInteger?, indexIsPassed: Bool) {
         let fetch = NSFetchRequest(entityName: "CheckInEvent")
         fetch.returnsObjectsAsFaults = false
-        fetch.predicate = NSPredicate(format: "status == 'checkedin'")
+        fetch.predicate = createPredicate()
         let sd = NSSortDescriptor(key: "checkinTimestamp", ascending: true, selector: nil)
         fetch.sortDescriptors = [sd]
         do {
@@ -116,9 +124,9 @@ class ActiveClientsViewController: UIViewController {
         }
         dispatch_async(dispatch_get_main_queue()) {
             self.tableview.reloadData()
-            if indexIsPassed == true {
-                let indexPath = NSIndexPath(forRow: index!, inSection: 0)
-                self.tableview.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: .None)
+            if let index = self.cellSelected {
+                let indexPath = NSIndexPath(forRow: index, inSection: 0)
+                self.tableview.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
             }
         }
     }
@@ -164,19 +172,18 @@ class ActiveClientsViewController: UIViewController {
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let vw = UIView()
-        let titleLabel = UILabel(frame: CGRectMake(16, 6, 750, 16))
-        titleLabel.text = "Cliente         Servicio        Estilista           Espera"
-        titleLabel.textColor = UIColor.whiteColor()
-        titleLabel.font = UIFont(name:"HelveticaNeue-Bold", size: 18.0)
-        vw.addSubview(titleLabel)
-        vw.backgroundColor = UIColor.lightGrayColor()
-        //vw.backgroundColor = UIColor(red: 0.00, green: 0.50, blue: 0.00, alpha: 1.00)
-        return vw
+        let headerView = tableView.dequeueReusableCellWithIdentifier("activeClientsHeaderView") as! ActiveClientsHeaderView
+        
+        return headerView
     }
         
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.delegate?.didSelectCheckinEvent(self.checkInEvents![indexPath.row], index: indexPath.row)
+        self.cellSelected = indexPath.row
+    }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
     }
     
 }

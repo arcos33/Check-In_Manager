@@ -77,7 +77,7 @@ class StylistsViewController: UIViewController, AddStylistVCDelegate {
         titleLabel.textColor = UIColor.whiteColor()
         titleLabel.font = UIFont(name:"HelveticaNeue-Bold", size: 18.0)
         vw.addSubview(titleLabel)
-        vw.backgroundColor = UIColor.lightGrayColor()
+        vw.backgroundColor = UIColor(red: 0.78, green: 0.77, blue: 0.80, alpha: 1.00)
         return vw
     }
     

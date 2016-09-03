@@ -15,6 +15,7 @@
 		7BE478D61D1F660400E31624 /* check_inTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE478D51D1F660400E31624 /* check_inTests.swift */; };
 		7BE478E11D1F660400E31624 /* check_inUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE478E01D1F660400E31624 /* check_inUITests.swift */; };
 		9D14C6B91D2343D8001BCFD1 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D14C6B81D2343D8001BCFD1 /* DataController.swift */; };
+		9D19221F1D763B3700614542 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D19221E1D763B3700614542 /* SettingsViewController.swift */; };
 		9D37E4E11D55637F00DD4F7E /* StylistsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D37E4E01D55637F00DD4F7E /* StylistsViewController.swift */; };
 		9D37E4E41D5567B200DD4F7E /* StylistCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D37E4E31D5567B200DD4F7E /* StylistCell.swift */; };
 		9D37E4E61D5570DA00DD4F7E /* AddStylistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D37E4E51D5570DA00DD4F7E /* AddStylistViewController.swift */; };
@@ -23,8 +24,11 @@
 		9D45252B1D302ED500B5B98B /* CheckInEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4525291D302ED500B5B98B /* CheckInEvent.swift */; };
 		9D45252C1D302ED500B5B98B /* CheckInEvent+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D45252A1D302ED500B5B98B /* CheckInEvent+CoreDataProperties.swift */; };
 		9D5F62401D5A6FD100183499 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D5F623F1D5A6FD100183499 /* Assets.xcassets */; };
+		9D6B77531D7791D4003CC189 /* ActiveClientsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6B77521D7791D3003CC189 /* ActiveClientsHeaderView.swift */; };
 		9D7319001D751A59002A3806 /* NSDate+Checkin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7318FF1D751A59002A3806 /* NSDate+Checkin.swift */; };
 		9D7943B31D6671E10012CF0E /* ReportsCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7943B21D6671E10012CF0E /* ReportsCustomCell.swift */; };
+		9D8C68921D79E690008B9829 /* About.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D8C68911D79E690008B9829 /* About.storyboard */; };
+		9D8C68941D7A56C5008B9829 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8C68931D7A56C5008B9829 /* AboutViewController.swift */; };
 		9DA13A081D6FDD0C00BE9EE1 /* ActiveClientDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA13A071D6FDD0C00BE9EE1 /* ActiveClientDetailsTableViewController.swift */; };
 		9DB85AF51D62968D00B76DA7 /* CheckinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB85AF41D62968D00B76DA7 /* CheckinViewController.swift */; };
 		9DB85AF71D6296C500B76DA7 /* ServicesOfferedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB85AF61D6296C500B76DA7 /* ServicesOfferedTableViewController.swift */; };
@@ -83,6 +87,7 @@
 		7BE478E21D1F660400E31624 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		95DF9986A69DF2E186B5F405 /* Pods_check_inUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_check_inUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D14C6B81D2343D8001BCFD1 /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		9D19221E1D763B3700614542 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		9D37E4E01D55637F00DD4F7E /* StylistsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StylistsViewController.swift; sourceTree = "<group>"; };
 		9D37E4E31D5567B200DD4F7E /* StylistCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StylistCell.swift; sourceTree = "<group>"; };
 		9D37E4E51D5570DA00DD4F7E /* AddStylistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddStylistViewController.swift; sourceTree = "<group>"; };
@@ -91,8 +96,11 @@
 		9D4525291D302ED500B5B98B /* CheckInEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckInEvent.swift; path = CoreData/CheckInEvent.swift; sourceTree = "<group>"; };
 		9D45252A1D302ED500B5B98B /* CheckInEvent+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CheckInEvent+CoreDataProperties.swift"; path = "CoreData/CheckInEvent+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		9D5F623F1D5A6FD100183499 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9D6B77521D7791D3003CC189 /* ActiveClientsHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveClientsHeaderView.swift; sourceTree = "<group>"; };
 		9D7318FF1D751A59002A3806 /* NSDate+Checkin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Checkin.swift"; sourceTree = "<group>"; };
 		9D7943B21D6671E10012CF0E /* ReportsCustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportsCustomCell.swift; sourceTree = "<group>"; };
+		9D8C68911D79E690008B9829 /* About.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = About.storyboard; sourceTree = "<group>"; };
+		9D8C68931D7A56C5008B9829 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		9DA13A071D6FDD0C00BE9EE1 /* ActiveClientDetailsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveClientDetailsTableViewController.swift; sourceTree = "<group>"; };
 		9DB85AF41D62968D00B76DA7 /* CheckinViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckinViewController.swift; sourceTree = "<group>"; };
 		9DB85AF61D6296C500B76DA7 /* ServicesOfferedTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServicesOfferedTableViewController.swift; sourceTree = "<group>"; };
@@ -239,6 +247,14 @@
 			name = CoreData;
 			sourceTree = "<group>";
 		};
+		9D1922201D763B5600614542 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				9D19221E1D763B3700614542 /* SettingsViewController.swift */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
 		9D37E4E21D55679700DD4F7E /* Stylist */ = {
 			isa = PBXGroup;
 			children = (
@@ -260,6 +276,14 @@
 			name = Reports;
 			sourceTree = "<group>";
 		};
+		9D8C68951D7A8136008B9829 /* Payments */ = {
+			isa = PBXGroup;
+			children = (
+				9DE93ACE1D726920007BC099 /* PaymentTypesOfferedTableViewController.swift */,
+			);
+			name = Payments;
+			sourceTree = "<group>";
+		};
 		9DB85AFE1D62B4E900B76DA7 /* Dashboard */ = {
 			isa = PBXGroup;
 			children = (
@@ -274,8 +298,8 @@
 			isa = PBXGroup;
 			children = (
 				7BE478C11D1F660400E31624 /* Main.storyboard */,
-				9DE93ACE1D726920007BC099 /* PaymentTypesOfferedTableViewController.swift */,
 				7BE478C91D1F660400E31624 /* LaunchScreen.storyboard */,
+				9D8C68911D79E690008B9829 /* About.storyboard */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -286,6 +310,7 @@
 				9DA13A071D6FDD0C00BE9EE1 /* ActiveClientDetailsTableViewController.swift */,
 				9D4525211D302AF700B5B98B /* ActiveClientsCell.swift */,
 				9DEF6B361D262ED30004C92A /* ActiveClientsViewController.swift */,
+				9D6B77521D7791D3003CC189 /* ActiveClientsHeaderView.swift */,
 			);
 			name = ActiveClients;
 			sourceTree = "<group>";
@@ -313,12 +338,15 @@
 		9DEF6B351D262EB80004C92A /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				9D8C68931D7A56C5008B9829 /* AboutViewController.swift */,
 				9DB85AF41D62968D00B76DA7 /* CheckinViewController.swift */,
 				9DB85AFE1D62B4E900B76DA7 /* Dashboard */,
 				9D14C6B81D2343D8001BCFD1 /* DataController.swift */,
 				9DEF6B381D262ED30004C92A /* LoginViewController.swift */,
+				9D8C68951D7A8136008B9829 /* Payments */,
 				9D7943B11D6671C60012CF0E /* Reports */,
 				9DD49E9F1D58DDEB0057401D /* Services */,
+				9D1922201D763B5600614542 /* Settings */,
 				9D37E4E21D55679700DD4F7E /* Stylist */,
 			);
 			name = Controllers;
@@ -439,6 +467,7 @@
 			files = (
 				7BE478CB1D1F660400E31624 /* LaunchScreen.storyboard in Resources */,
 				9D5F62401D5A6FD100183499 /* Assets.xcassets in Resources */,
+				9D8C68921D79E690008B9829 /* About.storyboard in Resources */,
 				7BE478C31D1F660400E31624 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -594,8 +623,10 @@
 				9D4525241D302B0500B5B98B /* InactiveClientsCell.swift in Sources */,
 				9DEF6B3A1D262ED30004C92A /* ActiveClientsViewController.swift in Sources */,
 				9D14C6B91D2343D8001BCFD1 /* DataController.swift in Sources */,
+				9D19221F1D763B3700614542 /* SettingsViewController.swift in Sources */,
 				9DB85AFD1D62A50200B76DA7 /* DashboardViewController.swift in Sources */,
 				9D7319001D751A59002A3806 /* NSDate+Checkin.swift in Sources */,
+				9D6B77531D7791D4003CC189 /* ActiveClientsHeaderView.swift in Sources */,
 				9DD2494D1D599CB30007FF63 /* ReportsViewController.swift in Sources */,
 				9D37E4E11D55637F00DD4F7E /* StylistsViewController.swift in Sources */,
 				9DB85AF71D6296C500B76DA7 /* ServicesOfferedTableViewController.swift in Sources */,
@@ -611,6 +642,7 @@
 				9D37E4E41D5567B200DD4F7E /* StylistCell.swift in Sources */,
 				9DE2B7301D2349AF0045892F /* ServiceType+CoreDataProperties.swift in Sources */,
 				9D7943B31D6671E10012CF0E /* ReportsCustomCell.swift in Sources */,
+				9D8C68941D7A56C5008B9829 /* AboutViewController.swift in Sources */,
 				9DE2B7331D2349AF0045892F /* ServiceType.swift in Sources */,
 				9D4525221D302AF800B5B98B /* ActiveClientsCell.swift in Sources */,
 				9D37E4E61D5570DA00DD4F7E /* AddStylistViewController.swift in Sources */,

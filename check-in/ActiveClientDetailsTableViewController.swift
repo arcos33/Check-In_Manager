@@ -32,26 +32,33 @@ class ActiveClientDetailsTableViewController: UITableViewController, StylistsOff
     var stylistSelected: String?
     var paymentSelected: String?
 
-    var stylists = [Stylist]()
+    var stylistsOffered = [Stylist]()
     var stylistMapping = Dictionary<String, AnyObject>()
-    var services = [Service]()
+    var servicesOffered = [Service]()
     var serviceMapping = Dictionary<String, AnyObject>()
+    var paymentTypesOffered = [Payment]()
     let dataController = DataController.sharedInstance
     var selectedIndex: NSInteger?
     
     override func viewDidLoad() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateServicesArray), name: "DataControllerServiceRecordsChangedNotification", object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateStylistsArray), name: "DataControllerStylistRecordsChangedNotification", object: nil)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         switch segue.identifier! {
         case "stylistsOfferedTVCSegue":
             self.stylistTable = segue.destinationViewController as? StylistsOfferedTableViewController
+            self.stylistTable?.stylistsOffered = self.stylistsOffered
             self.stylistTable?.delegate = self
             case "servicesOfferedTVCSegue":
                 self.servicesTable = segue.destinationViewController as? ServicesOfferedTableViewController
+                self.servicesTable?.servicesOffered = self.servicesOffered
                 self.servicesTable?.delegate = self
             case "paymentsOfferedTVCSegue":
             self.paymentsTable = segue.destinationViewController as? PaymentTypesOfferedTableViewController
+            self.paymentsTable?.paymentTypesOffered = self.paymentTypesOffered
             self.paymentsTable?.delegate = self
         default:
             break
@@ -62,7 +69,36 @@ class ActiveClientDetailsTableViewController: UITableViewController, StylistsOff
     //------------------------------------------------------------------------------
     // MARK: Private Methods
     //------------------------------------------------------------------------------
+    @objc private func updateServicesArray() {
+        //get available ServicesOffered()
+        self.dataController.getServices { (services) in
+            dispatch_async(dispatch_get_main_queue(), {
+                self.servicesOffered = []
+                var servicesArray = [Service]()
+                for item in services {
+                    if item.status == "available" {
+                        servicesArray.append(item)
+                    }
+                    self.servicesOffered = servicesArray
+                }
+            })
+        }
+    }
     
+    @objc private func updateStylistsArray() {
+        self.dataController.getStylists { (stylists) in
+            dispatch_async(dispatch_get_main_queue(), {
+                var stylistsArray = [Stylist]()
+                for item in stylists {
+                    if item.status == "available" {
+                        stylistsArray.append(item)
+                    }
+                }
+                self.stylistsOffered = stylistsArray
+            })
+        }
+
+    }
 
     //------------------------------------------------------------------------------
     // MARK: StylistsTableDelegate methods
@@ -122,20 +158,21 @@ class ActiveClientDetailsTableViewController: UITableViewController, StylistsOff
         self.checkinEvent!.updateDate = NSDate.getCurrentLocalDate()
         self.checkinEvent!.completedTimestamp = NSDate.getCurrentLocalDate()
         self.saveChanges()
+        self.dataController.updateCheckInEventAtCellIndex(self.checkinEvent, index: self.selectedIndex!)
+        resetFields()
     }
     
     @IBAction func deleteCheckinEvent(sender: AnyObject) {
         self.checkinEvent!.status = "deleted"
         self.checkinEvent!.updateDate = NSDate.getCurrentLocalDate()
         self.saveChanges()
-        
+        self.dataController.updateCheckInEventAtCellIndex(self.checkinEvent, index: self.selectedIndex!)
+        resetFields()
     }
     
     private func saveChanges() {
         do {
             try self.appDelegate.managedObjectContext.save()
-            self.dataController.updateCheckInEventAtCellIndex(self.checkinEvent, index: self.selectedIndex!)
-            resetFields()
             
         }
         catch {
@@ -155,7 +192,10 @@ class ActiveClientDetailsTableViewController: UITableViewController, StylistsOff
         self.amountChargedTextField.hidden = true
         self.receiptNumberTextField.text = ""
         self.receiptNumberTextField.hidden = true
-        
+        self.completedButton.hidden = true
+        self.DeleteButton.hidden = true
+        self.receiptNumberTextField.resignFirstResponder()
+        self.amountChargedTextField.resignFirstResponder()
     }
     
     

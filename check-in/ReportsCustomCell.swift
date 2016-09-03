@@ -16,4 +16,6 @@ class ReportsCustomCell: UITableViewCell {
     @IBOutlet var checkintTimeLabel: UILabel!
     @IBOutlet var serviceTypeLabel: UILabel!
     @IBOutlet var stylistLabel: UILabel!
+    @IBOutlet var paymentTypeLabel: UILabel!
+    @IBOutlet var amountChargedLabel: UILabel!
 }

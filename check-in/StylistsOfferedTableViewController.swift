@@ -14,7 +14,7 @@ protocol StylistsOfferedTableDelegate {
 
 class StylistsOfferedTableViewController: UITableViewController {
     
-    var stylists = [Stylist]()
+    var stylistsOffered = [Stylist]()
     var didSetStylist:Bool!
     var stylistSelected:String!
     var delegate: StylistsOfferedTableDelegate?
@@ -29,17 +29,7 @@ class StylistsOfferedTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-        self.dataController.getStylists { (stylists) in
-            dispatch_async(dispatch_get_main_queue(), {
-                for item in stylists {
-                    if item.status == "available" {
-                        self.stylists.append(item)
-                    }
-                }
-                self.tableView.reloadData()
-            })
-        }
-    }
+            }
     
     override func prefersStatusBarHidden() -> Bool {
         return true
@@ -50,7 +40,7 @@ class StylistsOfferedTableViewController: UITableViewController {
     //------------------------------------------------------------------------------
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         // Try to get a cell
-        let stylist = self.stylists[indexPath.row] as Stylist
+        let stylist = self.stylistsOffered[indexPath.row] as Stylist
         let cell = UITableViewCell()
         cell.textLabel?.text = stylist.name!
         cell.textLabel?.textAlignment = .Center
@@ -62,12 +52,12 @@ class StylistsOfferedTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.stylists.count
+        return self.stylistsOffered.count
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.didSetStylist = true
-        let stylist = self.stylists[indexPath.row]
+        let stylist = self.stylistsOffered[indexPath.row]
         self.stylistSelected = stylist.name!
         self.dismissViewControllerAnimated(true, completion: nil)
         self.delegate?.didSelectStylist(stylist.name!)

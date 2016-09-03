@@ -83,7 +83,8 @@ class ServicesViewController: UIViewController, AddServiceVCDelegate {
         titleLabel.textColor = UIColor.whiteColor()
         titleLabel.font = UIFont(name:"HelveticaNeue-Bold", size: 18.0)
         vw.addSubview(titleLabel)
-        vw.backgroundColor = UIColor.lightGrayColor()
+        vw.backgroundColor = UIColor(red: 0.78, green: 0.77, blue: 0.80, alpha: 1.00)
+
         return vw
     }
     
@@ -96,8 +97,8 @@ class ServicesViewController: UIViewController, AddServiceVCDelegate {
                 self.services = services
                 self.tableview.reloadData()
             })
+            self.addServiceVC.dismissViewControllerAnimated(true, completion: nil)
         }
-        self.addServiceVC.dismissViewControllerAnimated(true, completion: nil)
     }
     
     //------------------------------------------------------------------------------

@@ -13,7 +13,7 @@ class DashboardViewController: UIViewController, ActiveClientsDelegate {
     var activeClientDetailsTVC: ActiveClientDetailsTableViewController!
     var activeClientsVC: ActiveClientsViewController!
     var selectedCheckinEvent: CheckInEvent!
-    
+    let dataController = DataController.sharedInstance
     
     override func viewWillAppear(animated: Bool) {
         self.tabBarController?.tabBar.hidden = false
@@ -50,6 +50,60 @@ class DashboardViewController: UIViewController, ActiveClientsDelegate {
                 barItem.selectedImage = UIImage(named: "Settings Filled")?.imageWithRenderingMode(.AlwaysOriginal)
                 
             }
+            else if barItem.tag == 4 {
+                // Default image
+                barItem.image = UIImage(named: "Info-75")?.imageWithRenderingMode(.AlwaysOriginal)
+                
+                // By default Selected image will take tint color set in self.tabBar.tintColor
+                barItem.selectedImage = UIImage(named: "Info Filled-75")?.imageWithRenderingMode(.AlwaysOriginal)
+                
+            }
+        }
+        
+        populateServicesDataSource()
+        populateStylistsDataSource()
+        populatePaymentTypesDataSource()
+            }
+    
+    private func populateStylistsDataSource() {
+        self.dataController.getStylists { (stylists) in
+            dispatch_async(dispatch_get_main_queue(), {
+                var stylistsArray = [Stylist]()
+                for item in stylists {
+                    if item.status == "available" {
+                        stylistsArray.append(item)
+                    }
+                }
+                self.activeClientDetailsTVC.stylistsOffered = stylistsArray
+            })
+        }
+    }
+    
+    private func populateServicesDataSource() {
+        self.dataController.getServices { (services) in
+            dispatch_async(dispatch_get_main_queue(), {
+                var servicesArray = [Service]()
+                for item in services {
+                    if item.status == "available" {
+                        servicesArray.append(item)
+                    }
+                    self.activeClientDetailsTVC.servicesOffered = servicesArray
+                }
+            })
+        }
+    }
+    
+    private func populatePaymentTypesDataSource() {
+        self.dataController.getPayments { (payments) in
+            dispatch_async(dispatch_get_main_queue(), {
+                var paymentTypesArray = [Payment]()
+                for item in payments {
+                    if item.status == "available" {
+                        paymentTypesArray.append(item)
+                    }
+                }
+                self.activeClientDetailsTVC.paymentTypesOffered = paymentTypesArray
+            })
         }
     }
     
@@ -57,7 +111,6 @@ class DashboardViewController: UIViewController, ActiveClientsDelegate {
         switch segue.identifier! {
         case "ActiveClientDetailsSegue":
             self.activeClientDetailsTVC = segue.destinationViewController as! ActiveClientDetailsTableViewController
-            print()
         case "showCheckedinClientsTable":
             self.activeClientsVC = segue.destinationViewController as! ActiveClientsViewController
             self.activeClientsVC.delegate = self
@@ -79,7 +132,7 @@ class DashboardViewController: UIViewController, ActiveClientsDelegate {
         self.activeClientDetailsTVC.paymentTypeButton.hidden = false
         self.activeClientDetailsTVC.paymentTypeButton.setTitle(checkinEvent.paymentType == "" || checkinEvent.paymentType == nil ? "?" : checkinEvent.paymentType, forState: .Normal)
         
-       
+        
         self.activeClientDetailsTVC.completedButton.hidden = false
         self.activeClientDetailsTVC.DeleteButton.hidden = false
         

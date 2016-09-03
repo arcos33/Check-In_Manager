@@ -1,9 +1,8 @@
 {
   "images" : [
     {
-      "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "dribbble-check-logo-by-yoni-de-beule-2016iPadSpootlight5_29pt@2x.png",
+      "size" : "29x29",
       "scale" : "2x"
     },
     {
@@ -34,42 +33,43 @@
     {
       "size" : "29x29",
       "idiom" : "ipad",
-      "filename" : "dribbble-check-logo-by-yoni-de-beule-2016iPadSpootlight5_29pt.png",
+      "filename" : "Id Verified-75iPadSpootlight5_29pt.png",
       "scale" : "1x"
     },
     {
-      "idiom" : "ipad",
       "size" : "29x29",
+      "idiom" : "ipad",
+      "filename" : "Id Verified-75iPadSpootlight5_29pt@2x.png",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "ipad",
-      "filename" : "dribbble-check-logo-by-yoni-de-beule-2016iPadSpootlight7_40pt.png",
+      "filename" : "Id Verified-75iPadSpootlight7_40pt.png",
       "scale" : "1x"
     },
     {
       "size" : "40x40",
       "idiom" : "ipad",
-      "filename" : "dribbble-check-logo-by-yoni-de-beule-2016iPadSpootlight7_40pt@2x.png",
+      "filename" : "Id Verified-75iPadSpootlight7_40pt@2x.png",
       "scale" : "2x"
     },
     {
       "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "dribbble-check-logo-by-yoni-de-beule-2016iPadApp_76pt.png",
+      "filename" : "Id Verified-75iPadApp_76pt.png",
       "scale" : "1x"
     },
     {
       "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "dribbble-check-logo-by-yoni-de-beule-2016iPadApp_76pt@2x.png",
+      "filename" : "Id Verified-75iPadApp_76pt@2x.png",
       "scale" : "2x"
     },
     {
       "size" : "83.5x83.5",
       "idiom" : "ipad",
-      "filename" : "dribbble-check-logo-by-yoni-de-beule-2016iPadProApp_83.5pt@2x.png",
+      "filename" : "Id Verified-75iPadProApp_83.5pt@2x.png",
       "scale" : "2x"
     }
   ],

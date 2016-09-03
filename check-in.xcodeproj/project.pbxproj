@@ -801,6 +801,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "whitecoatlabs.check-in";
 				PRODUCT_NAME = "Check-in";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -816,6 +817,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "whitecoatlabs.check-in";
 				PRODUCT_NAME = "Check-in";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};

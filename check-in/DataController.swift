@@ -83,8 +83,8 @@ class DataController: NSObject {
                 
                 if checkinEvents?.count == 0 {
                     // If the response body is valid JSON then iterate through all dictionaries and save checkinEvents to coredata.
-                    let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
-                    print("responseBody: \(responseBody)")
+//                    let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
+//                    print("responseBody: \(responseBody)")
                     print()
                     let jsonResponseString: AnyObject = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as! [Dictionary<String, AnyObject>]
                     for object in jsonResponseString as! [Dictionary<String,AnyObject>] {

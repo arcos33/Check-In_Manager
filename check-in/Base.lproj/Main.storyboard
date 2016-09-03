@@ -24,10 +24,12 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hoF-J8-irE">
                                 <rect key="frame" x="186" y="166" width="229" height="269"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Glamour" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jGT-5s-Oe0">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Company" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jGT-5s-Oe0">
                                         <rect key="frame" x="64" y="32" width="101" height="21"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="101" id="RtN-VL-GPk"/>
+                                            <constraint firstAttribute="width" constant="101" id="RtN-VL-GPk">
+                                                <variation key="heightClass=regular" constant="110"/>
+                                            </constraint>
                                             <constraint firstAttribute="height" constant="21" id="TJX-e8-xVh">
                                                 <variation key="heightClass=regular" constant="40"/>
                                             </constraint>
@@ -35,6 +37,11 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
+                                        <variation key="heightClass=regular">
+                                            <mask key="constraints">
+                                                <exclude reference="RtN-VL-GPk"/>
+                                            </mask>
+                                        </variation>
                                     </label>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="Username" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zgP-OO-vf9">
                                         <rect key="frame" x="14" y="73" width="200" height="50"/>
@@ -1022,7 +1029,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="568" height="69"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Cristiano R" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="6Uv-q3-9Db">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Cristiano R" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="6Uv-q3-9Db">
                                                     <rect key="frame" x="16" y="23" width="150" height="24"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="100" id="TSO-KA-Sy7"/>
@@ -1088,7 +1095,9 @@
                                                 <constraint firstItem="8Po-TK-GFx" firstAttribute="leading" secondItem="EYD-xJ-NFf" secondAttribute="trailing" constant="8" id="B21-xI-SEM"/>
                                                 <constraint firstItem="8Po-TK-GFx" firstAttribute="centerX" secondItem="GKs-gI-fIZ" secondAttribute="centerX" id="CnZ-bw-nen"/>
                                                 <constraint firstItem="8Po-TK-GFx" firstAttribute="leading" secondItem="EYD-xJ-NFf" secondAttribute="trailing" constant="8" id="D7e-9K-fZB"/>
-                                                <constraint firstItem="6Uv-q3-9Db" firstAttribute="leading" secondItem="GKs-gI-fIZ" secondAttribute="leading" constant="16" id="FAM-AZ-c1p"/>
+                                                <constraint firstItem="6Uv-q3-9Db" firstAttribute="leading" secondItem="GKs-gI-fIZ" secondAttribute="leading" constant="16" id="FAM-AZ-c1p">
+                                                    <variation key="heightClass=regular" constant="8"/>
+                                                </constraint>
                                                 <constraint firstItem="8Po-TK-GFx" firstAttribute="centerY" secondItem="GKs-gI-fIZ" secondAttribute="centerY" id="HJV-Zd-qeg"/>
                                                 <constraint firstItem="EYD-xJ-NFf" firstAttribute="leading" secondItem="6Uv-q3-9Db" secondAttribute="trailing" constant="32" id="LSW-As-xLC">
                                                     <variation key="heightClass=regular" constant="8"/>

@@ -9,7 +9,7 @@
 import UIKit
 import MessageUI
 
-class SettingsViewController: UIViewController, MFMessageComposeViewControllerDelegate {
+class SettingsViewController: UIViewController {
     
     let dataController = DataController.sharedInstance
     var promotionMessageTuple: (message: String?, status: String?) = (nil, nil)
@@ -32,8 +32,7 @@ class SettingsViewController: UIViewController, MFMessageComposeViewControllerDe
     }
     
     @IBAction func setMessage(sender: AnyObject) {
-        sendMessage()
-        //updatePromotionMessage()
+        updatePromotionMessage()
     }
     
     @IBAction func availabilityStatusChanged(sender: UISwitch) {
@@ -66,14 +65,5 @@ class SettingsViewController: UIViewController, MFMessageComposeViewControllerDe
             break
         }
         controller.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    func sendMessage() {
-        let messageVC = MFMessageComposeViewController()
-        messageVC.body = "Message string"
-        messageVC.recipients = ["8016861991"] // Optionally add some tel numbers
-        messageVC.messageComposeDelegate = self
-        // Open the SMS View controller
-        presentViewController(messageVC, animated: true, completion: nil)
     }
 }

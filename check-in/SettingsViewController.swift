@@ -21,6 +21,13 @@ class SettingsViewController: UIViewController {
         
             }
     
+    override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
+        if UIDevice.currentDevice().orientation == .PortraitUpsideDown {
+            self.tabBarController?.selectedIndex = 1
+            self.tabBarController?.tabBar.hidden = true
+        }
+    }
+    
     override func viewWillAppear(animated: Bool) {
         self.dataController.getPromotionalMessage { (message, status) in
             dispatch_async(dispatch_get_main_queue(), {

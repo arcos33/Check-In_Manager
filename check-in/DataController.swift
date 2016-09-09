@@ -306,7 +306,7 @@ class DataController: NSObject {
     }
     
     func downloadImage(completion: (NSData -> Void)) {
-        let urlString = "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyName)/check-in_image.png"
+        let urlString = "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/check-in_image.png"
         let url = NSURL(string: urlString)!
         let request = NSURLRequest(URL: url)
         let dataTask = self.session.dataTaskWithRequest(request) { (data, response, error) in
@@ -330,6 +330,8 @@ class DataController: NSObject {
     }
     
     func updateCheckInEventAtCellIndex(checkinEvent: CheckInEvent!, index: NSInteger?) {
+    NSNotificationCenter.defaultCenter().postNotificationName("DataControllerDidReceiveCheckinRecordsNotification", object: index)
+        
         let url:NSURL = NSURL(string: "http://www.whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/update/update_checkinEvent.php")!
         
         let session = NSURLSession.sharedSession()
@@ -375,7 +377,7 @@ class DataController: NSObject {
             
             let responseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
             if responseString == "Successfully updated CheckinEvent record" {
-                NSNotificationCenter.defaultCenter().postNotificationName("DataControllerDidReceiveCheckinRecordsNotification", object: index)
+                
             }
         })
         task.resume()

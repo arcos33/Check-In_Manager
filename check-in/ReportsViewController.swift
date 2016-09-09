@@ -54,6 +54,13 @@ class ReportsViewController: UIViewController, MFMailComposeViewControllerDelega
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(update), name: "DataControllerDidReceiveCheckinRecordsNotification", object: nil)
     }
     
+    override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
+        if UIDevice.currentDevice().orientation == .PortraitUpsideDown {
+            self.tabBarController?.selectedIndex = 1
+            self.tabBarController?.tabBar.hidden = true
+        }
+    }
+    
     //------------------------------------------------------------------------------
     // MARK: Tableview Methods
     //------------------------------------------------------------------------------

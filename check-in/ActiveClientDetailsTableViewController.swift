@@ -151,6 +151,10 @@ class ActiveClientDetailsTableViewController: UITableViewController, StylistsOff
         self.dataController.updateCheckInEventAtCellIndex(self.checkinEvent, index: self.selectedIndex!)
     }
     
+    //------------------------------------------------------------------------------
+    // MARK: Action Methods
+    //------------------------------------------------------------------------------
+    
     @IBAction func completeCheckinEvent(sender: AnyObject) {
         self.checkinEvent!.amountCharged = self.amountChargedTextField.text
         self.checkinEvent!.ticketNumber = self.receiptNumberTextField.text
@@ -158,6 +162,7 @@ class ActiveClientDetailsTableViewController: UITableViewController, StylistsOff
         self.checkinEvent!.updateDate = NSDate.getCurrentLocalDate()
         self.checkinEvent!.completedTimestamp = NSDate.getCurrentLocalDate()
         self.saveChanges()
+        
         self.dataController.updateCheckInEventAtCellIndex(self.checkinEvent, index: self.selectedIndex!)
         resetFields()
     }

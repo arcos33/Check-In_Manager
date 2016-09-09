@@ -9,7 +9,7 @@
         <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="LoginViewController" customModule="Check_in" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="LoginViewController" customModule="EZCheck_In" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -221,7 +221,7 @@
         <!--Dashboard View Controller-->
         <scene sceneID="5Tg-vc-w1V">
             <objects>
-                <viewController id="Tgo-un-2jN" customClass="DashboardViewController" customModule="Check_in" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Tgo-un-2jN" customClass="DashboardViewController" customModule="EZCheck_In" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ed2-Ws-ble"/>
                         <viewControllerLayoutGuide type="bottom" id="YXp-BS-ud7"/>
@@ -425,7 +425,7 @@
         <!--Active Client Details Table View Controller-->
         <scene sceneID="R5a-eg-lVH">
             <objects>
-                <tableViewController id="i3n-pC-mIA" customClass="ActiveClientDetailsTableViewController" customModule="Check_in" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="i3n-pC-mIA" customClass="ActiveClientDetailsTableViewController" customModule="EZCheck_In" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="static" style="grouped" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="y8r-NH-8ZD">
                         <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1009,7 +1009,7 @@
         <!--Active Clients View Controller-->
         <scene sceneID="ZYj-EY-OVv">
             <objects>
-                <viewController id="pnk-U3-DNd" customClass="ActiveClientsViewController" customModule="Check_in" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="pnk-U3-DNd" customClass="ActiveClientsViewController" customModule="EZCheck_In" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Nhn-NX-R8R"/>
                         <viewControllerLayoutGuide type="bottom" id="OhC-8P-9UY"/>
@@ -1022,7 +1022,7 @@
                                 <rect key="frame" x="16" y="40" width="568" height="75"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="activeCheckInCell" id="9s4-qc-xhB" customClass="ActiveClientsCell" customModule="Check_in" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="activeCheckInCell" id="9s4-qc-xhB" customClass="ActiveClientsCell" customModule="EZCheck_In" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="568" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9s4-qc-xhB" id="GKs-gI-fIZ">
@@ -1108,12 +1108,14 @@
                                                 </constraint>
                                                 <constraint firstAttribute="trailing" secondItem="U9f-Oq-P6y" secondAttribute="trailing" constant="8" id="S20-XL-8wm"/>
                                                 <constraint firstItem="6Uv-q3-9Db" firstAttribute="centerY" secondItem="GKs-gI-fIZ" secondAttribute="centerY" id="SEI-AT-Nfd"/>
-                                                <constraint firstItem="U9f-Oq-P6y" firstAttribute="leading" secondItem="8Po-TK-GFx" secondAttribute="trailing" constant="15" id="SRi-cD-dzc"/>
+                                                <constraint firstItem="U9f-Oq-P6y" firstAttribute="leading" secondItem="8Po-TK-GFx" secondAttribute="trailing" constant="15" id="SRi-cD-dzc">
+                                                    <variation key="heightClass=regular" constant="8"/>
+                                                </constraint>
                                                 <constraint firstItem="U9f-Oq-P6y" firstAttribute="centerY" secondItem="GKs-gI-fIZ" secondAttribute="centerY" id="WBF-WR-DKX"/>
                                                 <constraint firstItem="8Po-TK-GFx" firstAttribute="centerY" secondItem="GKs-gI-fIZ" secondAttribute="centerY" id="YBa-pJ-mEi"/>
                                                 <constraint firstItem="U9f-Oq-P6y" firstAttribute="centerY" secondItem="GKs-gI-fIZ" secondAttribute="centerY" id="aDx-Yp-scd"/>
                                                 <constraint firstItem="EYD-xJ-NFf" firstAttribute="leading" secondItem="6Uv-q3-9Db" secondAttribute="trailing" constant="32" id="cjR-9v-RMI">
-                                                    <variation key="heightClass=regular" constant="16"/>
+                                                    <variation key="heightClass=regular" constant="8"/>
                                                 </constraint>
                                                 <constraint firstItem="EYD-xJ-NFf" firstAttribute="width" secondItem="6Uv-q3-9Db" secondAttribute="width" id="gtF-hQ-iWR"/>
                                                 <constraint firstItem="EYD-xJ-NFf" firstAttribute="centerY" secondItem="GKs-gI-fIZ" secondAttribute="centerY" id="i2q-o1-qVU"/>
@@ -1181,7 +1183,7 @@
                                             <outlet property="stylistLabel" destination="8Po-TK-GFx" id="cQg-d7-cKs"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="activeClientsHeaderView" rowHeight="40" id="VP3-2Q-3bY" customClass="ActiveClientsHeaderView" customModule="Check_in" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="activeClientsHeaderView" rowHeight="40" id="VP3-2Q-3bY" customClass="ActiveClientsHeaderView" customModule="EZCheck_In" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="98" width="568" height="40"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VP3-2Q-3bY" id="JOD-0e-w0h">
@@ -1347,7 +1349,7 @@
         <!--Inactive Clients View Controller-->
         <scene sceneID="PrB-yv-B9I">
             <objects>
-                <viewController id="g8c-zS-elW" customClass="InactiveClientsViewController" customModule="Check_in" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="g8c-zS-elW" customClass="InactiveClientsViewController" customModule="EZCheck_In" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="9Rn-Os-0zo"/>
                         <viewControllerLayoutGuide type="bottom" id="SNL-Ub-FpO"/>
@@ -1363,15 +1365,15 @@
                                     <constraint firstAttribute="height" constant="216" id="Bc4-QB-bch"/>
                                 </constraints>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="inactiveCheckInCell" id="wop-xM-ihu" customClass="InactiveClientsCell" customModule="Check_in" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="inactiveCheckInCell" id="wop-xM-ihu" customClass="InactiveClientsCell" customModule="EZCheck_In" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="568" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wop-xM-ihu" id="Vhv-zj-T1a">
                                             <rect key="frame" x="0.0" y="0.0" width="568" height="69"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" misplaced="YES" text="Cristiano Ronaldinho" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZCl-d2-MUy">
-                                                    <rect key="frame" x="16" y="20" width="231" height="30"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Cristiano Ronaldinho" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZCl-d2-MUy">
+                                                    <rect key="frame" x="16" y="20" width="224" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="231" id="sx5-OT-T9c">
                                                             <variation key="heightClass=regular" constant="180"/>
@@ -1391,14 +1393,14 @@
                                                         </mask>
                                                     </variation>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" misplaced="YES" text="completado" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DcX-TQ-gde">
-                                                    <rect key="frame" x="218" y="20" width="133" height="30"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="completado" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DcX-TQ-gde">
+                                                    <rect key="frame" x="219" y="20" width="130" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="25"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" misplaced="YES" text="4:52pm" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tkk-Pt-Jst">
-                                                    <rect key="frame" x="464" y="20" width="88" height="30"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="4:52pm" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tkk-Pt-Jst">
+                                                    <rect key="frame" x="466" y="20" width="86" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="25"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -1502,7 +1504,7 @@
         <!--Add Stylist View Controller-->
         <scene sceneID="FCK-PS-uDh">
             <objects>
-                <viewController id="CR4-0T-iSg" customClass="AddStylistViewController" customModule="Check_in" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="CR4-0T-iSg" customClass="AddStylistViewController" customModule="EZCheck_In" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="af2-8O-9nY"/>
                         <viewControllerLayoutGuide type="bottom" id="Lb5-fA-t4D"/>
@@ -1557,7 +1559,7 @@
         <!--Add Service View Controller-->
         <scene sceneID="SSe-1B-cz7">
             <objects>
-                <viewController id="QFg-kw-oL6" customClass="AddServiceViewController" customModule="Check_in" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="QFg-kw-oL6" customClass="AddServiceViewController" customModule="EZCheck_In" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="lgL-NG-aug"/>
                         <viewControllerLayoutGuide type="bottom" id="dhg-ye-10N"/>
@@ -1614,7 +1616,7 @@
         <!--Stylists View Controller-->
         <scene sceneID="rGf-Sk-zI2">
             <objects>
-                <viewController id="KiO-0a-VQ0" customClass="StylistsViewController" customModule="Check_in" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="KiO-0a-VQ0" customClass="StylistsViewController" customModule="EZCheck_In" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="3WV-JD-Bea"/>
                         <viewControllerLayoutGuide type="bottom" id="PAX-pq-oLb"/>
@@ -1627,7 +1629,7 @@
                                 <rect key="frame" x="16" y="0.0" width="268" height="184"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="stylistCell" id="alI-7R-PzK" customClass="StyleListCell" customModule="Check_in" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="stylistCell" id="alI-7R-PzK" customClass="StyleListCell" customModule="EZCheck_In" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="268" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="alI-7R-PzK" id="r2y-rp-dIb">
@@ -1708,7 +1710,7 @@
         <!--Services View Controller-->
         <scene sceneID="V4a-FB-rgK">
             <objects>
-                <viewController id="ONr-MG-J8L" customClass="ServicesViewController" customModule="Check_in" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="ONr-MG-J8L" customClass="ServicesViewController" customModule="EZCheck_In" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="LPp-cX-aDQ"/>
                         <viewControllerLayoutGuide type="bottom" id="vUD-B3-lwb"/>
@@ -1721,7 +1723,7 @@
                                 <rect key="frame" x="16" y="0.0" width="268" height="134"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="serviceCell" id="JrT-7N-sq6" customClass="ServiceCell" customModule="Check_in" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="serviceCell" id="JrT-7N-sq6" customClass="ServiceCell" customModule="EZCheck_In" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="268" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JrT-7N-sq6" id="4n9-dG-B5t">
@@ -1818,7 +1820,7 @@
         <!--Reports View Controller-->
         <scene sceneID="iYZ-Pq-DY1">
             <objects>
-                <viewController id="JHA-v1-euL" customClass="ReportsViewController" customModule="Check_in" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="JHA-v1-euL" customClass="ReportsViewController" customModule="EZCheck_In" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Mh0-32-fh1"/>
                         <viewControllerLayoutGuide type="bottom" id="8N1-Vc-adx"/>
@@ -1831,7 +1833,7 @@
                                 <rect key="frame" x="20" y="152" width="560" height="357"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="reportsCell" id="bls-ou-uX9" customClass="ReportsCustomCell" customModule="Check_in" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="reportsCell" id="bls-ou-uX9" customClass="ReportsCustomCell" customModule="EZCheck_In" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="560" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bls-ou-uX9" id="co6-ba-aDp">
@@ -1839,7 +1841,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Name" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jVM-uN-O9O">
-                                                    <rect key="frame" x="68" y="13" width="120" height="18"/>
+                                                    <rect key="frame" x="-49" y="12" width="120" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="120" id="ctf-9Y-t1Y">
                                                             <variation key="heightClass=regular" constant="50"/>
@@ -1864,7 +1866,7 @@
                                                     </variation>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Check-in time" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d8k-JL-0h1">
-                                                    <rect key="frame" x="257" y="13" width="107" height="18"/>
+                                                    <rect key="frame" x="-8" y="12" width="107" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="107" id="gMD-9L-Fbc">
                                                             <variation key="heightClass=regular" constant="50"/>
@@ -1889,10 +1891,10 @@
                                                     </variation>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Service" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i48-rQ-s0N">
-                                                    <rect key="frame" x="384" y="13" width="59" height="18"/>
+                                                    <rect key="frame" x="79" y="8" width="59" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="80" id="YeL-0F-uUm">
-                                                            <variation key="heightClass=regular" constant="65"/>
+                                                            <variation key="heightClass=regular" constant="72"/>
                                                         </constraint>
                                                         <constraint firstAttribute="width" constant="59" id="e0X-fo-h5J">
                                                             <variation key="heightClass=regular" constant="50"/>
@@ -1913,8 +1915,8 @@
                                                         </mask>
                                                     </variation>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Stylist" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ov3-m8-rdq">
-                                                    <rect key="frame" x="463" y="13" width="77" height="18"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stylist" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ov3-m8-rdq">
+                                                    <rect key="frame" x="463" y="12" width="77" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="77" id="QLz-4r-0EK">
                                                             <variation key="heightClass=regular" constant="50"/>
@@ -1939,7 +1941,7 @@
                                                     </variation>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="200" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EsT-dd-3sr">
-                                                    <rect key="frame" x="20" y="13" width="28" height="18"/>
+                                                    <rect key="frame" x="69" y="12" width="28" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="28" id="JwU-fy-0PQ">
                                                             <variation key="heightClass=regular" constant="38"/>
@@ -2127,10 +2129,16 @@
                                                     <exclude reference="l3E-N7-Xft"/>
                                                     <exclude reference="Xb4-IM-vMl"/>
                                                     <exclude reference="aoj-Aj-IWF"/>
-                                                    <exclude reference="0S8-Ef-skB"/>
-                                                    <exclude reference="gPy-iN-5wi"/>
+                                                    <exclude reference="FsF-PA-lDu"/>
+                                                    <exclude reference="acB-lu-Uwk"/>
+                                                    <exclude reference="s9g-cw-695"/>
                                                     <exclude reference="GZJ-SZ-ral"/>
                                                     <exclude reference="HSa-mg-b6H"/>
+                                                    <exclude reference="0S8-Ef-skB"/>
+                                                    <exclude reference="gPy-iN-5wi"/>
+                                                    <exclude reference="3xS-0t-60z"/>
+                                                    <exclude reference="KDM-z1-Ivw"/>
+                                                    <exclude reference="ab8-7F-qBM"/>
                                                     <exclude reference="bac-qB-uhJ"/>
                                                     <exclude reference="yDx-db-nd9"/>
                                                     <exclude reference="9IV-9Z-5JA"/>
@@ -2149,12 +2157,6 @@
                                                     <exclude reference="8Nl-fZ-afX"/>
                                                     <exclude reference="Qb8-HB-TiL"/>
                                                     <exclude reference="wUc-wg-ZlA"/>
-                                                    <exclude reference="FsF-PA-lDu"/>
-                                                    <exclude reference="acB-lu-Uwk"/>
-                                                    <exclude reference="s9g-cw-695"/>
-                                                    <exclude reference="3xS-0t-60z"/>
-                                                    <exclude reference="KDM-z1-Ivw"/>
-                                                    <exclude reference="ab8-7F-qBM"/>
                                                     <exclude reference="742-Ds-Dgb"/>
                                                     <exclude reference="bNq-Mb-JMR"/>
                                                 </mask>
@@ -2176,13 +2178,21 @@
                                                     <exclude reference="l3E-N7-Xft"/>
                                                     <include reference="Xb4-IM-vMl"/>
                                                     <include reference="aoj-Aj-IWF"/>
+                                                    <exclude reference="AON-zK-kru"/>
+                                                    <include reference="FsF-PA-lDu"/>
+                                                    <include reference="acB-lu-Uwk"/>
+                                                    <exclude reference="s9g-cw-695"/>
+                                                    <include reference="GZJ-SZ-ral"/>
+                                                    <include reference="HSa-mg-b6H"/>
+                                                    <exclude reference="NWV-tg-csr"/>
                                                     <include reference="0S8-Ef-skB"/>
                                                     <exclude reference="YrW-m9-Cwg"/>
                                                     <include reference="gPy-iN-5wi"/>
                                                     <exclude reference="whX-di-KBc"/>
-                                                    <include reference="GZJ-SZ-ral"/>
-                                                    <include reference="HSa-mg-b6H"/>
-                                                    <exclude reference="NWV-tg-csr"/>
+                                                    <include reference="3xS-0t-60z"/>
+                                                    <include reference="KDM-z1-Ivw"/>
+                                                    <exclude reference="ab8-7F-qBM"/>
+                                                    <exclude reference="jHm-ot-LxL"/>
                                                     <include reference="bac-qB-uhJ"/>
                                                     <include reference="yDx-db-nd9"/>
                                                     <include reference="9IV-9Z-5JA"/>
@@ -2201,14 +2211,6 @@
                                                     <include reference="8Nl-fZ-afX"/>
                                                     <include reference="Qb8-HB-TiL"/>
                                                     <include reference="wUc-wg-ZlA"/>
-                                                    <exclude reference="AON-zK-kru"/>
-                                                    <include reference="FsF-PA-lDu"/>
-                                                    <include reference="acB-lu-Uwk"/>
-                                                    <exclude reference="s9g-cw-695"/>
-                                                    <include reference="3xS-0t-60z"/>
-                                                    <include reference="KDM-z1-Ivw"/>
-                                                    <exclude reference="ab8-7F-qBM"/>
-                                                    <exclude reference="jHm-ot-LxL"/>
                                                     <exclude reference="5PG-Xh-5v6"/>
                                                     <include reference="742-Ds-Dgb"/>
                                                     <exclude reference="GKZ-zu-ZYR"/>
@@ -2226,7 +2228,7 @@
                                             <outlet property="stylistLabel" destination="ov3-m8-rdq" id="BOe-Dj-0D7"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="reportsHeaderView" id="j4R-l2-7Jx" customClass="ReportsHeaderView" customModule="Check_in" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="reportsHeaderView" id="j4R-l2-7Jx" customClass="ReportsHeaderView" customModule="EZCheck_In" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="72" width="560" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="j4R-l2-7Jx" id="olj-eo-8IF">
@@ -2258,7 +2260,7 @@
                                                     <rect key="frame" x="386" y="11" width="57" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="58" id="x5f-co-4xg">
-                                                            <variation key="heightClass=regular" constant="65"/>
+                                                            <variation key="heightClass=regular" constant="72"/>
                                                         </constraint>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -2397,7 +2399,9 @@
                                             <constraints>
                                                 <constraint firstItem="oAV-lh-wMo" firstAttribute="centerY" secondItem="olj-eo-8IF" secondAttribute="centerY" id="1yQ-oS-E4J"/>
                                                 <constraint firstItem="ZO1-U3-HdB" firstAttribute="centerY" secondItem="olj-eo-8IF" secondAttribute="centerY" id="22a-iq-RLK"/>
-                                                <constraint firstItem="irx-fE-Jdo" firstAttribute="leading" secondItem="cFF-4Z-bZx" secondAttribute="trailing" constant="-1" id="2Bx-rv-5ev"/>
+                                                <constraint firstItem="irx-fE-Jdo" firstAttribute="leading" secondItem="cFF-4Z-bZx" secondAttribute="trailing" constant="-1" id="2Bx-rv-5ev">
+                                                    <variation key="heightClass=regular" constant="0.0"/>
+                                                </constraint>
                                                 <constraint firstItem="cFF-4Z-bZx" firstAttribute="centerY" secondItem="olj-eo-8IF" secondAttribute="centerY" id="2wz-mJ-wwd"/>
                                                 <constraint firstItem="HtD-2b-ybz" firstAttribute="leading" secondItem="Vm9-wZ-LtF" secondAttribute="trailing" constant="8" id="3zk-Wh-CTV">
                                                     <variation key="heightClass=regular" constant="0.0"/>
@@ -2414,7 +2418,9 @@
                                                 <constraint firstItem="bfb-9L-LoW" firstAttribute="leading" secondItem="8ez-mx-wdN" secondAttribute="trailing" constant="8" id="BGS-u8-FYt">
                                                     <variation key="heightClass=regular" constant="0.0"/>
                                                 </constraint>
-                                                <constraint firstItem="8ez-mx-wdN" firstAttribute="leading" secondItem="SAM-Xt-AnG" secondAttribute="trailing" constant="-1" id="DCJ-oz-VNu"/>
+                                                <constraint firstItem="8ez-mx-wdN" firstAttribute="leading" secondItem="SAM-Xt-AnG" secondAttribute="trailing" constant="-1" id="DCJ-oz-VNu">
+                                                    <variation key="heightClass=regular" constant="0.0"/>
+                                                </constraint>
                                                 <constraint firstItem="bfb-9L-LoW" firstAttribute="centerY" secondItem="olj-eo-8IF" secondAttribute="centerY" id="FZR-9H-nzX"/>
                                                 <constraint firstItem="bfb-9L-LoW" firstAttribute="height" secondItem="HtD-2b-ybz" secondAttribute="height" id="Gem-Vm-KuN"/>
                                                 <constraint firstItem="qVY-ec-yTT" firstAttribute="height" secondItem="HtD-2b-ybz" secondAttribute="height" id="JUu-vk-8ns"/>
@@ -2425,7 +2431,9 @@
                                                 <constraint firstItem="SAM-Xt-AnG" firstAttribute="centerY" secondItem="olj-eo-8IF" secondAttribute="centerY" id="Tf5-MC-0U9"/>
                                                 <constraint firstItem="T3z-kc-bBN" firstAttribute="centerY" secondItem="olj-eo-8IF" secondAttribute="centerY" id="W0t-wE-FdC"/>
                                                 <constraint firstItem="SAM-Xt-AnG" firstAttribute="width" secondItem="HtD-2b-ybz" secondAttribute="width" id="WPv-Ai-SCo"/>
-                                                <constraint firstItem="oAV-lh-wMo" firstAttribute="leading" secondItem="qVY-ec-yTT" secondAttribute="trailing" constant="1" id="Xg4-UE-OcR"/>
+                                                <constraint firstItem="oAV-lh-wMo" firstAttribute="leading" secondItem="qVY-ec-yTT" secondAttribute="trailing" constant="1" id="Xg4-UE-OcR">
+                                                    <variation key="heightClass=regular" constant="0.0"/>
+                                                </constraint>
                                                 <constraint firstItem="T3z-kc-bBN" firstAttribute="leading" secondItem="HtD-2b-ybz" secondAttribute="trailing" constant="20" id="ZeD-q3-rEi">
                                                     <variation key="heightClass=regular" constant="0.0"/>
                                                 </constraint>
@@ -2440,8 +2448,12 @@
                                                     <variation key="heightClass=regular" constant="0.0"/>
                                                 </constraint>
                                                 <constraint firstItem="irx-fE-Jdo" firstAttribute="centerY" secondItem="olj-eo-8IF" secondAttribute="centerY" id="qgr-bq-nDQ"/>
-                                                <constraint firstItem="cFF-4Z-bZx" firstAttribute="leading" secondItem="T3z-kc-bBN" secondAttribute="trailing" constant="2" id="sFk-Xn-HDF"/>
-                                                <constraint firstItem="SAM-Xt-AnG" firstAttribute="leading" secondItem="irx-fE-Jdo" secondAttribute="trailing" constant="-1" id="uf4-Mj-aym"/>
+                                                <constraint firstItem="cFF-4Z-bZx" firstAttribute="leading" secondItem="T3z-kc-bBN" secondAttribute="trailing" constant="2" id="sFk-Xn-HDF">
+                                                    <variation key="heightClass=regular" constant="0.0"/>
+                                                </constraint>
+                                                <constraint firstItem="SAM-Xt-AnG" firstAttribute="leading" secondItem="irx-fE-Jdo" secondAttribute="trailing" constant="-1" id="uf4-Mj-aym">
+                                                    <variation key="heightClass=regular" constant="0.0"/>
+                                                </constraint>
                                                 <constraint firstItem="qVY-ec-yTT" firstAttribute="width" secondItem="HtD-2b-ybz" secondAttribute="width" id="uiV-0H-iUh"/>
                                             </constraints>
                                             <variation key="default">
@@ -2625,7 +2637,7 @@
         <!--Check In View Controller-->
         <scene sceneID="RA2-Qe-7NL">
             <objects>
-                <viewController id="psR-B3-qSN" customClass="CheckInViewController" customModule="Check_in" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="psR-B3-qSN" customClass="CheckInViewController" customModule="EZCheck_In" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Tsl-Wo-d7f"/>
                         <viewControllerLayoutGuide type="bottom" id="68W-8G-RTf"/>
@@ -2821,7 +2833,7 @@
         <!--Settings View Controller-->
         <scene sceneID="eaG-wL-vRq">
             <objects>
-                <viewController id="922-wa-vpi" customClass="SettingsViewController" customModule="Check_in" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="922-wa-vpi" customClass="SettingsViewController" customModule="EZCheck_In" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Diz-vP-2Rs"/>
                         <viewControllerLayoutGuide type="bottom" id="1mo-Ct-mxw"/>
@@ -3078,7 +3090,7 @@
         <!--Services Offered Table View Controller-->
         <scene sceneID="C1W-2y-27Z">
             <objects>
-                <tableViewController id="eY7-sA-qOr" customClass="ServicesOfferedTableViewController" customModule="Check_in" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="eY7-sA-qOr" customClass="ServicesOfferedTableViewController" customModule="EZCheck_In" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="30f-L5-12g">
                         <rect key="frame" x="0.0" y="0.0" width="150" height="300"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -3110,7 +3122,7 @@
         <!--Stylists Offered Table View Controller-->
         <scene sceneID="UBA-A0-8ML">
             <objects>
-                <tableViewController id="weg-wj-jo0" customClass="StylistsOfferedTableViewController" customModule="Check_in" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="weg-wj-jo0" customClass="StylistsOfferedTableViewController" customModule="EZCheck_In" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="tdA-3h-QOT">
                         <rect key="frame" x="0.0" y="0.0" width="250" height="300"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -3142,7 +3154,7 @@
         <!--Payment Types Offered Table View Controller-->
         <scene sceneID="TuI-0n-zM9">
             <objects>
-                <tableViewController id="nug-0h-ozd" customClass="PaymentTypesOfferedTableViewController" customModule="Check_in" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="nug-0h-ozd" customClass="PaymentTypesOfferedTableViewController" customModule="EZCheck_In" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Ct5-fo-7Jq">
                         <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

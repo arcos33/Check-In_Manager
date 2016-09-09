@@ -801,4 +801,36 @@ class DataController: NSObject {
         task.resume()
     }
     
+    func getCompanySettings(completion: (UIColor) -> Void) {
+        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/get/get_companySettings.php")!
+        
+        let session = NSURLSession.sharedSession()
+        let request = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "POST"
+        request.cachePolicy = .ReloadIgnoringLocalCacheData
+        
+        let task = session.dataTaskWithRequest(request) { (let data, let response, let error) in
+            guard let _:NSData = data, let _:NSURLResponse = response where error == nil else {
+                print("Class:\(#file)\n Line:\(#line)\n Error:\(error)\n Data:\(data!)")
+                return
+            }
+            
+            do {
+                let jsonResponse = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as! [Dictionary<String, String>]
+                for dictionary in jsonResponse {
+                    
+                    let hexString = dictionary["checkin_image_background_color"]
+                    let backgroundColor = UIColor(hexString: hexString!)
+                    completion(backgroundColor)
+                }
+            }
+            catch {
+                print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
+            }
+            
+        }
+        task.resume()
+
+    }
+    
 }

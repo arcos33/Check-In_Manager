@@ -124,6 +124,7 @@ class LoginViewController:UIViewController {
             if authenticationDidPass == true {
                 self.performSegueWithIdentifier("checkInSegue", sender: self)
                 self.setCheckinImage()
+                self.setCheckinImageBackgroundColor()
             }
             else {
                 self.shakeView(self.credentialsView)
@@ -165,8 +166,7 @@ class LoginViewController:UIViewController {
             self.appDelegate.companyImage = companyImage
         }
         else {
-            let dataController: DataController = DataController.sharedInstance
-            dataController.downloadImage { (data) in
+            self.dataController.downloadImage { (data) in
                 dispatch_async(dispatch_get_main_queue(), {
                     let image = UIImage(data: data)!
                     self.appDelegate.companyImage = image
@@ -175,6 +175,14 @@ class LoginViewController:UIViewController {
                     data?.writeToFile(fileName, atomically: true)
                 })
             }
+        }
+    }
+    
+    private func setCheckinImageBackgroundColor() {
+        if self.appDelegate.companyBackgroundColor == nil {
+            self.dataController.getCompanySettings({ (color) in
+                self.appDelegate.companyBackgroundColor = color
+            })
         }
     }
     

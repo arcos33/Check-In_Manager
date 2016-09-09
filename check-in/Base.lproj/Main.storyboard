@@ -2821,7 +2821,8 @@
                         <inset key="imageInsets" minX="0.0" minY="8" maxX="0.0" maxY="-8"/>
                     </tabBarItem>
                     <connections>
-                        <outlet property="companyImageView" destination="9pU-vU-UEA" id="pcN-8X-Tz8"/>
+                        <outlet property="companyImage" destination="9pU-vU-UEA" id="cdc-v5-k9p"/>
+                        <outlet property="companyImageView" destination="I6n-Ui-aKB" id="auP-3i-1NX"/>
                         <outlet property="nameTextField" destination="6zv-75-hXY" id="DRe-vk-AQp"/>
                         <outlet property="phoneTextField" destination="e2V-V4-j9i" id="QRg-n9-HHF"/>
                     </connections>

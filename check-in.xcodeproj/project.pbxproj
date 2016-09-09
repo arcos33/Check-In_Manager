@@ -16,6 +16,7 @@
 		7BE478E11D1F660400E31624 /* check_inUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE478E01D1F660400E31624 /* check_inUITests.swift */; };
 		9D14C6B91D2343D8001BCFD1 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D14C6B81D2343D8001BCFD1 /* DataController.swift */; };
 		9D19221F1D763B3700614542 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D19221E1D763B3700614542 /* SettingsViewController.swift */; };
+		9D1D13641D8271CA00D9CF17 /* UIColor+Checkin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1D13631D8271CA00D9CF17 /* UIColor+Checkin.swift */; };
 		9D37E4E11D55637F00DD4F7E /* StylistsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D37E4E01D55637F00DD4F7E /* StylistsViewController.swift */; };
 		9D37E4E41D5567B200DD4F7E /* StylistCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D37E4E31D5567B200DD4F7E /* StylistCell.swift */; };
 		9D37E4E61D5570DA00DD4F7E /* AddStylistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D37E4E51D5570DA00DD4F7E /* AddStylistViewController.swift */; };
@@ -88,6 +89,7 @@
 		95DF9986A69DF2E186B5F405 /* Pods_check_inUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_check_inUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D14C6B81D2343D8001BCFD1 /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		9D19221E1D763B3700614542 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		9D1D13631D8271CA00D9CF17 /* UIColor+Checkin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Checkin.swift"; sourceTree = "<group>"; };
 		9D37E4E01D55637F00DD4F7E /* StylistsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StylistsViewController.swift; sourceTree = "<group>"; };
 		9D37E4E31D5567B200DD4F7E /* StylistCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StylistCell.swift; sourceTree = "<group>"; };
 		9D37E4E51D5570DA00DD4F7E /* AddStylistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddStylistViewController.swift; sourceTree = "<group>"; };
@@ -203,14 +205,13 @@
 		7BE478BC1D1F660400E31624 /* check-in */ = {
 			isa = PBXGroup;
 			children = (
-				9D5F623F1D5A6FD100183499 /* Assets.xcassets */,
-				9DD249491D5974160007FF63 /* UI */,
-				9D14C6BE1D2346AD001BCFD1 /* CoreData */,
-				9DEF6B351D262EB80004C92A /* Controllers */,
-				7BE478CC1D1F660400E31624 /* Info.plist */,
 				7BE478BD1D1F660400E31624 /* AppDelegate.swift */,
-				9DB85AFA1D6297FD00B76DA7 /* NSUserDefaults+CheckIn.swift */,
-				9D7318FF1D751A59002A3806 /* NSDate+Checkin.swift */,
+				9D5F623F1D5A6FD100183499 /* Assets.xcassets */,
+				9DEF6B351D262EB80004C92A /* Controllers */,
+				9D14C6BE1D2346AD001BCFD1 /* CoreData */,
+				9D1D13621D82719800D9CF17 /* Extensions */,
+				7BE478CC1D1F660400E31624 /* Info.plist */,
+				9DD249491D5974160007FF63 /* UI */,
 			);
 			path = "check-in";
 			sourceTree = "<group>";
@@ -253,6 +254,16 @@
 				9D19221E1D763B3700614542 /* SettingsViewController.swift */,
 			);
 			name = Settings;
+			sourceTree = "<group>";
+		};
+		9D1D13621D82719800D9CF17 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				9DB85AFA1D6297FD00B76DA7 /* NSUserDefaults+CheckIn.swift */,
+				9D7318FF1D751A59002A3806 /* NSDate+Checkin.swift */,
+				9D1D13631D8271CA00D9CF17 /* UIColor+Checkin.swift */,
+			);
+			name = Extensions;
 			sourceTree = "<group>";
 		};
 		9D37E4E21D55679700DD4F7E /* Stylist */ = {
@@ -639,6 +650,7 @@
 				9DE2B7321D2349AF0045892F /* Client.swift in Sources */,
 				9DE93ACF1D726920007BC099 /* PaymentTypesOfferedTableViewController.swift in Sources */,
 				9DEF6B3B1D262ED30004C92A /* InactiveClientsViewController.swift in Sources */,
+				9D1D13641D8271CA00D9CF17 /* UIColor+Checkin.swift in Sources */,
 				9D37E4E41D5567B200DD4F7E /* StylistCell.swift in Sources */,
 				9DE2B7301D2349AF0045892F /* ServiceType+CoreDataProperties.swift in Sources */,
 				9D7943B31D6671E10012CF0E /* ReportsCustomCell.swift in Sources */,

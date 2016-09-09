@@ -21,7 +21,8 @@ class CheckInViewController: UIViewController {
     
     @IBOutlet var phoneTextField: UITextField!
     @IBOutlet var nameTextField: UITextField!
-    @IBOutlet var companyImageView: UIImageView!
+    @IBOutlet var companyImage: UIImageView!
+    @IBOutlet var companyImageView: UIView!
     
     var stylistTable:StylistsOfferedTableViewController?
     var servicesTable:ServicesOfferedTableViewController?
@@ -38,13 +39,15 @@ class CheckInViewController: UIViewController {
     //------------------------------------------------------------------------------
     // MARK: Lifecycle Methods
     //------------------------------------------------------------------------------
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear(animated: Bool) {
         if let image = self.appDelegate.companyImage {
-            self.companyImageView.image = image
+            self.companyImage.image = image
         }
         else {
-            self.companyImageView.image = UIImage(named: "placeholder")
+            self.companyImage.image = UIImage(named: "placeholder")
+        }
+        if let backgroundColor = self.appDelegate.companyBackgroundColor {
+            self.companyImageView.backgroundColor = backgroundColor
         }
     }
     

@@ -483,9 +483,7 @@ class DataController: NSObject {
                     services = []
                     for (_, value) in serviceMapping {
                         let service = value as! Service
-                        if service.status == "available" {
                             services.append(service)
-                        }
                     }
                     var newIdArray = Array<String>()
                     for service in services {

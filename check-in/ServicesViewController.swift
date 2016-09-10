@@ -24,10 +24,15 @@ class ServicesViewController: UIViewController, AddServiceVCDelegate {
     //------------------------------------------------------------------------------
     override func viewDidLoad() {
         super.viewDidLoad()
-        //getServiceRecords()
         self.dataController.getServices { (services) in
             dispatch_async(dispatch_get_main_queue(), {
-                self.services = services
+                for item in services {
+                    if item.status == "deleted" {
+                        continue
+                    }
+                    self.services.append(item)
+                }
+                
                 self.tableview.reloadData()
             })
         }

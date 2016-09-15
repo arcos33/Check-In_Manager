@@ -7,9 +7,29 @@
 //
 
 import UIKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 protocol AddStylistVCDelegate {
-    func didEnterStylistName(name: String)
+    func didEnterStylistName(_ name: String)
 }
 
 class AddStylistViewController: UIViewController {
@@ -17,10 +37,10 @@ class AddStylistViewController: UIViewController {
     @IBOutlet var nameTextField: UITextField!
     var delegate: AddStylistVCDelegate?
     
-    @IBAction func addStylist(sender: AnyObject) {
+    @IBAction func addStylist(_ sender: AnyObject) {
         if self.nameTextField.text?.characters.count > 0 {
             self.delegate?.didEnterStylistName(self.nameTextField.text!)
         }
-        sender.resignFirstResponder()
+        self.nameTextField.resignFirstResponder()
     }
 }

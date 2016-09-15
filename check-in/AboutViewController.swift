@@ -11,14 +11,14 @@ import UIKit
 
 class AboutViewController: UIViewController {
     
-    override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
-        if UIDevice.currentDevice().orientation == .PortraitUpsideDown {
+    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
+        if UIDevice.current.orientation == .portraitUpsideDown {
             self.tabBarController?.selectedIndex = 1
-            self.tabBarController?.tabBar.hidden = true
+            self.tabBarController?.tabBar.isHidden = true
         }
     }
     
-    @IBAction func goToIcon8Webpage(sender: UIButton) {
-        UIApplication.sharedApplication().openURL(NSURL(string:"http:www.icons8.com")!)
+    @IBAction func goToIcon8Webpage(_ sender: UIButton) {
+        UIApplication.shared.open(URL(string:"http:www.icons8.com")!, options: [:], completionHandler: nil)
     }
 }

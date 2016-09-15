@@ -17,9 +17,9 @@ class LoginViewController:UIViewController {
     @IBOutlet var loginButton: UIButton!
     @IBOutlet var companyNameLabel: UILabel!
     
-    var activityIndicator = UIActivityIndicatorView(frame: CGRectMake(0, 0, 50, 50)) as UIActivityIndicatorView
+    var activityIndicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 50, height: 50)) as UIActivityIndicatorView
     
-    var appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    var appDelegate = UIApplication.shared.delegate as! AppDelegate
     let dataController = DataController.sharedInstance
     
     
@@ -30,17 +30,17 @@ class LoginViewController:UIViewController {
     override func viewDidLoad() {
         setupActivityIndidator()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateUI_companyIdAuthentication), name: "DataControllerDidReceiveCompanyIDNotification", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateUI_usernamePasswordAuthentication), name: "DataControllerDidReceiveAuthenticationNotification", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateUI_companyIdAuthentication), name: NSNotification.Name(rawValue: "DataControllerDidReceiveCompanyIDNotification"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateUI_usernamePasswordAuthentication), name: NSNotification.Name(rawValue: "DataControllerDidReceiveAuthenticationNotification"), object: nil)
         
-        if (NSUserDefaults.standardUserDefaults().valueForKey("companyPath") as? String) != nil {
-            self.usernameTextField.hidden = false
-            self.passwordTextField.hidden = false
-            self.loginButton.hidden = false
-            self.companyNameLabel.hidden = false
-            self.submitButton.hidden = true
-            self.companyIDTextField.hidden = true
-            self.companyNameLabel.text = NSUserDefaults.standardUserDefaults().valueForKey("companyName") as? String
+        if (UserDefaults.standard.value(forKey: "companyPath") as? String) != nil {
+            self.usernameTextField.isHidden = false
+            self.passwordTextField.isHidden = false
+            self.loginButton.isHidden = false
+            self.companyNameLabel.isHidden = false
+            self.submitButton.isHidden = true
+            self.companyIDTextField.isHidden = true
+            self.companyNameLabel.text = UserDefaults.standard.value(forKey: "companyName") as? String
             
             // This is used to pre-poluate username when demoing or developing.
             switch self.appDelegate.companyName {
@@ -56,21 +56,21 @@ class LoginViewController:UIViewController {
 
         }
         else {
-            self.usernameTextField.hidden = true
-            self.passwordTextField.hidden = true
-            self.loginButton.hidden = true
-            self.companyNameLabel.hidden = true
+            self.usernameTextField.isHidden = true
+            self.passwordTextField.isHidden = true
+            self.loginButton.isHidden = true
+            self.companyNameLabel.isHidden = true
         }
     }
     
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         return true
     }
     
     //------------------------------------------------------------------------------
     // MARK: Action Methods
     //------------------------------------------------------------------------------
-    @IBAction func authenticaUser(sender: AnyObject) {
+    @IBAction func authenticaUser(_ sender: AnyObject) {
         self.companyIDTextField.resignFirstResponder()
         self.view.addSubview(self.activityIndicator)
         self.activityIndicator.startAnimating()
@@ -78,7 +78,7 @@ class LoginViewController:UIViewController {
         self.dataController.checkCredentials(self.usernameTextField.text!, password: self.passwordTextField.text!)
     }
     
-    @IBAction func authenticateCompanyId(sender: AnyObject) {
+    @IBAction func authenticateCompanyId(_ sender: AnyObject) {
         self.passwordTextField.resignFirstResponder()
         self.view.addSubview(self.activityIndicator)
         self.activityIndicator.startAnimating()
@@ -90,18 +90,18 @@ class LoginViewController:UIViewController {
     // MARK: Private Methods
     //------------------------------------------------------------------------------
     func getDocumentsDirectory() -> NSString {
-        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         let documentsDirectory = paths[0]
-        return documentsDirectory
+        return documentsDirectory as NSString
     }
     
-    func getImageFromDocumentsDirectory(filename: String) -> UIImage? {
-        let docDir = NSSearchPathDirectory.DocumentDirectory
-        let userDomainMask = NSSearchPathDomainMask.UserDomainMask
+    func getImageFromDocumentsDirectory(_ filename: String) -> UIImage? {
+        let docDir = FileManager.SearchPathDirectory.documentDirectory
+        let userDomainMask = FileManager.SearchPathDomainMask.userDomainMask
         let paths = NSSearchPathForDirectoriesInDomains(docDir, userDomainMask, true)
         if paths.count > 0 {
             let dirPath: String = paths[0]
-            let readPath = (dirPath as NSString).stringByAppendingPathComponent("check-in_image.png")
+            let readPath = (dirPath as NSString).appendingPathComponent("check-in_image.png")
             if let image = UIImage(contentsOfFile: readPath) {
                 return image
             }
@@ -112,17 +112,17 @@ class LoginViewController:UIViewController {
     func setupActivityIndidator() {
         self.activityIndicator.center = self.view.center
         self.activityIndicator.hidesWhenStopped = true
-        self.activityIndicator.activityIndicatorViewStyle = .Gray
+        self.activityIndicator.activityIndicatorViewStyle = .gray
     }
     
-    @objc private func updateUI_usernamePasswordAuthentication(notification: NSNotification) {
+    @objc fileprivate func updateUI_usernamePasswordAuthentication(_ notification: Notification) {
         let authenticationDidPass = notification.object as! Bool
-        dispatch_async(dispatch_get_main_queue(), {
+        DispatchQueue.main.async(execute: {
             
             self.activityIndicator.stopAnimating()
             
             if authenticationDidPass == true {
-                self.performSegueWithIdentifier("checkInSegue", sender: self)
+                self.performSegue(withIdentifier: "checkInSegue", sender: self)
                 self.setCheckinImage()
                 self.setCheckinImageBackgroundColor()
             }
@@ -133,52 +133,52 @@ class LoginViewController:UIViewController {
     }
     
     
-    @objc private func updateUI_companyIdAuthentication(notification: NSNotification) {
-        dispatch_async(dispatch_get_main_queue(), {
+    @objc fileprivate func updateUI_companyIdAuthentication(_ notification: Notification) {
+        DispatchQueue.main.async(execute: {
             
             self.activityIndicator.stopAnimating()
 
             let didSetCompanyPath = notification.object as! Bool
             if didSetCompanyPath == true {
-                self.usernameTextField.hidden = false
-                self.passwordTextField.hidden = false
-                self.loginButton.hidden = false
-                self.companyNameLabel.hidden = false
-                self.companyIDTextField.hidden = true
-                self.submitButton.hidden = true
+                self.usernameTextField.isHidden = false
+                self.passwordTextField.isHidden = false
+                self.loginButton.isHidden = false
+                self.companyNameLabel.isHidden = false
+                self.companyIDTextField.isHidden = true
+                self.submitButton.isHidden = true
             }
             else {
                 self.presentAlert("El numero que ingreso no es valido", title: "Invalido")
             }
-            self.companyNameLabel.text = NSUserDefaults.standardUserDefaults().valueForKey("companyName") as? String
+            self.companyNameLabel.text = UserDefaults.standard.value(forKey: "companyName") as? String
         })
     }
     
-    private  func presentAlert(message: String, title: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .Cancel, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
+    fileprivate  func presentAlert(_ message: String, title: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
     
-    private func setCheckinImage() {
+    fileprivate func setCheckinImage() {
         // Check to see if there is an image already saved in the doc dir. If ther is then save that image to the appDelegate property. If there is not then save it to the doc dir and save to appDelegate property.
         if let companyImage = getImageFromDocumentsDirectory("check-in_image.png") {
             self.appDelegate.companyImage = companyImage
         }
         else {
             self.dataController.downloadImage { (data) in
-                dispatch_async(dispatch_get_main_queue(), {
-                    let image = UIImage(data: data)!
+                DispatchQueue.main.async(execute: {
+                    let image = UIImage(data: data as Data)!
                     self.appDelegate.companyImage = image
                     let data = UIImagePNGRepresentation(image)
-                    let fileName = self.getDocumentsDirectory().stringByAppendingPathComponent("check-in_image.png")
-                    data?.writeToFile(fileName, atomically: true)
+                    let fileName = self.getDocumentsDirectory().appendingPathComponent("check-in_image.png")
+                    try? data?.write(to: URL(fileURLWithPath: fileName), options: [.atomic])
                 })
             }
         }
     }
     
-    private func setCheckinImageBackgroundColor() {
+    fileprivate func setCheckinImageBackgroundColor() {
         if self.appDelegate.companyBackgroundColor == nil {
             self.dataController.getCompanySettings({ (color) in
                 self.appDelegate.companyBackgroundColor = color
@@ -186,29 +186,29 @@ class LoginViewController:UIViewController {
         }
     }
     
-    private func shakeView(shakeView: UIView) {
+    fileprivate func shakeView(_ shakeView: UIView) {
         let shake = CABasicAnimation(keyPath: "position")
         let xDelta = CGFloat(5)
         shake.duration = 0.15
         shake.repeatCount = 2
         shake.autoreverses = true
         
-        let from_point = CGPointMake(shakeView.center.x - xDelta, shakeView.center.y)
-        let from_value = NSValue(CGPoint: from_point)
+        let from_point = CGPoint(x: shakeView.center.x - xDelta, y: shakeView.center.y)
+        let from_value = NSValue(cgPoint: from_point)
         
-        let to_point = CGPointMake(shakeView.center.x + xDelta, shakeView.center.y)
-        let to_value = NSValue(CGPoint: to_point)
+        let to_point = CGPoint(x: shakeView.center.x + xDelta, y: shakeView.center.y)
+        let to_value = NSValue(cgPoint: to_point)
         
         shake.fromValue = from_value
         shake.toValue = to_value
         shake.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-        shakeView.layer.addAnimation(shake, forKey: "position")
+        shakeView.layer.add(shake, forKey: "position")
     }
 
     //------------------------------------------------------------------------------
     // MARK: UITexfield Delegate Methods
     //------------------------------------------------------------------------------
-    func textFieldShouldReturn(textField: UITextField!) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField!) -> Bool {
         textField.resignFirstResponder()
         authenticaUser(self)
         return true

@@ -9,7 +9,7 @@
 import UIKit
 
 protocol ServicesOfferedTableDelegate {
-    func didSelectService(service: String)
+    func didSelectService(_ service: String)
 }
 
 class ServicesOfferedTableViewController: UITableViewController {
@@ -18,7 +18,7 @@ class ServicesOfferedTableViewController: UITableViewController {
     var didSetProvider:Bool!
     var providerSelected:String!
     var delegate: ServicesOfferedTableDelegate?
-    var appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    var appDelegate = UIApplication.shared.delegate as! AppDelegate
     let dataController = DataController.sharedInstance
     
     
@@ -26,35 +26,35 @@ class ServicesOfferedTableViewController: UITableViewController {
     // MARK: Lifecycle Methods
     //------------------------------------------------------------------------------
     
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         return true
     }
     
     //------------------------------------------------------------------------------
     // MARK: TableView Methods
     //------------------------------------------------------------------------------
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Try to get a cell
-        let service = self.servicesOffered[indexPath.row] as Service
+        let service = self.servicesOffered[(indexPath as NSIndexPath).row] as Service
         let cell = UITableViewCell()
         cell.textLabel?.text = service.name
-        cell.textLabel?.textAlignment = .Center
+        cell.textLabel?.textAlignment = .center
         return cell
     }
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.servicesOffered.count
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.didSetProvider = true
-        let service = self.servicesOffered[indexPath.row]
+        let service = self.servicesOffered[(indexPath as NSIndexPath).row]
         self.providerSelected = service.name
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
         self.delegate?.didSelectService(service.name)
     }
 }

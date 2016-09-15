@@ -16,7 +16,7 @@ class StylistsViewController: UIViewController, AddStylistVCDelegate {
     
     var addStylistPopOverVC: AddStylistViewController!
     var stylists = Array<Stylist>()
-    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let cellIdentifier = "stylistCell"
     let dataController = DataController.sharedInstance
     
@@ -25,7 +25,7 @@ class StylistsViewController: UIViewController, AddStylistVCDelegate {
     //------------------------------------------------------------------------------
     override func viewDidLoad() {
         self.dataController.getStylists { (stylists) in
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 self.stylists = stylists
                 self.tableview.reloadData()
             })
@@ -35,30 +35,30 @@ class StylistsViewController: UIViewController, AddStylistVCDelegate {
     //------------------------------------------------------------------------------
     // MARK: Tableview Methods
     //------------------------------------------------------------------------------
-    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]? {
-        let deleted = UITableViewRowAction(style: .Destructive, title: "Eliminar") { action, index in
-            let stylist = self.stylists[indexPath.row]
+    func tableView(_ tableView: UITableView, editActionsForRowAtIndexPath indexPath: IndexPath) -> [AnyObject]? {
+        let deleted = UITableViewRowAction(style: .destructive, title: "Eliminar") { action, index in
+            let stylist = self.stylists[(indexPath as NSIndexPath).row]
             stylist.status = "deleted"
             self.dataController.updateStylistRecord(stylist.id, status: stylist.status)
-            self.stylists.removeAtIndex(indexPath.row)
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            self.stylists.remove(at: (indexPath as NSIndexPath).row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
         }
-        deleted.backgroundColor = UIColor.redColor()
+        deleted.backgroundColor = UIColor.red
         
         return [deleted]
     }
     
-    func tableView(tableView:UITableView!, numberOfRowsInSection section:Int)->Int{
+    func tableView(_ tableView:UITableView!, numberOfRowsInSection section:Int)->Int{
         return self.stylists.count
     }
     
     
-    func numberOfSectionsInTableView(tableView:UITableView!)->Int{
+    func numberOfSectionsInTableView(_ tableView:UITableView!)->Int{
         return 1
     }
     
-    func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! StyleListCell
+    func tableView(_ tableView: UITableView!, cellForRowAtIndexPath indexPath: IndexPath!) -> UITableViewCell! {
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! StyleListCell
         let stylist = self.stylists[indexPath.row]
         cell.name.text = stylist.name
         if (stylist.status == "available") {
@@ -70,26 +70,26 @@ class StylistsViewController: UIViewController, AddStylistVCDelegate {
         return cell
     }
     
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let vw = UIView()
-        let titleLabel = UILabel(frame: CGRectMake(16, 6, 200, 16))
+        let titleLabel = UILabel(frame: CGRect(x: 16, y: 6, width: 200, height: 16))
         titleLabel.text = "Estilistas"
-        titleLabel.textColor = UIColor.whiteColor()
+        titleLabel.textColor = UIColor.white
         titleLabel.font = UIFont(name:"HelveticaNeue-Bold", size: 18.0)
         vw.addSubview(titleLabel)
         vw.backgroundColor = UIColor(red: 0.78, green: 0.77, blue: 0.80, alpha: 1.00)
         return vw
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        self.addStylistPopOverVC = segue.destinationViewController as! AddStylistViewController
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        self.addStylistPopOverVC = segue.destination as! AddStylistViewController
         self.addStylistPopOverVC.delegate = self
     }
     
     //------------------------------------------------------------------------------
     // MARK: Private Methods
     //------------------------------------------------------------------------------
-    private func populateDataSource(array: [Dictionary<String, String>]) {
+    fileprivate func populateDataSource(_ array: [Dictionary<String, String>]) {
         for item in array {
             if item["status"] == "deleted" {
                 continue
@@ -97,7 +97,7 @@ class StylistsViewController: UIViewController, AddStylistVCDelegate {
             let stylist = Stylist(status: item["status"]!, id: item["id"]!, name: item["name"]!)
             self.stylists.append(stylist)
         }
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
             self.tableview.reloadData()
         }
     }
@@ -105,13 +105,13 @@ class StylistsViewController: UIViewController, AddStylistVCDelegate {
     //------------------------------------------------------------------------------
     // MARK: Action Methods
     //------------------------------------------------------------------------------
-    @IBAction func switchChanged(sender: AnyObject) {
+    @IBAction func switchChanged(_ sender: AnyObject) {
         let switchSelected = sender as! UISwitch
         let cellSelected = switchSelected.superview?.superview as! UITableViewCell
-        let indexPath = self.tableview.indexPathForCell(cellSelected)
-        let stylist = self.stylists[(indexPath?.row)!]
+        let indexPath = self.tableview.indexPath(for: cellSelected)
+        let stylist = self.stylists[((indexPath as NSIndexPath?)?.row)!]
         var status: String!
-        if (switchSelected.on) {
+        if (switchSelected.isOn) {
             status = "available"
         }
         else {
@@ -124,12 +124,12 @@ class StylistsViewController: UIViewController, AddStylistVCDelegate {
     //------------------------------------------------------------------------------
     // MARK: AddStylistVCDelegate Delegate Methods
     //------------------------------------------------------------------------------\
-    func didEnterStylistName(name: String) {
+    func didEnterStylistName(_ name: String) {
         self.dataController.postStylistRecord(name) { (stylists) in
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 self.stylists = stylists
                 self.tableview.reloadData()
-                self.addStylistPopOverVC.dismissViewControllerAnimated(true, completion: nil)
+                self.addStylistPopOverVC.dismiss(animated: true, completion: nil)
 
             })
         }

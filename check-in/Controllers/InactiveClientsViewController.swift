@@ -25,7 +25,7 @@ class InactiveClientsViewController: UIViewController {
     // MARK: Lifecycle Methods
     //------------------------------------------------------------------------------
     override func viewDidLoad() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(fetchCheckedinClients), name: "DataControllerDidReceiveCheckinRecordsNotification", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(fetchCheckedinClients), name: NSNotification.Name(rawValue: "DataControllerDidReceiveCheckinRecordsNotification"), object: nil)
 
         self.tableview.tableFooterView = UIView(frame: CGRect.zero)
         fetchCompletedCheckinRecords()
@@ -34,58 +34,56 @@ class InactiveClientsViewController: UIViewController {
     //------------------------------------------------------------------------------
     // MARK: Private Methods
     //------------------------------------------------------------------------------
-    @objc private func fetchCheckedinClients(notification: NSNotification) {
-        let fetch = NSFetchRequest(entityName: "CheckInEvent")
+    @objc fileprivate func fetchCheckedinClients(_ notification: Notification) {
+        let fetch: NSFetchRequest<NSFetchRequestResult> = CheckInEvent.fetchRequest()
         fetch.returnsObjectsAsFaults = false
         fetch.predicate = createPredicate()
         let sd = NSSortDescriptor(key: "completedTimestamp", ascending: true, selector: nil)
         fetch.sortDescriptors = [sd]
         do {
-            self.checkInEvents = try self.appDelegate.managedObjectContext.executeFetchRequest(fetch) as? Array<CheckInEvent>
+            self.checkInEvents = try self.appDelegate.managedObjectContext.fetch(fetch) as? Array<CheckInEvent>
         }
         catch {
             print("error: \(#file) \(#line) \(error)")
         }
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
             self.tableview.reloadData()
         }
     }
     
-    @objc private func reloadData() {
+    @objc fileprivate func reloadData() {
         fetchCompletedCheckinRecords()
     }
     
-    private func createPredicate() -> NSPredicate {
+    fileprivate func createPredicate() -> NSPredicate {
         var predicates: [NSPredicate]! = []
-        let calendar = NSCalendar.currentCalendar()
-        let components: NSDateComponents = calendar.components([.Day, .Month, .Year], fromDate: NSDate())
-        let today = calendar.dateFromComponents(components)!
-        components.day = components.day+1
-        let tomorrow = calendar.dateFromComponents(components)!
+        let calendar = Calendar.current
+        var components: DateComponents = (calendar as NSCalendar).components([.day, .month, .year], from: Date())
+        let today = calendar.date(from: components)!
+        components.day = components.day!+1
+        let tomorrow = calendar.date(from: components)!
         
-        let subPredicateFrom = NSPredicate(format: "checkinTimestamp >= %@", today)
+        let subPredicateFrom = NSPredicate(format: "checkinTimestamp >= %@", today as CVarArg)
         predicates.append(subPredicateFrom)
         
-        let subPredicateTo = NSPredicate(format: "checkinTimestamp < %@", tomorrow)
+        let subPredicateTo = NSPredicate(format: "checkinTimestamp < %@", tomorrow as CVarArg)
         predicates.append(subPredicateTo)
         
         let subPredicateCompleted = NSPredicate(format: "status == 'completed'")
         predicates.append(subPredicateCompleted)
         
-        return NSCompoundPredicate(type: .AndPredicateType, subpredicates: predicates)
+        return NSCompoundPredicate(type: .and, subpredicates: predicates)
     }
     
-    private func fetchCompletedCheckinRecords() {
-        self.appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-
-        let fetch = NSFetchRequest(entityName: "CheckInEvent")
+    fileprivate func fetchCompletedCheckinRecords() {
+        self.appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let fetch = NSFetchRequest<CheckInEvent>(entityName: "CheckInEvent")
         fetch.predicate = createPredicate()
         fetch.returnsObjectsAsFaults = false
         let sd = NSSortDescriptor(key: "completedTimestamp", ascending: true, selector: nil)
         fetch.sortDescriptors = [sd]
-        
         do {
-            self.checkInEvents = try appDelegate.managedObjectContext.executeFetchRequest(fetch) as? Array<CheckInEvent>
+            self.checkInEvents = try appDelegate.managedObjectContext.fetch(fetch)
         }
         catch {
             print("error: \(#file) \(#line) \(error)")
@@ -97,24 +95,24 @@ class InactiveClientsViewController: UIViewController {
     //------------------------------------------------------------------------------
     // MARK: TableView Methods
     //------------------------------------------------------------------------------
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.checkInEvents != nil ? self.checkInEvents!.count : 0
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let checkInEvent = self.checkInEvents![indexPath.row]
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! InactiveClientsCell
+    func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
+        let checkInEvent = self.checkInEvents![(indexPath as NSIndexPath).row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! InactiveClientsCell
 
-        cell.appointmentTime.text = NSDate.getTimeInHoursAndMinutes(checkInEvent.completedTimestamp!)
+        cell.appointmentTime.text = Date.getTimeInHoursAndMinutes(checkInEvent.completedTimestamp!)
         cell.name.text = checkInEvent.name
         return cell
     }
 
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let vw = UIView()
-        let titleLabel = UILabel(frame: CGRectMake(16, 6, 200, 16))
+        let titleLabel = UILabel(frame: CGRect(x: 16, y: 6, width: 200, height: 16))
         titleLabel.text = "Clientes Completados"
-        titleLabel.textColor = UIColor.whiteColor()
+        titleLabel.textColor = UIColor.white
         titleLabel.font = UIFont(name:"HelveticaNeue-Bold", size: 18.0)
         vw.addSubview(titleLabel)
         vw.backgroundColor = UIColor(red: 0.25, green: 0.67, blue: 0.00, alpha: 1.00)

@@ -11,7 +11,7 @@ import UIKit
 import CoreData
 
 protocol ActiveClientsDelegate {
-    func didSelectCheckinEvent(checkinEvent: CheckInEvent, index: NSInteger)
+    func didSelectCheckinEvent(_ checkinEvent: CheckInEvent, index: NSInteger)
 }
 
 class ActiveClientsViewController: UIViewController {
@@ -26,11 +26,11 @@ class ActiveClientsViewController: UIViewController {
     var checkInEvents: Array<CheckInEvent>?
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(handleRefresh), forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl.addTarget(self, action: #selector(handleRefresh), for: UIControlEvents.valueChanged)
         
         return refreshControl
     }()
-    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let cellIdentifier = "activeCheckInCell"
     let dataController = DataController.sharedInstance
     var cellSelected: Int?
@@ -41,21 +41,21 @@ class ActiveClientsViewController: UIViewController {
     override func viewDidLoad() {
         self.tableview.tableFooterView = UIView(frame: CGRect.zero)
         self.tableview.addSubview(self.refreshControl)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(fetchCheckedinClients), name: "DataControllerDidReceiveCheckinRecordsNotification", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(fetchCheckedinClients), name: NSNotification.Name(rawValue: "DataControllerDidReceiveCheckinRecordsNotification"), object: nil)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         reloadData()
     }
     //------------------------------------------------------------------------------
     // MARK: Private Methods
     //------------------------------------------------------------------------------
-    @objc private func getCheckinEvents(notification: NSNotification) {
+    @objc fileprivate func getCheckinEvents(_ notification: Notification) {
         self.dataController.getCheckinRecords()
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
             let index = notification.object as! NSInteger
-            let indexPath = NSIndexPath(forRow:index, inSection: 0)
-            self.tableview.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: .None)
+            let indexPath = IndexPath(row:index, section: 0)
+            self.tableview.selectRow(at: indexPath, animated: true, scrollPosition: .none)
 
 //            self.selectRowAndReloadTable({
 //                self.tableview.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: .None)
@@ -63,45 +63,45 @@ class ActiveClientsViewController: UIViewController {
         }
     }
     
-    private func createPredicate() -> NSPredicate {
+    fileprivate func createPredicate() -> NSPredicate {
         var predicates: [NSPredicate]! = []
-        let calendar = NSCalendar.currentCalendar()
-        let components: NSDateComponents = calendar.components([.Day, .Month, .Year], fromDate: NSDate())
-        let today = calendar.dateFromComponents(components)!
-        components.day = components.day+1
-        let tomorrow = calendar.dateFromComponents(components)!
+        let calendar = Calendar.current
+        var components: DateComponents = (calendar as NSCalendar).components([.day, .month, .year], from: Date())
+        let today = calendar.date(from: components)!
+        components.day = components.day!+1
+        let tomorrow = calendar.date(from: components)!
         
-        let subPredicateFrom = NSPredicate(format: "checkinTimestamp >= %@", today)
+        let subPredicateFrom = NSPredicate(format: "checkinTimestamp >= %@", today as CVarArg)
         predicates.append(subPredicateFrom)
         
-        let subPredicateTo = NSPredicate(format: "checkinTimestamp < %@", tomorrow)
+        let subPredicateTo = NSPredicate(format: "checkinTimestamp < %@", tomorrow as CVarArg)
         predicates.append(subPredicateTo)
         
         let subPredicateCompleted = NSPredicate(format: "status == 'checkedin'")
         predicates.append(subPredicateCompleted)
         
-        return NSCompoundPredicate(type: .AndPredicateType, subpredicates: predicates)
+        return NSCompoundPredicate(type: .and, subpredicates: predicates)
     }
     
-    private func selectRowAndReloadTable(completion: (() -> Void)) {
+    fileprivate func selectRowAndReloadTable(_ completion: (() -> Void)) {
         self.tableview.reloadData()
         completion()
     }
     
-    @objc private func handleRefresh(refreshControl: UIRefreshControl) {
+    @objc fileprivate func handleRefresh(_ refreshControl: UIRefreshControl) {
         self.tableview.reloadData()
         self.refreshControl.endRefreshing()
     }
     
-    private func reloadData() {
+    fileprivate func reloadData() {
         self.dataController.getCheckinRecords()
     }
     
-    @objc private func didReceiveCompletedCheckinEvent() {
+    @objc fileprivate func didReceiveCompletedCheckinEvent() {
         self.dataController.getCheckinRecords()
     }
     
-    private func saveChanges() {
+    fileprivate func saveChanges() {
         do {
             try self.appDelegate.managedObjectContext.save()
         }
@@ -110,28 +110,28 @@ class ActiveClientsViewController: UIViewController {
         }
     }
     
-    @objc private func fetchCheckedinClients(notification: NSNotification) {
-        let fetch = NSFetchRequest(entityName: "CheckInEvent")
+    @objc fileprivate func fetchCheckedinClients(_ notification: Notification) {
+        let fetch: NSFetchRequest<NSFetchRequestResult> = CheckInEvent.fetchRequest()
         fetch.returnsObjectsAsFaults = false
         fetch.predicate = createPredicate()
         let sd = NSSortDescriptor(key: "checkinTimestamp", ascending: true, selector: nil)
         fetch.sortDescriptors = [sd]
         do {
-            self.checkInEvents = try self.appDelegate.managedObjectContext.executeFetchRequest(fetch) as? Array<CheckInEvent>
+            self.checkInEvents = try self.appDelegate.managedObjectContext.fetch(fetch) as? Array<CheckInEvent>
         }
         catch {
             print("error: \(#file) \(#line) \(error)")
         }
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
             self.tableview.reloadData()
             if let index = self.cellSelected {
-                let indexPath = NSIndexPath(forRow: index, inSection: 0)
-                self.tableview.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
+                let indexPath = IndexPath(row: index, section: 0)
+                self.tableview.selectRow(at: indexPath, animated: false, scrollPosition: .none)
             }
         }
     }
     
-    private func createPdfFromView(aView: UIView, saveToDocumentsWithFileName fileName: String)
+    fileprivate func createPdfFromView(_ aView: UIView, saveToDocumentsWithFileName fileName: String)
     {
         let pdfData = NSMutableData()
         UIGraphicsBeginPDFContextToData(pdfData, aView.bounds, nil)
@@ -139,28 +139,28 @@ class ActiveClientsViewController: UIViewController {
         
         guard let pdfContext = UIGraphicsGetCurrentContext() else { return }
         
-        aView.layer.renderInContext(pdfContext)
+        aView.layer.render(in: pdfContext)
         UIGraphicsEndPDFContext()
         
-        if let documentDirectories = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first {
+        if let documentDirectories = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first {
             let documentsFileName = documentDirectories + "/" + fileName
             debugPrint(documentsFileName)
-            pdfData.writeToFile(documentsFileName, atomically: true)
+            pdfData.write(toFile: documentsFileName, atomically: true)
         }
     }
     
     //------------------------------------------------------------------------------
     // MARK: TableView Methods
     //------------------------------------------------------------------------------
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.checkInEvents != nil ? self.checkInEvents!.count : 0
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let checkinEvent = self.checkInEvents![indexPath.row]
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ActiveClientsCell
+    func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
+        let checkinEvent = self.checkInEvents![(indexPath as NSIndexPath).row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! ActiveClientsCell
         cell.name.text = checkinEvent.name
-        cell.appointmentTime.text = NSDate.getTimeInHoursAndMinutes(checkinEvent.checkinTimestamp!)
+        cell.appointmentTime.text = Date.getTimeInHoursAndMinutes(checkinEvent.checkinTimestamp!)
         
         cell.serviceLabel.text = checkinEvent.service
         cell.stylistLabel.text = checkinEvent.stylist
@@ -171,18 +171,18 @@ class ActiveClientsViewController: UIViewController {
         return cell
     }
     
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = tableView.dequeueReusableCellWithIdentifier("activeClientsHeaderView") as! ActiveClientsHeaderView
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = tableView.dequeueReusableCell(withIdentifier: "activeClientsHeaderView") as! ActiveClientsHeaderView
         
         return headerView
     }
         
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.delegate?.didSelectCheckinEvent(self.checkInEvents![indexPath.row], index: indexPath.row)
-        self.cellSelected = indexPath.row
+    func tableView(_ tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath) {
+        self.delegate?.didSelectCheckinEvent(self.checkInEvents![(indexPath as NSIndexPath).row], index: (indexPath as NSIndexPath).row)
+        self.cellSelected = (indexPath as NSIndexPath).row
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 40
     }
     

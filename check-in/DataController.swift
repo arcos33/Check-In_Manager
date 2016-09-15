@@ -9,17 +9,37 @@
 import Foundation
 import CoreData
 import UIKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class DataController: NSObject {
     static let sharedInstance = DataController()
-    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
-    lazy var configuration: NSURLSessionConfiguration = NSURLSessionConfiguration.defaultSessionConfiguration()
-    lazy var session: NSURLSession = NSURLSession(configuration: self.configuration)
+    lazy var configuration: URLSessionConfiguration = URLSessionConfiguration.default
+    lazy var session: URLSession = URLSession(configuration: self.configuration)
     
     //var managedObjectContext: NSManagedObjectContext
     
-    override private init() {} // This prevents others from using the default '()' initializer for this class.
+    override fileprivate init() {} // This prevents others from using the default '()' initializer for this class.
     /*
      override init() {
      // This resource is the same name as your xcdatamodeld contained in your project.
@@ -50,32 +70,32 @@ class DataController: NSObject {
     func getCheckinRecords()
     {
         // Get all checkinEvents for today from DB server.
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(appDelegate.companyPath)/mobile_api/get/get_checkinEvents.php")!
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let url:URL = URL(string: "http://whitecoatlabs.co/checkin/\(appDelegate.companyPath!)/mobile_api/get/get_checkinEvents.php")!
         
-        let session = NSURLSession.sharedSession()
+        let session = URLSession.shared
         
-        let request = NSMutableURLRequest(URL: url)
-        request.HTTPMethod = "POST"
-        request.cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringCacheData
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.cachePolicy = NSURLRequest.CachePolicy.reloadIgnoringCacheData
         
-        let task = session.dataTaskWithRequest(request) { (let data, let response, let error) in
+        let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
             
-            guard let _:NSData = data, let _:NSURLResponse = response  where error == nil else {
+            guard let _:Data = data, let _:URLResponse = response  , error == nil else {
                 print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
                 return
             }
-            let responseBody = NSString(data: data!, encoding: NSUTF8StringEncoding)
+            let responseBody = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
             if responseBody == "null" {
                 return
             }
             
             do {
                 // Do a fetch request to get all checkinEvent records
-                let fetch = NSFetchRequest(entityName: "CheckInEvent")
+                let fetch: NSFetchRequest<NSFetchRequestResult> = CheckInEvent.fetchRequest()
                 var checkinEvents:[CheckInEvent]?
                 do {
-                    checkinEvents = try appDelegate.managedObjectContext.executeFetchRequest(fetch) as? [CheckInEvent]
+                    checkinEvents = try appDelegate.managedObjectContext.fetch(fetch) as? [CheckInEvent]
                 }
                 catch {
                     print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
@@ -86,19 +106,19 @@ class DataController: NSObject {
 //                    let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
 //                    print("responseBody: \(responseBody)")
                     print()
-                    let jsonResponseString: AnyObject = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as! [Dictionary<String, AnyObject>]
+                    let jsonResponseString: AnyObject = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [Dictionary<String, AnyObject>] as AnyObject
                     for object in jsonResponseString as! [Dictionary<String,AnyObject>] {
                         let tempId = object["id"]!
-                        let checkinEvent = NSEntityDescription.insertNewObjectForEntityForName("CheckInEvent", inManagedObjectContext: appDelegate.managedObjectContext) as! CheckInEvent
+                        let checkinEvent = NSEntityDescription.insertNewObject(forEntityName: "CheckInEvent", into: appDelegate.managedObjectContext) as! CheckInEvent
                         
-                        checkinEvent.checkinTimestamp = NSDate.dateFromString(object["checkinTimestamp"]! as! String)
-                        checkinEvent.uniqueID = NSNumber(int: tempId.intValue)
+                        checkinEvent.checkinTimestamp = Date.dateFromString(object["checkinTimestamp"]! as! String)
+                        checkinEvent.uniqueID = NSNumber(value: tempId.int32Value as Int32)
                         checkinEvent.name = object["name"] as? String
                         checkinEvent.phone = object["phone"] as? String
                         checkinEvent.status = object["status"] as? String
                         
                         if let completedTimeStampString = object["completedTimestamp"]! as? String {
-                            checkinEvent.completedTimestamp = NSDate.dateFromString(completedTimeStampString)
+                            checkinEvent.completedTimestamp = Date.dateFromString(completedTimeStampString)
                         }
                         
                         if let serviceString = object["service"] as? String {
@@ -122,7 +142,7 @@ class DataController: NSObject {
                         }
                         
                         if let updateDateString = object["updateDate"]! as? String {
-                            checkinEvent.updateDate = NSDate.dateFromString(updateDateString)
+                            checkinEvent.updateDate = Date.dateFromString(updateDateString)
                         }
                         
                         do {
@@ -132,32 +152,32 @@ class DataController: NSObject {
                             print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
                         }
                     }
-                    NSNotificationCenter.defaultCenter().postNotificationName("DataControllerDidReceiveCheckinRecordsNotification", object: nil)
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: "DataControllerDidReceiveCheckinRecordsNotification"), object: nil)
                 }
                 else {
                     var existingCheckinEventIDS = Array<Int>()
                     var existingCheckinEventMap = Dictionary<Int, CheckInEvent>()
                     
                     for existingCheckinEvent in checkinEvents! {
-                        existingCheckinEventIDS.append((existingCheckinEvent.uniqueID?.integerValue)!)
-                        existingCheckinEventMap[(existingCheckinEvent.uniqueID?.integerValue)!] = existingCheckinEvent
+                        existingCheckinEventIDS.append((existingCheckinEvent.uniqueID?.intValue)!)
+                        existingCheckinEventMap[(existingCheckinEvent.uniqueID?.intValue)!] = existingCheckinEvent
                     }
-                    let jsonString: AnyObject = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as! NSArray
+                    let jsonString: AnyObject = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSArray
                     for checkinEventDB in jsonString as! [Dictionary<String,AnyObject>] {
                         let tempID = checkinEventDB["id"]!
                         
                         
-                        if !existingCheckinEventIDS.contains((tempID.integerValue)!) {
+                        if !existingCheckinEventIDS.contains((tempID.intValue)!) {
                             
-                            let checkinEvent = NSEntityDescription.insertNewObjectForEntityForName("CheckInEvent", inManagedObjectContext: appDelegate.managedObjectContext) as! CheckInEvent
-                            checkinEvent.checkinTimestamp = NSDate.dateFromString(checkinEventDB["checkinTimestamp"]! as! String)
-                            checkinEvent.uniqueID = NSNumber(int : tempID.intValue)
+                            let checkinEvent = NSEntityDescription.insertNewObject(forEntityName: "CheckInEvent", into: appDelegate.managedObjectContext) as! CheckInEvent
+                            checkinEvent.checkinTimestamp = Date.dateFromString(checkinEventDB["checkinTimestamp"]! as! String)
+                            checkinEvent.uniqueID = NSNumber(value: tempID.int32Value as Int32)
                             checkinEvent.name = checkinEventDB["name"] as? String
                             checkinEvent.phone = checkinEventDB["phone"] as? String
                             checkinEvent.status = checkinEventDB["status"] as? String
                             
                             if let completedTimeStampString = checkinEventDB["completedTimestamp"]! as? String {
-                                checkinEvent.completedTimestamp = NSDate.dateFromString(completedTimeStampString)
+                                checkinEvent.completedTimestamp = Date.dateFromString(completedTimeStampString)
                             }
                             
                             if let stylistString = checkinEventDB["stylist"] as? String {
@@ -180,7 +200,7 @@ class DataController: NSObject {
                                 checkinEvent.amountCharged = amountChargedString
                             }
                             if let updateDateString = checkinEventDB["updateDate"]! as? String {
-                                checkinEvent.updateDate = NSDate.dateFromString(updateDateString)
+                                checkinEvent.updateDate = Date.dateFromString(updateDateString)
                             }
                             
                             do {
@@ -226,49 +246,49 @@ class DataController: NSObject {
                         //                            }
                         //                        }
                     }
-                    NSNotificationCenter.defaultCenter().postNotificationName("DataControllerDidReceiveCheckinRecordsNotification", object: nil)
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: "DataControllerDidReceiveCheckinRecordsNotification"), object: nil)
                 }
             }
             catch {
                 print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
             }
-        }
+        }) 
         task.resume()
     }
     
-    func setURLIdentifierForCompany(companyID: String) {
-        let url: NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/company_mapping.php")!
-        let session = NSURLSession.sharedSession()
-        let request = NSMutableURLRequest(URL: url)
-        request.HTTPMethod = "POST"
-        request.cachePolicy = .ReloadIgnoringLocalCacheData
+    func setURLIdentifierForCompany(_ companyID: String) {
+        let url: URL = URL(string: "http://whitecoatlabs.co/checkin/company_mapping.php")!
+        let session = URLSession.shared
+        let request = NSMutableURLRequest(url: url)
+        request.httpMethod = "POST"
+        request.cachePolicy = .reloadIgnoringLocalCacheData
         
-        let jsonRequest = "company_id=\(companyID)".dataUsingEncoding(NSUTF8StringEncoding)
-        let task = session.uploadTaskWithRequest(request, fromData: jsonRequest) { (data, response, error) in
-            guard let data: NSData = data, let _:NSURLResponse = response where error == nil else {
+        let jsonRequest = "company_id=\(companyID)".data(using: String.Encoding.utf8)
+        let task = session.uploadTask(with: request as URLRequest, from: jsonRequest, completionHandler: { (data, response, error) in
+            guard let data: Data = data, let _:URLResponse = response , error == nil else {
                 print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
                 return
             }
             
             do {
-                let responseBody = String(data: data, encoding: NSUTF8StringEncoding)
+                let responseBody = String(data: data, encoding: String.Encoding.utf8)
                 if responseBody == "null" {
-                    NSNotificationCenter.defaultCenter().postNotificationName("DataControllerDidReceiveCompanyIDNotification", object: false)
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: "DataControllerDidReceiveCompanyIDNotification"), object: false)
                     return
                 }
                 
-                let jsonResponse = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments) as! [Dictionary<String, String>]
+                let jsonResponse = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [Dictionary<String, String>]
                 for dict in jsonResponse {
-                    if (NSUserDefaults.standardUserDefaults().valueForKey("companyPath") as? String) == nil {
-                        NSUserDefaults.standardUserDefaults().setObject(dict["baseURL"], forKey: "companyPath")
+                    if (UserDefaults.standard.value(forKey: "companyPath") as? String) == nil {
+                        UserDefaults.standard.set(dict["baseURL"], forKey: "companyPath")
                     }
                     self.appDelegate.companyPath = dict["baseURL"]!
                     
-                    if (NSUserDefaults.standardUserDefaults().valueForKey("companyName") as? String) == nil {
-                        NSUserDefaults.standardUserDefaults().setObject(dict["company_name"], forKey: "companyName")
+                    if (UserDefaults.standard.value(forKey: "companyName") as? String) == nil {
+                        UserDefaults.standard.set(dict["company_name"], forKey: "companyName")
                     }
                     self.appDelegate.companyName = dict["company_name"]!
-                    NSNotificationCenter.defaultCenter().postNotificationName("DataControllerDidReceiveCompanyIDNotification", object: true);
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: "DataControllerDidReceiveCompanyIDNotification"), object: true);
                 }
                 
             }
@@ -278,40 +298,41 @@ class DataController: NSObject {
             
             //            let responseBody = String(data: data, encoding: NSUTF8StringEncoding)
             //            print(responseBody)
-        }
+        }) 
         task.resume()
     }
     
-    func checkCredentials(username: String, password: String) {
-        let url = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/get/get_users.php")!
-        let session = NSURLSession.sharedSession()
-        let request = NSMutableURLRequest(URL: url)
-        request.HTTPMethod = "POST"
-        request.cachePolicy = .ReloadIgnoringLocalCacheData
+    func checkCredentials(_ username: String, password: String) {
+        let url = URL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath!)/mobile_api/get/get_users.php")
+        let session = URLSession.shared
+        let request = NSMutableURLRequest(url: url!)
+        request.httpMethod = "POST"
+        request.cachePolicy = .reloadIgnoringLocalCacheData
         
-        let jsonRequest = "username=\(username)&password=\(password)" .dataUsingEncoding(NSUTF8StringEncoding)
+        let jsonRequest = "username=\(username)&password=\(password)" .data(using: String.Encoding.utf8)
         
-        let task = session.uploadTaskWithRequest(request, fromData: jsonRequest) { (data, response, error) in
-            let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
+        let task = session.uploadTask(with: request as URLRequest, from: jsonRequest, completionHandler: { (data, response, error) in
+            let responseBody = String(data: data!, encoding: String.Encoding.utf8)
             if responseBody == "correct" {
-                NSNotificationCenter.defaultCenter().postNotificationName("DataControllerDidReceiveAuthenticationNotification", object: true)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "DataControllerDidReceiveAuthenticationNotification"), object: true)
             }
             else {
-                NSNotificationCenter.defaultCenter().postNotificationName("DataControllerDidReceiveAuthenticationNotification", object: false)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "DataControllerDidReceiveAuthenticationNotification"), object: false)
             }
             //            print("response = \(responseBody)")
             //            print()
-        }
+        }) 
         task.resume()
     }
     
-    func downloadImage(completion: (NSData -> Void)) {
-        let urlString = "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/check-in_image.png"
-        let url = NSURL(string: urlString)!
-        let request = NSURLRequest(URL: url)
-        let dataTask = self.session.dataTaskWithRequest(request) { (data, response, error) in
+    func downloadImage(_ completion: @escaping ((Data) -> Void)) {
+        let urlString = "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath!)/check-in_image.png"
+        let url = URL(string: urlString)!
+        let request = URLRequest(url: url)
+
+        let dataTask = self.session.dataTask(with: request, completionHandler: { (data, response, error) in
             if (error == nil) {
-                if let httpResponse = response as? NSHTTPURLResponse {
+                if let httpResponse = response as? HTTPURLResponse {
                     switch httpResponse.statusCode {
                     case 200:
                         if let data = data {
@@ -325,57 +346,57 @@ class DataController: NSObject {
             else {
                 print("Error Downloading File Class:\(#file)\n Line:\(#line)\n Error:\(error)")
             }
-        }
+        }) 
         dataTask.resume()
     }
     
-    func updateCheckInEventAtCellIndex(checkinEvent: CheckInEvent!, index: NSInteger?) {
-    NSNotificationCenter.defaultCenter().postNotificationName("DataControllerDidReceiveCheckinRecordsNotification", object: index)
+    func updateCheckInEventAtCellIndex(_ checkinEvent: CheckInEvent!, index: NSInteger?) {
+    NotificationCenter.default.post(name: Notification.Name(rawValue: "DataControllerDidReceiveCheckinRecordsNotification"), object: index)
         
-        let url:NSURL = NSURL(string: "http://www.whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/update/update_checkinEvent.php")!
+        let url:URL = URL(string: "http://www.whitecoatlabs.co/checkin/\(self.appDelegate.companyPath!)/mobile_api/update/update_checkinEvent.php")!
         
-        let session = NSURLSession.sharedSession()
-        let request = NSMutableURLRequest(URL: url)
-        request.HTTPMethod = "POST"
-        request.cachePolicy = .ReloadIgnoringLocalCacheData
+        let session = URLSession.shared
+        let request = NSMutableURLRequest(url: url)
+        request.httpMethod = "POST"
+        request.cachePolicy = .reloadIgnoringLocalCacheData
         
         var requestString = String("id=\(checkinEvent.uniqueID!)")
-        let date = NSDate.stringFromDate(NSDate.getCurrentLocalDate())
-        requestString = requestString.stringByAppendingString("&updateDate=\(date)")
+        let date = Date.stringFromDate(Date.getCurrentLocalDate())
+        requestString = requestString! + "&updateDate=\(date)"
         
         if (checkinEvent.completedTimestamp != nil) {
-            requestString = requestString.stringByAppendingString(String("&completedTimestamp=\(checkinEvent.completedTimestamp!)"))
+            requestString = requestString! + String("&completedTimestamp=\(checkinEvent.completedTimestamp!)")
         }
         if (checkinEvent.status != nil) {
-            requestString = requestString.stringByAppendingString(String("&status=\(checkinEvent.status!)"))
+            requestString = requestString! + String("&status=\(checkinEvent.status!)")
         }
         if (checkinEvent.stylist != nil) {
-            requestString = requestString.stringByAppendingString(String("&stylist=\(checkinEvent.stylist!)"))
+            requestString = requestString! + String("&stylist=\(checkinEvent.stylist!)")
         }
         if (checkinEvent.service != nil) {
-            requestString = requestString.stringByAppendingString(String("&service=\(checkinEvent.service!)"))
+            requestString = requestString! + String("&service=\(checkinEvent.service!)")
         }
         if (checkinEvent.paymentType != nil) {
-            requestString = requestString.stringByAppendingString(String("&paymentType=\(checkinEvent.paymentType!)"))
+            requestString = requestString! + String("&paymentType=\(checkinEvent.paymentType!)")
         }
         if (checkinEvent.ticketNumber != nil || checkinEvent.ticketNumber?.characters.count > 0) {
-            requestString = requestString.stringByAppendingString(String("&ticketNumber=\(checkinEvent.ticketNumber!)"))
+            requestString = requestString! + String("&ticketNumber=\(checkinEvent.ticketNumber!)")
         }
         
         if (checkinEvent.amountCharged != nil || checkinEvent.amountCharged?.characters.count > 0) {
-            requestString = requestString.stringByAppendingString(String("&amountCharged=\(checkinEvent.amountCharged!)"))
+            requestString = requestString! + String("&amountCharged=\(checkinEvent.amountCharged!)")
         }
         
         
-        let jsonRequestString = requestString .dataUsingEncoding(NSUTF8StringEncoding)
+        let jsonRequestString = requestString? .data(using: String.Encoding.utf8)
         
-        let task = session.uploadTaskWithRequest(request, fromData: jsonRequestString, completionHandler: { (data, response, error) in
-            guard let _:NSData = data, let _:NSURLResponse = response where error == nil else {
+        let task = session.uploadTask(with: request as URLRequest, from: jsonRequestString, completionHandler: { (data, response, error) in
+            guard let _:Data = data, let _:URLResponse = response , error == nil else {
                 print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
                 return
             }
             
-            let responseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
+            let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
             if responseString == "Successfully updated CheckinEvent record" {
                 
             }
@@ -383,23 +404,23 @@ class DataController: NSObject {
         task.resume()
     }
     
-    func getStylists(completion: (([Stylist]) -> Void)) {
-        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/get/get_stylists.php")!
-        let session = NSURLSession.sharedSession()
-        let request = NSMutableURLRequest(URL: url)
-        request.HTTPMethod = "POST"
-        request.cachePolicy = .ReloadIgnoringLocalCacheData
+    func getStylists(_ completion: @escaping (([Stylist]) -> Void)) {
+        let url:URL = URL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath!)/mobile_api/get/get_stylists.php")!
+        let session = URLSession.shared
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.cachePolicy = .reloadIgnoringLocalCacheData
         
         
         
-        let task = session.dataTaskWithRequest(request) {(let data, let response, let error) in
-            guard let _:NSData = data, let _:NSURLResponse = response  where error == nil else {
+        let task = session.dataTask(with: request, completionHandler: {(data, response, error) in
+            guard let _:Data = data, let _:URLResponse = response  , error == nil else {
                 print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
                 return
             }
             do {
-                let jsonResponse = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments)
-                let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
+                let jsonResponse = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
+                let responseBody = String(data: data!, encoding: String.Encoding.utf8)
                 if responseBody != "null" {
                     var stylists = [Stylist]()
                     var stylistMapping = Dictionary<String, AnyObject>()
@@ -442,29 +463,29 @@ class DataController: NSObject {
             catch {
                 print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
             }
-        }
+        }) 
         task.resume()
     }
     
-    func getServices(completion: (([Service]) -> Void)) {
-        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/get/get_services.php")!
-        let session = NSURLSession.sharedSession()
-        let request = NSMutableURLRequest(URL: url)
-        request.HTTPMethod = "POST"
-        request.cachePolicy = .ReloadIgnoringLocalCacheData
+    func getServices(_ completion: @escaping (([Service]) -> Void)) {
+        let url:URL = URL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath!)/mobile_api/get/get_services.php")!
+        let session = URLSession.shared
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.cachePolicy = .reloadIgnoringLocalCacheData
         
-        let task = session.dataTaskWithRequest(request) {(let data, let response, let error) in
-            guard let _:NSData = data, let _:NSURLResponse = response  where error == nil else {
+        let task = session.dataTask(with: request, completionHandler: {(data, response, error) in
+            guard let _:Data = data, let _:URLResponse = response  , error == nil else {
                 print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
                 return
             }
             do {
-                let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
+                let responseBody = String(data: data!, encoding: String.Encoding.utf8)
                 var services = [Service]()
                 var serviceMapping = Dictionary<String, AnyObject>()
                 
                 if responseBody != "null" {
-                    let jsonResponseString = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments)
+                    let jsonResponseString = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
                     for object in jsonResponseString as! [Dictionary<String, String>] {
                         let service = Service(name: object["name"]!, id: object["id"]!, status: object["status"]!)
                         if (serviceMapping[object["id"]!] == nil) {
@@ -502,29 +523,29 @@ class DataController: NSObject {
             catch {
                 print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
             }
-        }
+        }) 
         task.resume()
     }
     
-    func getPayments(completion: (([Payment]) -> Void)) {
-        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/get/get_payments.php")!
-        let session = NSURLSession.sharedSession()
-        let request = NSMutableURLRequest(URL: url)
-        request.HTTPMethod = "POST"
-        request.cachePolicy = .ReloadIgnoringLocalCacheData
+    func getPayments(_ completion: @escaping (([Payment]) -> Void)) {
+        let url:URL = URL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath!)/mobile_api/get/get_payments.php")!
+        let session = URLSession.shared
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.cachePolicy = .reloadIgnoringLocalCacheData
         
-        let task = session.dataTaskWithRequest(request) {(let data, let response, let error) in
-            guard let _:NSData = data, let _:NSURLResponse = response  where error == nil else {
+        let task = session.dataTask(with: request, completionHandler: {(data, response, error) in
+            guard let _:Data = data, let _:URLResponse = response  , error == nil else {
                 print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
                 return
             }
             do {
-                let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
+                let responseBody = String(data: data!, encoding: String.Encoding.utf8)
                 var payments = [Payment]()
                 var paymentMapping = Dictionary<String, AnyObject>()
                 
                 if responseBody != "null" {
-                    let jsonResponseString = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments)
+                    let jsonResponseString = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
                     for object in jsonResponseString as! [Dictionary<String, String>] {
                         let payment = Payment(name: object["name"]!, id: object["id"]!, status: object["status"]!)
                         if (paymentMapping[object["id"]!] == nil) {
@@ -564,26 +585,26 @@ class DataController: NSObject {
             catch {
                 print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
             }
-        }
+        }) 
         task.resume()
     }
     
-    func updateStylistRecord(id: String, status: String) {
-        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/update/update_stylist.php")!
+    func updateStylistRecord(_ id: String, status: String) {
+        let url:URL = URL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath!)/mobile_api/update/update_stylist.php")!
         
-        let session = NSURLSession.sharedSession()
-        let request = NSMutableURLRequest(URL: url)
-        request.HTTPMethod = "POST"
-        request.cachePolicy = .ReloadIgnoringLocalCacheData
+        let session = URLSession.shared
+        let request = NSMutableURLRequest(url: url)
+        request.httpMethod = "POST"
+        request.cachePolicy = .reloadIgnoringLocalCacheData
         
-        let jsonRequestString = "id=\(id)&status=\(status)" .dataUsingEncoding(NSUTF8StringEncoding)
+        let jsonRequestString = "id=\(id)&status=\(status)" .data(using: String.Encoding.utf8)
         
-        let task = session.uploadTaskWithRequest(request, fromData: jsonRequestString, completionHandler: { (data, response, error) in
-            guard let _:NSData = data, let _:NSURLResponse = response where error == nil else {
+        let task = session.uploadTask(with: request as URLRequest, from: jsonRequestString, completionHandler: { (data, response, error) in
+            guard let _:Data = data, let _:URLResponse = response , error == nil else {
                 print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
                 return
             }
-            NSNotificationCenter.defaultCenter().postNotificationName("DataControllerStylistRecordsChangedNotification", object: nil)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "DataControllerStylistRecordsChangedNotification"), object: nil)
 
             //            let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
             //            print(responseBody)
@@ -591,51 +612,51 @@ class DataController: NSObject {
         task.resume()
     }
     
-    func updateServiceRecord(id: String, status: String) {
-        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/update/update_service.php")!
+    func updateServiceRecord(_ id: String, status: String) {
+        let url:URL = URL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath!)/mobile_api/update/update_service.php")!
         
-        let session = NSURLSession.sharedSession()
-        let request = NSMutableURLRequest(URL: url)
-        request.HTTPMethod = "POST"
-        request.cachePolicy = .ReloadIgnoringLocalCacheData
+        let session = URLSession.shared
+        let request = NSMutableURLRequest(url: url)
+        request.httpMethod = "POST"
+        request.cachePolicy = .reloadIgnoringLocalCacheData
         
-        let jsonRequestString = "id=\(id)&status=\(status)" .dataUsingEncoding(NSUTF8StringEncoding)
+        let jsonRequestString = "id=\(id)&status=\(status)" .data(using: String.Encoding.utf8)
         
-        let task = session.uploadTaskWithRequest(request, fromData: jsonRequestString, completionHandler: { (data, response, error) in
-            guard let _:NSData = data, let _:NSURLResponse = response where error == nil else {
+        let task = session.uploadTask(with: request as URLRequest, from: jsonRequestString, completionHandler: { (data, response, error) in
+            guard let _:Data = data, let _:URLResponse = response , error == nil else {
                 print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
                 return
             }
             
-            NSNotificationCenter.defaultCenter().postNotificationName("DataControllerServiceRecordsChangedNotification", object: nil)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "DataControllerServiceRecordsChangedNotification"), object: nil)
 
-            let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
+            let responseBody = String(data: data!, encoding: String.Encoding.utf8)
             print(responseBody)
         })
         task.resume()
     }
     
     
-    func postServiceRecord(name: String, completion: (([Service]) -> Void)) {
-        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/create/create_service.php")!
+    func postServiceRecord(_ name: String, completion: @escaping (([Service]) -> Void)) {
+        let url:URL = URL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath!)/mobile_api/create/create_service.php")!
         
-        let session = NSURLSession.sharedSession()
-        let request = NSMutableURLRequest(URL: url)
-        request.HTTPMethod = "POST"
-        request.cachePolicy = .ReloadIgnoringLocalCacheData
+        let session = URLSession.shared
+        let request = NSMutableURLRequest(url: url)
+        request.httpMethod = "POST"
+        request.cachePolicy = .reloadIgnoringLocalCacheData
         
-        let jsonRequestString = "name=\(name)&status=available" .dataUsingEncoding(NSUTF8StringEncoding)
+        let jsonRequestString = "name=\(name)&status=available" .data(using: String.Encoding.utf8)
         
-        let task = session.uploadTaskWithRequest(request, fromData: jsonRequestString, completionHandler: { (data, response, error) in
-            guard let _:NSData = data, let _:NSURLResponse = response where error == nil else {
+        let task = session.uploadTask(with: request as URLRequest, from: jsonRequestString, completionHandler: { (data, response, error) in
+            guard let _:Data = data, let _:URLResponse = response , error == nil else {
                 print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
                 return
             }
             
-            let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
+            let responseBody = String(data: data!, encoding: String.Encoding.utf8)
             print(responseBody)
             
-            NSNotificationCenter.defaultCenter().postNotificationName("DataControllerServiceRecordsChangedNotification", object: nil)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "DataControllerServiceRecordsChangedNotification"), object: nil)
             self.getServices({ (services) in
                 completion(services)
             })
@@ -643,25 +664,25 @@ class DataController: NSObject {
         task.resume()
     }
     
-    func postStylistRecord(name: String, completion: (([Stylist]) -> Void)) {
-        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/create/create_stylist.php")!
+    func postStylistRecord(_ name: String, completion: @escaping (([Stylist]) -> Void)) {
+        let url:URL = URL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath!)/mobile_api/create/create_stylist.php")!
         
-        let session = NSURLSession.sharedSession()
-        let request = NSMutableURLRequest(URL: url)
-        request.HTTPMethod = "POST"
-        request.cachePolicy = .ReloadIgnoringLocalCacheData
+        let session = URLSession.shared
+        let request = NSMutableURLRequest(url: url)
+        request.httpMethod = "POST"
+        request.cachePolicy = .reloadIgnoringLocalCacheData
         
-        let jsonRequestString = "name=\(name)&status=available" .dataUsingEncoding(NSUTF8StringEncoding)
+        let jsonRequestString = "name=\(name)&status=available" .data(using: String.Encoding.utf8)
         
-        let task = session.uploadTaskWithRequest(request, fromData: jsonRequestString, completionHandler: { (data, response, error) in
-            guard let _:NSData = data, let _:NSURLResponse = response where error == nil else {
+        let task = session.uploadTask(with: request as URLRequest, from: jsonRequestString, completionHandler: { (data, response, error) in
+            guard let _:Data = data, let _:URLResponse = response , error == nil else {
                 print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
                 return
             }
             
             //            let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
             //            print(responseBody)
-            NSNotificationCenter.defaultCenter().postNotificationName("DataControllerStylistRecordsChangedNotification", object: nil)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "DataControllerStylistRecordsChangedNotification"), object: nil)
 
             self.getStylists({ (stylists) in
                 completion(stylists)
@@ -670,27 +691,27 @@ class DataController: NSObject {
         task.resume()
     }
     
-    func postCheckinEvent(phone: String, name: String, completion: () -> Void ) {
+    func postCheckinEvent(_ phone: String, name: String, completion: @escaping () -> Void ) {
         
-        let tempCleanString1 = phone.stringByReplacingOccurrencesOfString("(", withString: "")
-        let tempCleanString2 = tempCleanString1.stringByReplacingOccurrencesOfString(")", withString: "")
-        let tempCleanString3 = tempCleanString2.stringByReplacingOccurrencesOfString("-", withString: "")
+        let tempCleanString1 = phone.replacingOccurrences(of: "(", with: "")
+        let tempCleanString2 = tempCleanString1.replacingOccurrences(of: ")", with: "")
+        let tempCleanString3 = tempCleanString2.replacingOccurrences(of: "-", with: "")
         
-        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/create/create_checkinEvent.php")!
+        let url:URL = URL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath!)/mobile_api/create/create_checkinEvent.php")!
         
-        let session = NSURLSession.sharedSession()
-        let request = NSMutableURLRequest(URL: url)
-        request.HTTPMethod = "POST"
-        request.cachePolicy = .ReloadIgnoringLocalCacheData
+        let session = URLSession.shared
+        let request = NSMutableURLRequest(url: url)
+        request.httpMethod = "POST"
+        request.cachePolicy = .reloadIgnoringLocalCacheData
         
         
-        let tempCheckinTime = NSDate.stringFromDate(NSDate.getCurrentLocalDate())
-        let tempCompletedTimestamp = NSDate.stringFromDate(NSDate(timeIntervalSince1970: 0))
+        let tempCheckinTime = Date.stringFromDate(Date.getCurrentLocalDate())
+        let tempCompletedTimestamp = Date.stringFromDate(Date(timeIntervalSince1970: 0))
         
-        let jsonRequestString = "checkinTimestamp=\(tempCheckinTime)&completedTimestamp=\(tempCompletedTimestamp)&name=\(name)&phone=\(tempCleanString3)&status=checkedin" .dataUsingEncoding(NSUTF8StringEncoding)
+        let jsonRequestString = "checkinTimestamp=\(tempCheckinTime)&completedTimestamp=\(tempCompletedTimestamp)&name=\(name)&phone=\(tempCleanString3)&status=checkedin" .data(using: String.Encoding.utf8)
         
-        let task = session.uploadTaskWithRequest(request, fromData: jsonRequestString, completionHandler: { (data, response, error) in
-            guard let _:NSData = data, let _:NSURLResponse = response where error == nil else {
+        let task = session.uploadTask(with: request as URLRequest, from: jsonRequestString, completionHandler: { (data, response, error) in
+            guard let _:Data = data, let _:URLResponse = response , error == nil else {
                 print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
                 return
             }
@@ -699,15 +720,15 @@ class DataController: NSObject {
             //                print(responseBody)
             //                print()
             do {
-                let jsonResponse = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as! [Dictionary<String, AnyObject>]
+                let jsonResponse = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [Dictionary<String, AnyObject>]
                 for object in jsonResponse {
-                    dispatch_async(dispatch_get_main_queue(), {
+                    DispatchQueue.main.async(execute: {
                         let tempId = object["id"]!
                         
-                        let checkinEvent = NSEntityDescription.insertNewObjectForEntityForName("CheckInEvent", inManagedObjectContext: self.appDelegate.managedObjectContext) as? CheckInEvent
-                        let aDate = NSDate.dateFromString(object["checkinTimestamp"]! as! String)
+                        let checkinEvent = NSEntityDescription.insertNewObject(forEntityName: "CheckInEvent", into: self.appDelegate.managedObjectContext) as? CheckInEvent
+                        let aDate = Date.dateFromString(object["checkinTimestamp"]! as! String)
                         checkinEvent!.checkinTimestamp = aDate
-                        checkinEvent!.uniqueID = NSNumber(int: tempId.intValue)
+                        checkinEvent!.uniqueID = NSNumber(value: tempId.int32Value as Int32)
                         checkinEvent!.name = object["name"] as? String
                         checkinEvent!.phone = object["phone"] as? String
                         checkinEvent!.status = object["status"] as? String
@@ -730,39 +751,39 @@ class DataController: NSObject {
         task.resume()
     }
     
-    func updatePromotionMessage(let promotionMessageTuple: (message: String?, status: String?)) {
-        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/update/update_promotional_message.php")!
+    func updatePromotionMessage(_ promotionMessageTuple: (message: String?, status: String?)) {
+        let url:URL = URL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath!)/mobile_api/update/update_promotional_message.php")!
         
-        let session = NSURLSession.sharedSession()
-        let request = NSMutableURLRequest(URL: url)
-        request.HTTPMethod = "POST"
-        request.cachePolicy = .ReloadIgnoringLocalCacheData
+        let session = URLSession.shared
+        let request = NSMutableURLRequest(url: url)
+        request.httpMethod = "POST"
+        request.cachePolicy = .reloadIgnoringLocalCacheData
         
         var requestString = String()
         
         if let messageString = promotionMessageTuple.message {
-            requestString = requestString.stringByAppendingString("content=\(messageString)")
+            requestString = requestString + "content=\(messageString)"
         }
         
         if let statusString = promotionMessageTuple.status {
             if requestString.characters.count > 0 {
-                requestString = requestString.stringByAppendingString("&status=\(statusString)")
+                requestString = requestString + "&status=\(statusString)"
             }
             else {
-                requestString = requestString.stringByAppendingString("status=\(statusString)")
+                requestString = requestString + "status=\(statusString)"
             }
         }
         
         
-        let jsonRequestString = requestString .dataUsingEncoding(NSUTF8StringEncoding)
+        let jsonRequestString = requestString .data(using: String.Encoding.utf8)
         
-        let task = session.uploadTaskWithRequest(request, fromData: jsonRequestString, completionHandler: { (data, response, error) in
-            guard let _:NSData = data, let _:NSURLResponse = response where error == nil else {
+        let task = session.uploadTask(with: request as URLRequest, from: jsonRequestString, completionHandler: { (data, response, error) in
+            guard let _:Data = data, let _:URLResponse = response , error == nil else {
                 print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
                 return
             }
             
-            let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
+            let responseBody = String(data: data!, encoding: String.Encoding.utf8)
             print(responseBody!)
             print()
             
@@ -770,24 +791,24 @@ class DataController: NSObject {
         task.resume()
     }
     
-    func getPromotionalMessage(completion: (message: String, status: String) -> Void) {
-        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/get/get_promotional_messages.php")!
+    func getPromotionalMessage(_ completion: @escaping (_ message: String, _ status: String) -> Void) {
+        let url:URL = URL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath!)/mobile_api/get/get_promotional_messages.php")!
         
-        let session = NSURLSession.sharedSession()
-        let request = NSMutableURLRequest(URL: url)
-        request.HTTPMethod = "POST"
-        request.cachePolicy = .ReloadIgnoringLocalCacheData
+        let session = URLSession.shared
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.cachePolicy = .reloadIgnoringLocalCacheData
         
-        let task = session.dataTaskWithRequest(request) { (let data, let response, let error) in
-            guard let _:NSData = data, let _:NSURLResponse = response where error == nil else {
+        let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
+            guard let _:Data = data, let _:URLResponse = response , error == nil else {
                 print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
                 return
             }
             
             do {
-                let jsonResponse = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as! [Dictionary<String, String>]
+                let jsonResponse = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [Dictionary<String, String>]
                 for dictionary in jsonResponse {
-                    completion(message: dictionary["content"]!, status: dictionary["status"]!)
+                    completion(dictionary["content"]!, dictionary["status"]!)
                 }
                 
             }
@@ -795,26 +816,26 @@ class DataController: NSObject {
                 print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
             }
             
-        }
+        }) 
         task.resume()
     }
     
-    func getCompanySettings(completion: (UIColor) -> Void) {
-        let url:NSURL = NSURL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath)/mobile_api/get/get_companySettings.php")!
+    func getCompanySettings(_ completion: @escaping (UIColor) -> Void) {
+        let url:URL = URL(string: "http://whitecoatlabs.co/checkin/\(self.appDelegate.companyPath!)/mobile_api/get/get_companySettings.php")!
         
-        let session = NSURLSession.sharedSession()
-        let request = NSMutableURLRequest(URL: url)
-        request.HTTPMethod = "POST"
-        request.cachePolicy = .ReloadIgnoringLocalCacheData
+        let session = URLSession.shared
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.cachePolicy = .reloadIgnoringLocalCacheData
         
-        let task = session.dataTaskWithRequest(request) { (let data, let response, let error) in
-            guard let _:NSData = data, let _:NSURLResponse = response where error == nil else {
+        let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
+            guard let _:Data = data, let _:URLResponse = response , error == nil else {
                 print("Class:\(#file)\n Line:\(#line)\n Error:\(error)\n Data:\(data!)")
                 return
             }
             
             do {
-                let jsonResponse = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as! [Dictionary<String, String>]
+                let jsonResponse = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [Dictionary<String, String>]
                 for dictionary in jsonResponse {
                     
                     let hexString = dictionary["checkin_image_background_color"]
@@ -826,7 +847,7 @@ class DataController: NSObject {
                 print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
             }
             
-        }
+        }) 
         task.resume()
 
     }

@@ -440,13 +440,18 @@
 					7BE478B91D1F660400E31624 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 48K35CNGMH;
+						LastSwiftMigration = 0800;
 					};
 					7BE478D01D1F660400E31624 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = 48K35CNGMH;
+						LastSwiftMigration = 0800;
 						TestTargetID = 7BE478B91D1F660400E31624;
 					};
 					7BE478DB1D1F660400E31624 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = 48K35CNGMH;
+						LastSwiftMigration = 0800;
 						TestTargetID = 7BE478B91D1F660400E31624;
 					};
 				};
@@ -808,11 +813,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 48K35CNGMH;
 				INFOPLIST_FILE = "check-in/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.whitecoatlabs.ezcheck-in";
 				PRODUCT_NAME = "EZCheck-In";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
@@ -824,11 +832,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 48K35CNGMH;
 				INFOPLIST_FILE = "check-in/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.whitecoatlabs.ezcheck-in";
 				PRODUCT_NAME = "EZCheck-In";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
@@ -838,11 +849,13 @@
 			baseConfigurationReference = 6FAFD07F14921811E24A3A52 /* Pods-check-inTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 48K35CNGMH;
 				INFOPLIST_FILE = "check-inTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "whitecoatlabs.check-inTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/check-in.app/check-in";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EZCheck-In.app/EZCheck-In";
 			};
 			name = Debug;
 		};
@@ -851,11 +864,13 @@
 			baseConfigurationReference = 63012BD6260AC0AD502A7F56 /* Pods-check-inTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 48K35CNGMH;
 				INFOPLIST_FILE = "check-inTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "whitecoatlabs.check-inTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/check-in.app/check-in";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EZCheck-In.app/EZCheck-In";
 			};
 			name = Release;
 		};
@@ -863,10 +878,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C0FFFA9A0668CA2EF555EBBF /* Pods-check-inUITests.debug.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = 48K35CNGMH;
 				INFOPLIST_FILE = "check-inUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "whitecoatlabs.check-inUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = "check-in";
 			};
 			name = Debug;
@@ -875,10 +892,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F9EA007B57A096092C1D2B34 /* Pods-check-inUITests.release.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = 48K35CNGMH;
 				INFOPLIST_FILE = "check-inUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "whitecoatlabs.check-inUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = "check-in";
 			};
 			name = Release;

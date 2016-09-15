@@ -15,14 +15,14 @@ class DashboardViewController: UIViewController, ActiveClientsDelegate {
     var selectedCheckinEvent: CheckInEvent!
     let dataController = DataController.sharedInstance
     
-    override func viewWillAppear(animated: Bool) {
-        self.tabBarController?.tabBar.hidden = false
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = false
     }
     
-    override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
-        if UIDevice.currentDevice().orientation == .PortraitUpsideDown {
+    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
+        if UIDevice.current.orientation == .portraitUpsideDown {
             self.tabBarController?.selectedIndex = 1
-            self.tabBarController?.tabBar.hidden = true
+            self.tabBarController?.tabBar.isHidden = true
         }
     }
     
@@ -30,32 +30,32 @@ class DashboardViewController: UIViewController, ActiveClientsDelegate {
         for barItem in (self.tabBarController?.tabBar.items)! {
             if barItem.tag == 0 {
                 // Default image
-                barItem.image = UIImage(named: "dashboard")?.imageWithRenderingMode(.AlwaysOriginal)
+                barItem.image = UIImage(named: "dashboard")?.withRenderingMode(.alwaysOriginal)
                 
                 // By default Selected image will take tint color set in self.tabBar.tintColor
-                barItem.selectedImage = UIImage(named: "Dashboard Filled")?.imageWithRenderingMode(.AlwaysOriginal)
+                barItem.selectedImage = UIImage(named: "Dashboard Filled")?.withRenderingMode(.alwaysOriginal)
             }
             else if barItem.tag == 2 {
                 // Default image
-                barItem.image = UIImage(named: "report")?.imageWithRenderingMode(.AlwaysOriginal)
+                barItem.image = UIImage(named: "report")?.withRenderingMode(.alwaysOriginal)
                 
                 // By default Selected image will take tint color set in self.tabBar.tintColor
-                barItem.selectedImage = UIImage(named: "Report Card Filled")?.imageWithRenderingMode(.AlwaysOriginal)
+                barItem.selectedImage = UIImage(named: "Report Card Filled")?.withRenderingMode(.alwaysOriginal)
             }
             else if barItem.tag == 3 {
                 // Default image
-                barItem.image = UIImage(named: "Settings")?.imageWithRenderingMode(.AlwaysOriginal)
+                barItem.image = UIImage(named: "Settings")?.withRenderingMode(.alwaysOriginal)
                 
                 // By default Selected image will take tint color set in self.tabBar.tintColor
-                barItem.selectedImage = UIImage(named: "Settings Filled")?.imageWithRenderingMode(.AlwaysOriginal)
+                barItem.selectedImage = UIImage(named: "Settings Filled")?.withRenderingMode(.alwaysOriginal)
                 
             }
             else if barItem.tag == 4 {
                 // Default image
-                barItem.image = UIImage(named: "Info-75")?.imageWithRenderingMode(.AlwaysOriginal)
+                barItem.image = UIImage(named: "Info-75")?.withRenderingMode(.alwaysOriginal)
                 
                 // By default Selected image will take tint color set in self.tabBar.tintColor
-                barItem.selectedImage = UIImage(named: "Info Filled-75")?.imageWithRenderingMode(.AlwaysOriginal)
+                barItem.selectedImage = UIImage(named: "Info Filled-75")?.withRenderingMode(.alwaysOriginal)
                 
             }
         }
@@ -65,9 +65,9 @@ class DashboardViewController: UIViewController, ActiveClientsDelegate {
         populatePaymentTypesDataSource()
             }
     
-    private func populateStylistsDataSource() {
+    fileprivate func populateStylistsDataSource() {
         self.dataController.getStylists { (stylists) in
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 var stylistsArray = [Stylist]()
                 for item in stylists {
                     if item.status == "available" {
@@ -79,9 +79,9 @@ class DashboardViewController: UIViewController, ActiveClientsDelegate {
         }
     }
     
-    private func populateServicesDataSource() {
+    fileprivate func populateServicesDataSource() {
         self.dataController.getServices { (services) in
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 var servicesArray = [Service]()
                 for item in services {
                     if item.status == "available" {
@@ -93,9 +93,9 @@ class DashboardViewController: UIViewController, ActiveClientsDelegate {
         }
     }
     
-    private func populatePaymentTypesDataSource() {
+    fileprivate func populatePaymentTypesDataSource() {
         self.dataController.getPayments { (payments) in
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 var paymentTypesArray = [Payment]()
                 for item in payments {
                     if item.status == "available" {
@@ -107,12 +107,12 @@ class DashboardViewController: UIViewController, ActiveClientsDelegate {
         }
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier! {
         case "ActiveClientDetailsSegue":
-            self.activeClientDetailsTVC = segue.destinationViewController as! ActiveClientDetailsTableViewController
+            self.activeClientDetailsTVC = segue.destination as! ActiveClientDetailsTableViewController
         case "showCheckedinClientsTable":
-            self.activeClientsVC = segue.destinationViewController as! ActiveClientsViewController
+            self.activeClientsVC = segue.destination as! ActiveClientsViewController
             self.activeClientsVC.delegate = self
             
         default:
@@ -120,29 +120,29 @@ class DashboardViewController: UIViewController, ActiveClientsDelegate {
         }
     }
     
-    func didSelectCheckinEvent(checkinEvent: CheckInEvent, index: NSInteger) {
+    func didSelectCheckinEvent(_ checkinEvent: CheckInEvent, index: NSInteger) {
         self.activeClientDetailsTVC.titleLabel.text = checkinEvent.name
         
-        self.activeClientDetailsTVC.stylistNameButton.hidden = false
-        self.activeClientDetailsTVC.stylistNameButton.setTitle(checkinEvent.stylist == "" || checkinEvent.stylist == nil ? "?" : checkinEvent.stylist, forState: .Normal)
+        self.activeClientDetailsTVC.stylistNameButton.isHidden = false
+        self.activeClientDetailsTVC.stylistNameButton.setTitle(checkinEvent.stylist == "" || checkinEvent.stylist == nil ? "?" : checkinEvent.stylist, for: UIControlState())
         
-        self.activeClientDetailsTVC.serviceNameButton.hidden = false
-        self.activeClientDetailsTVC.serviceNameButton.setTitle(checkinEvent.service == "" || checkinEvent.service == nil ? "?" : checkinEvent.service, forState: .Normal)
+        self.activeClientDetailsTVC.serviceNameButton.isHidden = false
+        self.activeClientDetailsTVC.serviceNameButton.setTitle(checkinEvent.service == "" || checkinEvent.service == nil ? "?" : checkinEvent.service, for: UIControlState())
         
-        self.activeClientDetailsTVC.paymentTypeButton.hidden = false
-        self.activeClientDetailsTVC.paymentTypeButton.setTitle(checkinEvent.paymentType == "" || checkinEvent.paymentType == nil ? "?" : checkinEvent.paymentType, forState: .Normal)
+        self.activeClientDetailsTVC.paymentTypeButton.isHidden = false
+        self.activeClientDetailsTVC.paymentTypeButton.setTitle(checkinEvent.paymentType == "" || checkinEvent.paymentType == nil ? "?" : checkinEvent.paymentType, for: UIControlState())
         
         
-        self.activeClientDetailsTVC.completedButton.hidden = false
-        self.activeClientDetailsTVC.DeleteButton.hidden = false
+        self.activeClientDetailsTVC.completedButton.isHidden = false
+        self.activeClientDetailsTVC.DeleteButton.isHidden = false
         
         self.activeClientDetailsTVC.checkinEvent = checkinEvent
         self.activeClientDetailsTVC.selectedIndex = index
         
-        self.activeClientDetailsTVC.amountChargedTextField.hidden = false
+        self.activeClientDetailsTVC.amountChargedTextField.isHidden = false
         self.activeClientDetailsTVC.amountChargedTextField.text = checkinEvent.amountCharged
         
-        self.activeClientDetailsTVC.receiptNumberTextField.hidden = false
+        self.activeClientDetailsTVC.receiptNumberTextField.isHidden = false
         self.activeClientDetailsTVC.receiptNumberTextField.text = checkinEvent.ticketNumber
     }
 }

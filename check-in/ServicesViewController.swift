@@ -15,7 +15,7 @@ class ServicesViewController: UIViewController, AddServiceVCDelegate {
     
     var addServiceVC: AddServiceViewController!
     var services = Array<Service>()
-    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let cellIdentifier = "serviceCell"
     var dataController = DataController.sharedInstance
     
@@ -25,7 +25,7 @@ class ServicesViewController: UIViewController, AddServiceVCDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.dataController.getServices { (services) in
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 for item in services {
                     if item.status == "deleted" {
                         continue
@@ -38,38 +38,39 @@ class ServicesViewController: UIViewController, AddServiceVCDelegate {
         }
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        self.addServiceVC = segue.destinationViewController as! AddServiceViewController
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        self.addServiceVC = segue.destination as! AddServiceViewController
         self.addServiceVC.delegate = self
     }
     
     //------------------------------------------------------------------------------
     // MARK: TableView Methods
     //------------------------------------------------------------------------------
-    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]? {
-        let deleted = UITableViewRowAction(style: .Destructive, title: "Eliminar") { action, index in
-            let service = self.services[indexPath.row]
+    func tableView(_ tableView: UITableView, editActionsForRowAtIndexPath indexPath: IndexPath) -> [AnyObject]? {
+        let deleted = UITableViewRowAction(style: .destructive, title: "Eliminar") { (action, index) in
+            let service = self.services[(indexPath as NSIndexPath).row]
             service.status = "deleted"
             self.dataController.updateServiceRecord(service.id, status: service.status)
-            self.services.removeAtIndex(indexPath.row)
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            self.services.remove(at: (indexPath as NSIndexPath).row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
         }
-        deleted.backgroundColor = UIColor.redColor()
+
+        deleted.backgroundColor = UIColor.red
         
         return [deleted]
     }
     
-    func tableView(tableView:UITableView!, numberOfRowsInSection section:Int)->Int{
+    func tableView(_ tableView:UITableView!, numberOfRowsInSection section:Int)->Int{
         return self.services.count
     }
     
     
-    func numberOfSectionsInTableView(tableView:UITableView!)->Int{
+    func numberOfSectionsInTableView(_ tableView:UITableView!)->Int{
         return 1
     }
     
-    func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ServiceCell
+    func tableView(_ tableView: UITableView!, cellForRowAtIndexPath indexPath: IndexPath!) -> UITableViewCell! {
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! ServiceCell
         let service = self.services[indexPath.row]
         cell.name.text = service.name
         if (service.status == "available") {
@@ -81,11 +82,11 @@ class ServicesViewController: UIViewController, AddServiceVCDelegate {
         return cell
     }
     
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let vw = UIView()
-        let titleLabel = UILabel(frame: CGRectMake(16, 6, 200, 16))
+        let titleLabel = UILabel(frame: CGRect(x: 16, y: 6, width: 200, height: 16))
         titleLabel.text = "Servicios"
-        titleLabel.textColor = UIColor.whiteColor()
+        titleLabel.textColor = UIColor.white
         titleLabel.font = UIFont(name:"HelveticaNeue-Bold", size: 18.0)
         vw.addSubview(titleLabel)
         vw.backgroundColor = UIColor(red: 0.78, green: 0.77, blue: 0.80, alpha: 1.00)
@@ -96,13 +97,13 @@ class ServicesViewController: UIViewController, AddServiceVCDelegate {
     //------------------------------------------------------------------------------
     // MARK: AddServiceDelegate Methods
     //------------------------------------------------------------------------------
-    func didEnterServiceName(name: String) {
+    func didEnterServiceName(_ name: String) {
         self.dataController.postServiceRecord(name) { (services) in
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 self.services = services
                 self.tableview.reloadData()
             })
-            self.addServiceVC.dismissViewControllerAnimated(true, completion: nil)
+            self.addServiceVC.dismiss(animated: true, completion: nil)
         }
     }
     
@@ -110,14 +111,14 @@ class ServicesViewController: UIViewController, AddServiceVCDelegate {
     // MARK: Private Methods
     //------------------------------------------------------------------------------
     
-    private func populateDataSource(array: [Dictionary<String, String>]) {
+    fileprivate func populateDataSource(_ array: [Dictionary<String, String>]) {
         for item in array {
             if item["status"] == "deleted" {
                 continue
             }
             let service = Service(name: item["name"]!, id: item["id"]!, status: item["status"]!)
             self.services.append(service)        }
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
             self.tableview.reloadData()
         }
     }
@@ -125,13 +126,13 @@ class ServicesViewController: UIViewController, AddServiceVCDelegate {
     //------------------------------------------------------------------------------
     // MARK: Action Methods
     //------------------------------------------------------------------------------
-    @IBAction func switchChanged(sender: AnyObject) {
+    @IBAction func switchChanged(_ sender: AnyObject) {
         let switchSelected = sender as! UISwitch
         let cellSelected = switchSelected.superview?.superview as! UITableViewCell
-        let indexPath = self.tableview.indexPathForCell(cellSelected)
-        let service = self.services[(indexPath?.row)!]
+        let indexPath = self.tableview.indexPath(for: cellSelected)
+        let service = self.services[((indexPath as NSIndexPath?)?.row)!]
         var status: String!
-        if (switchSelected.on) {
+        if (switchSelected.isOn) {
             status = "available"
         }
         else {

@@ -33,13 +33,13 @@ class CheckInViewController: UIViewController {
     var stylistMapping = Dictionary<String, AnyObject>()
     var services = [Service]()
     var serviceMapping = Dictionary<String, AnyObject>()
-    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let dataController = DataController.sharedInstance
     
     //------------------------------------------------------------------------------
     // MARK: Lifecycle Methods
     //------------------------------------------------------------------------------
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         if let image = self.appDelegate.companyImage {
             self.companyImage.image = image
         }
@@ -51,12 +51,12 @@ class CheckInViewController: UIViewController {
         }
     }
     
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         return true
     }
     
-    override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
-        if UIDevice.currentDevice().orientation == .Portrait {
+    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
+        if UIDevice.current.orientation == .portrait {
             self.tabBarController?.selectedIndex = 0
         }
     }
@@ -65,14 +65,14 @@ class CheckInViewController: UIViewController {
     // MARK: Private Methods
     //-----------------------------------------------------------------------------
     
-    private func resetUI() {
+    fileprivate func resetUI() {
         self.nameTextField.text = nil
         self.phoneTextField.text = nil
         self.nameTextField.resignFirstResponder()
         self.phoneTextField.resignFirstResponder()
     }
     
-    private func formIsComplete() -> Bool {
+    fileprivate func formIsComplete() -> Bool {
         if self.nameTextField.text?.characters.count == 0 {
             presentAlert("Ingrese nombre")
             return false
@@ -86,20 +86,20 @@ class CheckInViewController: UIViewController {
         }
     }
     
-    private  func presentAlert(message: String) {
-        let alert = UIAlertController(title: "Falta informacion", message: message, preferredStyle: .Alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .Cancel, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
+    fileprivate  func presentAlert(_ message: String) {
+        let alert = UIAlertController(title: "Falta informacion", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
     
     
     //------------------------------------------------------------------------------
     // MARK: Action Methods
     //------------------------------------------------------------------------------
-    @IBAction func submit(sender: AnyObject) {
+    @IBAction func submit(_ sender: AnyObject) {
         if (formIsComplete()) {
             self.dataController.postCheckinEvent(self.phoneTextField.text!, name: self.nameTextField.text!, completion: { 
-                dispatch_async(dispatch_get_main_queue(), {
+                DispatchQueue.main.async(execute: {
                     self.resetUI()
                 })
             })
@@ -109,16 +109,16 @@ class CheckInViewController: UIViewController {
     //------------------------------------------------------------------------------
     // MARK: UITextField Delegate Methods
     //------------------------------------------------------------------------------
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool
+    func textField(_ textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool
     {
         if textField == self.phoneTextField
         {
-            let newString = (textField.text! as NSString).stringByReplacingCharactersInRange(range, withString: string)
-            let components = newString.componentsSeparatedByCharactersInSet(NSCharacterSet.decimalDigitCharacterSet().invertedSet)
-            let decimalString = components.joinWithSeparator("") as NSString
+            let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+            let components = newString.components(separatedBy: CharacterSet.decimalDigits.inverted)
+            let decimalString = components.joined(separator: "") as NSString
             
             let length = decimalString.length
-            let hasLeadingOne = length > 0 && decimalString.characterAtIndex(0) == (1 as unichar)
+            let hasLeadingOne = length > 0 && decimalString.character(at: 0) == (1 as unichar)
             
             if length == 0 || (length > 10 && !hasLeadingOne) || length > 11
             {
@@ -131,24 +131,24 @@ class CheckInViewController: UIViewController {
             
             if hasLeadingOne
             {
-                formattedString.appendString("1 ")
+                formattedString.append("1 ")
                 index += 1
             }
             if (length - index) > 3
             {
-                let areaCode = decimalString.substringWithRange(NSMakeRange(index, 3))
+                let areaCode = decimalString.substring(with: NSMakeRange(index, 3))
                 formattedString.appendFormat("(%@)", areaCode)
                 index += 3
             }
             if length - index > 3
             {
-                let prefix = decimalString.substringWithRange(NSMakeRange(index, 3))
+                let prefix = decimalString.substring(with: NSMakeRange(index, 3))
                 formattedString.appendFormat("%@-", prefix)
                 index += 3
             }
             
-            let remainder = decimalString.substringFromIndex(index)
-            formattedString.appendString(remainder)
+            let remainder = decimalString.substring(from: index)
+            formattedString.append(remainder)
             textField.text = formattedString as String
             
             return false

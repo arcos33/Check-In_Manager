@@ -11,16 +11,36 @@ import UIKit
 import MessageUI
 import PDFGenerator
 import CoreData
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class ReportsViewController: UIViewController, MFMailComposeViewControllerDelegate{
     // declare MIME (Multipurpose Internet Mail Extension)
     // it defines what kind of information to send via email
-    private enum MIMEType: String {
+    fileprivate enum MIMEType: String {
         case pdf = "application/pdf"
         case png = "image/png"
         
         init? (type: String) {
-            switch type.lowercaseString {
+            switch type.lowercased() {
             case "png": self = .png
             case "pdf": self = .pdf
             default: return nil
@@ -34,58 +54,58 @@ class ReportsViewController: UIViewController, MFMailComposeViewControllerDelega
     
     var titleLabel: UILabel!
     let cellIdentifier = "reportsCell"
-    var appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    var appDelegate = UIApplication.shared.delegate as! AppDelegate
     var checkinEvents = [CheckInEvent]()
     
     //------------------------------------------------------------------------------
     // MARK: Lifecycle Methods
     //------------------------------------------------------------------------------
     override func viewDidLoad() {
-        self.titleLabel = UILabel(frame: CGRectMake(280, 100, 700, 50))
-        let df = NSDateFormatter()
+        self.titleLabel = UILabel(frame: CGRect(x: 280, y: 100, width: 700, height: 50))
+        let df = DateFormatter()
         df.dateFormat = "MM-dd-yyyy"
-        let dateString = df.stringFromDate(NSDate.getCurrentLocalDate())
+        let dateString = df.string(from: Date.getCurrentLocalDate())
         self.titleLabel.text = "Reporte de dia (\(dateString))"
         self.view.addSubview(self.titleLabel)
-        self.titleLabel.hidden = true
+        self.titleLabel.isHidden = true
         
         let dataController = DataController.sharedInstance
         dataController.getCheckinRecords()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(update), name: "DataControllerDidReceiveCheckinRecordsNotification", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(update), name: NSNotification.Name(rawValue: "DataControllerDidReceiveCheckinRecordsNotification"), object: nil)
     }
     
-    override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
-        if UIDevice.currentDevice().orientation == .PortraitUpsideDown {
+    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
+        if UIDevice.current.orientation == .portraitUpsideDown {
             self.tabBarController?.selectedIndex = 1
-            self.tabBarController?.tabBar.hidden = true
+            self.tabBarController?.tabBar.isHidden = true
         }
     }
     
     //------------------------------------------------------------------------------
     // MARK: Tableview Methods
     //------------------------------------------------------------------------------
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let reportsHeaderView = tableview.dequeueReusableCellWithIdentifier("reportsHeaderView") as! ReportsHeaderView
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let reportsHeaderView = tableview.dequeueReusableCell(withIdentifier: "reportsHeaderView") as! ReportsHeaderView
         return reportsHeaderView
     }
     
     
-    func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
+    func numberOfSectionsInTableView(_ tableView: UITableView!) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
         return self.checkinEvents.count
     }
     
-    func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
-        let cell = tableView.dequeueReusableCellWithIdentifier(self.cellIdentifier)! as! ReportsCustomCell
+    func tableView(_ tableView: UITableView!, cellForRowAtIndexPath indexPath: IndexPath!) -> UITableViewCell! {
+        let cell = tableView.dequeueReusableCell(withIdentifier: self.cellIdentifier)! as! ReportsCustomCell
         let checkinEvent = self.checkinEvents[indexPath.row]
         cell.countLabel.text = String(indexPath.row + 1)
         cell.clientNameLabel.text = checkinEvent.name
-        let df = NSDateFormatter()
+        let df = DateFormatter()
         df.dateFormat = "MM/dd/yy h:mm a"
-        let dateString = df.stringFromDate(checkinEvent.checkinTimestamp!)
+        let dateString = df.string(from: checkinEvent.checkinTimestamp! as Date)
         cell.checkintTimeLabel.text = dateString
         cell.serviceTypeLabel.text = checkinEvent.service == "" || checkinEvent.service == nil ? "sin valor" : checkinEvent.service
         cell.stylistLabel.text = checkinEvent.stylist == "" || checkinEvent.stylist == nil ? "sin valor" : checkinEvent.stylist
@@ -98,19 +118,19 @@ class ReportsViewController: UIViewController, MFMailComposeViewControllerDelega
         return cell
     }
     
-    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
-        let alert = UIAlertController(title: "Item selected", message: "You selected item \(indexPath.row)", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
+    func tableView(_ tableView: UITableView!, didSelectRowAtIndexPath indexPath: IndexPath!) {
+        let alert = UIAlertController(title: "Item selected", message: "You selected item \(indexPath.row)", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
     
     //------------------------------------------------------------------------------
     // MARK: Action Methods
     //------------------------------------------------------------------------------
-    @IBAction func sendEmailWithAttachment(sender: AnyObject) {
+    @IBAction func sendEmailWithAttachment(_ sender: AnyObject) {
         if self.emailTextField.text?.characters.count > 0 {
             //self.emailTextField.resignFirstResponder()
-            let identifier = String(NSDate.getCurrentLocalDate())
+            let identifier = String(describing: Date.getCurrentLocalDate())
             generatePDF(identifier)
             //createPdfFromView(self.tableview, saveToDocumentsWithIdentifier: identifier)
         }
@@ -122,12 +142,12 @@ class ReportsViewController: UIViewController, MFMailComposeViewControllerDelega
     //------------------------------------------------------------------------------
     // MARK: Private Methods
     //------------------------------------------------------------------------------
-    @objc private func update(notification: NSNotification) {
-        dispatch_async(dispatch_get_main_queue()) { 
-            let fetch = NSFetchRequest(entityName: "CheckInEvent")
+    @objc fileprivate func update(_ notification: Notification) {
+        DispatchQueue.main.async {
+            let fetch: NSFetchRequest<NSFetchRequestResult> = CheckInEvent.fetchRequest()
             fetch.predicate = self.createPredicate()
             do {
-                self.checkinEvents = try self.appDelegate.managedObjectContext.executeFetchRequest(fetch) as! [CheckInEvent]
+                self.checkinEvents = try self.appDelegate.managedObjectContext.fetch(fetch) as! [CheckInEvent]
             }
             catch {
                 print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
@@ -137,31 +157,31 @@ class ReportsViewController: UIViewController, MFMailComposeViewControllerDelega
         }
     }
     
-    private func createPredicate() -> NSPredicate {
+    fileprivate func createPredicate() -> NSPredicate {
         var predicates: [NSPredicate]! = []
-        let calendar = NSCalendar.currentCalendar()
-        let components: NSDateComponents = calendar.components([.Day, .Month, .Year], fromDate: NSDate())
-        let today = calendar.dateFromComponents(components)!
-        components.day = components.day+1
-        let tomorrow = calendar.dateFromComponents(components)!
+        let calendar = Calendar.current
+        var components: DateComponents = (calendar as NSCalendar).components([.day, .month, .year], from: Date())
+        let today = calendar.date(from: components)!
+        components.day = components.day!+1
+        let tomorrow = calendar.date(from: components)!
         
-        let subPredicateFrom = NSPredicate(format: "checkinTimestamp >= %@", today)
+        let subPredicateFrom = NSPredicate(format: "checkinTimestamp >= %@", today as CVarArg)
         predicates.append(subPredicateFrom)
         
-        let subPredicateTo = NSPredicate(format: "checkinTimestamp < %@", tomorrow)
+        let subPredicateTo = NSPredicate(format: "checkinTimestamp < %@", tomorrow as CVarArg)
         predicates.append(subPredicateTo)
         
         let subPredicateCompleted = NSPredicate(format: "status == 'completed'")
         predicates.append(subPredicateCompleted)
         
-        return NSCompoundPredicate(type: .AndPredicateType, subpredicates: predicates)
+        return NSCompoundPredicate(type: .and, subpredicates: predicates)
     }
     
-    private func createPdfFromView(aView: UIView, saveToDocumentsWithIdentifier fileName: String)
+    fileprivate func createPdfFromView(_ aView: UIView, saveToDocumentsWithIdentifier fileName: String)
     {
-        self.emailTextField.hidden = true
-        self.sendPDFButton.hidden = true
-        self.titleLabel.hidden = false
+        self.emailTextField.isHidden = true
+        self.sendPDFButton.isHidden = true
+        self.titleLabel.isHidden = false
         
         let pdfData = NSMutableData()
         UIGraphicsBeginPDFContextToData(pdfData, aView.bounds, nil)
@@ -169,26 +189,26 @@ class ReportsViewController: UIViewController, MFMailComposeViewControllerDelega
         
         guard let pdfContext = UIGraphicsGetCurrentContext() else { return }
         
-        aView.layer.renderInContext(pdfContext)
+        aView.layer.render(in: pdfContext)
         UIGraphicsEndPDFContext()
-        self.emailTextField.hidden = false
-        self.sendPDFButton.hidden = false
-        self.titleLabel.hidden = true
+        self.emailTextField.isHidden = false
+        self.sendPDFButton.isHidden = false
+        self.titleLabel.isHidden = true
         
-        if let documentDirectories = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first {
+        if let documentDirectories = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first {
             let filePath = documentDirectories + "/" + fileName
-            pdfData.writeToFile(filePath, atomically: true)
+            pdfData.write(toFile: filePath, atomically: true)
             showMailComposerWith(filePath, fileName: fileName)
         }
     }
     
-    private func alert(title: String, message: String) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-        alertController.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
-        presentViewController(alertController, animated: true, completion: nil)
+    fileprivate func alert(_ title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        present(alertController, animated: true, completion: nil)
     }
     
-    private func showMailComposerWith(filePath: String, fileName: String) {
+    fileprivate func showMailComposerWith(_ filePath: String, fileName: String) {
         if MFMailComposeViewController.canSendMail() {
             let subject = "Reporte"
             let messageBody = "Reporte de fin de dia"
@@ -199,9 +219,9 @@ class ReportsViewController: UIViewController, MFMailComposeViewControllerDelega
             mailComposer.setMessageBody(messageBody, isHTML: true)
             mailComposer.setToRecipients([toRecipient!])
 
-            if let fileData = NSData(contentsOfFile: filePath) {
+            if let fileData = try? Data(contentsOf: URL(fileURLWithPath: filePath)) {
                 mailComposer.addAttachmentData(fileData, mimeType: "application/pdf", fileName: fileName)
-                presentViewController(mailComposer, animated: true, completion: nil)
+                present(mailComposer, animated: true, completion: nil)
             }
         }
         else {
@@ -209,37 +229,34 @@ class ReportsViewController: UIViewController, MFMailComposeViewControllerDelega
         }
     }
     
-    func generatePDF(fileName: String) {
+    func generatePDF(_ fileName: String) {
         let v1 = self.tableview
-        let identifier = String(NSDate.getCurrentLocalDate())
-        let documentDirectories = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first
-        let dst = documentDirectories! + "/" + fileName
+        let identifier = String(describing: Date.getCurrentLocalDate())
+        let homeDir = NSHomeDirectory() as NSString
+        let path = homeDir.appending("/\(fileName)")
+        //let documentDirectories = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first
+       // let dst = documentDirectories! + "/" + fileName
         
         // outputs as NSData
         do {
-            let data = try PDFGenerator.generate([v1])
-            data.writeToFile(dst, atomically: true)
-        } catch (let error) {
-            print(error)
+            try PDFGenerator.generate(v1!, to: path)
+
         }
-        
-        // writes to Disk directly.
-        do {
-            try PDFGenerator.generate([v1], outputPath: dst)
-        } catch (let error) {
-            print(error)
+        catch {
+            
         }
-        showMailComposerWith(dst, fileName: identifier)
+
+        showMailComposerWith(path, fileName: identifier)
     }
     
     //------------------------------------------------------------------------------
     // MARK: MFMailComposeViewControllerDelegate Methods
     //------------------------------------------------------------------------------
-    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
-        dismissViewControllerAnimated(true, completion: nil)
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        dismiss(animated: true, completion: nil)
 
         switch result.rawValue {
-        case MFMailComposeResultFailed.rawValue:
+        case MFMailComposeResult.failed.rawValue:
             alert("failed", message: (error?.localizedDescription)!)
         default: return
         }

@@ -8,41 +8,41 @@
 
 import Foundation
 
-extension NSDate {
-    class func stringFromDate(date: NSDate) -> String{
-        let formatter = NSDateFormatter()
+extension Date {
+    static func stringFromDate(_ date: Date) -> String{
+        let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        formatter.timeZone = NSTimeZone(name: "GMT")
-        return formatter.stringFromDate(date)
+        formatter.timeZone = TimeZone(identifier: "GMT")
+        return formatter.string(from: date)
     }
     
-    class func dateFromString(string: String) -> NSDate {
-        let formatter = NSDateFormatter()
+    static func dateFromString(_ string: String) -> Date {
+        let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        formatter.timeZone = NSTimeZone(name: "GMT")
-        return formatter.dateFromString(string)!
+        formatter.timeZone = TimeZone(identifier: "GMT")
+        return formatter.date(from: string)!
     }
     
-    class func getCurrentLocalDate()-> NSDate {
-        var now = NSDate()
-        let nowComponents = NSDateComponents()
-        let calendar = NSCalendar.currentCalendar()
-        nowComponents.year = NSCalendar.currentCalendar().component(NSCalendarUnit.Year, fromDate: now)
-        nowComponents.month = NSCalendar.currentCalendar().component(NSCalendarUnit.Month, fromDate: now)
-        nowComponents.day = NSCalendar.currentCalendar().component(NSCalendarUnit.Day, fromDate: now)
-        nowComponents.hour = NSCalendar.currentCalendar().component(NSCalendarUnit.Hour, fromDate: now)
-        nowComponents.minute = NSCalendar.currentCalendar().component(NSCalendarUnit.Minute, fromDate: now)
-        nowComponents.second = NSCalendar.currentCalendar().component(NSCalendarUnit.Second, fromDate: now)
-        nowComponents.timeZone = NSTimeZone(abbreviation: "GMT")
-        now = calendar.dateFromComponents(nowComponents)!
+    static func getCurrentLocalDate()-> Date {
+        var now = Date()
+        var nowComponents = DateComponents()
+        let calendar = Calendar.current
+        nowComponents.year = (Calendar.current as NSCalendar).component(NSCalendar.Unit.year, from: now)
+        nowComponents.month = (Calendar.current as NSCalendar).component(NSCalendar.Unit.month, from: now)
+        nowComponents.day = (Calendar.current as NSCalendar).component(NSCalendar.Unit.day, from: now)
+        nowComponents.hour = (Calendar.current as NSCalendar).component(NSCalendar.Unit.hour, from: now)
+        nowComponents.minute = (Calendar.current as NSCalendar).component(NSCalendar.Unit.minute, from: now)
+        nowComponents.second = (Calendar.current as NSCalendar).component(NSCalendar.Unit.second, from: now)
+        (nowComponents as NSDateComponents).timeZone = TimeZone(abbreviation: "GMT")
+        now = calendar.date(from: nowComponents)!
         return now
     }
     
-    class func getTimeInHoursAndMinutes(date: NSDate) -> String {
-        let df = NSDateFormatter()
+    static func getTimeInHoursAndMinutes(_ date: Date) -> String {
+        let df = DateFormatter()
         df.dateFormat = "h:mm a"
-        df.timeZone = NSTimeZone(name: "GMT")
-        return df.stringFromDate(date)
+        df.timeZone = TimeZone(identifier: "GMT")
+        return df.string(from: date)
     }
     
 

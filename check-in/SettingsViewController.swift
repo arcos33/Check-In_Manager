@@ -21,16 +21,16 @@ class SettingsViewController: UIViewController {
         
             }
     
-    override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
-        if UIDevice.currentDevice().orientation == .PortraitUpsideDown {
+    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
+        if UIDevice.current.orientation == .portraitUpsideDown {
             self.tabBarController?.selectedIndex = 1
-            self.tabBarController?.tabBar.hidden = true
+            self.tabBarController?.tabBar.isHidden = true
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         self.dataController.getPromotionalMessage { (message, status) in
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 self.messagesTextView.text = message
                 self.statusSwitch.setOn(status == "on" ? true : false, animated: true)
                 self.promotionMessageStatusLabel.text = status
@@ -38,17 +38,17 @@ class SettingsViewController: UIViewController {
         }
     }
     
-    @IBAction func setMessage(sender: AnyObject) {
+    @IBAction func setMessage(_ sender: AnyObject) {
         updatePromotionMessage()
     }
     
-    @IBAction func availabilityStatusChanged(sender: UISwitch) {
+    @IBAction func availabilityStatusChanged(_ sender: UISwitch) {
         updatePromotionMessage()
     }
     
-    private func updatePromotionMessage() {
+    fileprivate func updatePromotionMessage() {
         self.promotionMessageTuple.message = self.messagesTextView.text
-        self.promotionMessageTuple.status = self.statusSwitch.on == true ? "on" : "off"
+        self.promotionMessageTuple.status = self.statusSwitch.isOn == true ? "on" : "off"
         self.promotionMessageStatusLabel.text = self.promotionMessageTuple.status
         self.dataController.updatePromotionMessage(self.promotionMessageTuple)
         self.messagesTextView.resignFirstResponder()
@@ -57,20 +57,20 @@ class SettingsViewController: UIViewController {
     //------------------------------------------------------------------------------
     // MARK: MessageComposer Delegate Methods
     //------------------------------------------------------------------------------
-    func messageComposeViewController(controller: MFMessageComposeViewController, didFinishWithResult result: MessageComposeResult) {
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWithResult result: MessageComposeResult) {
         switch result.rawValue {
-        case MessageComposeResultCancelled.rawValue :
+        case MessageComposeResult.cancelled.rawValue :
             print("message canceled")
             
-        case MessageComposeResultFailed.rawValue :
+        case MessageComposeResult.failed.rawValue :
             print("message failed")
             
-        case MessageComposeResultSent.rawValue :
+        case MessageComposeResult.sent.rawValue :
             print("message sent")
             
         default:
             break
         }
-        controller.dismissViewControllerAnimated(true, completion: nil)
+        controller.dismiss(animated: true, completion: nil)
     }
 }

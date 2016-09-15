@@ -1,11 +1,11 @@
 PODS:
-  - PDFGenerator (1.4.0)
+  - PDFGenerator (1.4.3)
 
 DEPENDENCIES:
   - PDFGenerator (~> 1.4)
 
 SPEC CHECKSUMS:
-  PDFGenerator: 2ebc46e9c0e051542a31e0e67dc09e2f12c0fc77
+  PDFGenerator: 8e28213b0b36e41f667b474e24ab7c84c8cee303
 
 PODFILE CHECKSUM: aa287a9911c92fc5220e9a4294140814734e560d
 

@@ -9,7 +9,7 @@
 import UIKit
 
 protocol StylistsOfferedTableDelegate {
-    func didSelectStylist(stylist: String)
+    func didSelectStylist(_ stylist: String)
 }
 
 class StylistsOfferedTableViewController: UITableViewController {
@@ -19,7 +19,7 @@ class StylistsOfferedTableViewController: UITableViewController {
     var stylistSelected:String!
     var delegate: StylistsOfferedTableDelegate?
     let dataController = DataController.sharedInstance
-    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     //------------------------------------------------------------------------------
     // MARK: Lifecycle Methods
@@ -28,38 +28,38 @@ class StylistsOfferedTableViewController: UITableViewController {
         super.viewDidLoad()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
             }
     
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         return true
     }
     
     //------------------------------------------------------------------------------
     // MARK: TableView Methods
     //------------------------------------------------------------------------------
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Try to get a cell
-        let stylist = self.stylistsOffered[indexPath.row] as Stylist
+        let stylist = self.stylistsOffered[(indexPath as NSIndexPath).row] as Stylist
         let cell = UITableViewCell()
         cell.textLabel?.text = stylist.name!
-        cell.textLabel?.textAlignment = .Center
+        cell.textLabel?.textAlignment = .center
         return cell
     }
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.stylistsOffered.count
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.didSetStylist = true
-        let stylist = self.stylistsOffered[indexPath.row]
+        let stylist = self.stylistsOffered[(indexPath as NSIndexPath).row]
         self.stylistSelected = stylist.name!
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
         self.delegate?.didSelectStylist(stylist.name!)
     }
 }

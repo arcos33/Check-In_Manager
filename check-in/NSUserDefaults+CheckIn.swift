@@ -8,10 +8,10 @@
 
 import UIKit
 
-extension NSUserDefaults {
+extension UserDefaults {
     func createUniqueID() -> Int {
-        let uniqueID = self.integerForKey("uniqueID")
-        self.setInteger(uniqueID + 1, forKey: "uniqueID")
+        let uniqueID = self.integer(forKey: "uniqueID")
+        self.set(uniqueID + 1, forKey: "uniqueID")
         self.synchronize()
         
         return uniqueID

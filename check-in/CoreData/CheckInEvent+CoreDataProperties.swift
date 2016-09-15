@@ -20,13 +20,13 @@ extension CheckInEvent {
     @NSManaged var uniqueID: NSNumber?
     @NSManaged var client: Client?
     @NSManaged var name: String?
-    @NSManaged var checkinTimestamp: NSDate?
-    @NSManaged var completedTimestamp: NSDate?
+    @NSManaged var checkinTimestamp: Date?
+    @NSManaged var completedTimestamp: Date?
     @NSManaged var phone: String?
     @NSManaged var stylist: String?
     @NSManaged var service: String?
     @NSManaged var paymentType: String?
     @NSManaged var ticketNumber: String?
-    @NSManaged var updateDate: NSDate?
+    @NSManaged var updateDate: Date?
     @NSManaged var amountCharged: String?
 }

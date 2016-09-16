@@ -19,6 +19,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var companyBackgroundColor: UIColor?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        let preferredLanguage = "es-MX"
+        let defaults = UserDefaults.standard
+        defaults.set(preferredLanguage, forKey: "AppleLanguages")
+        defaults.synchronize()
+        
+        
         // Override point for customization after application launch.
         let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
         print(documentsPath)

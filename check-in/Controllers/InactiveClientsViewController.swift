@@ -107,7 +107,7 @@ class InactiveClientsViewController: UIViewController {
         cell.name.text = checkInEvent.name
         return cell
     }
-
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let vw = UIView()
         let titleLabel = UILabel(frame: CGRect(x: 16, y: 6, width: 200, height: 16))

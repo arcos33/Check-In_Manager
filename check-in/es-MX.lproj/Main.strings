@@ -1,0 +1,171 @@
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "0Wq-Ll-ev3"; */
+"0Wq-Ll-ev3.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "Completar"; ObjectID = "1g2-bl-eI3"; */
+"1g2-bl-eI3.normalTitle" = "Completar";
+
+/* Class = "UILabel"; text = "Numero de recibo"; ObjectID = "2pm-Y1-30g"; */
+"2pm-Y1-30g.text" = "Numero de recibo";
+
+/* Class = "UIButton"; normalTitle = "Submit"; ObjectID = "48U-7q-Xnv"; */
+"48U-7q-Xnv.normalTitle" = "Submit";
+
+/* Class = "UIButton"; normalTitle = "Nombre"; ObjectID = "4WI-96-GKY"; */
+"4WI-96-GKY.normalTitle" = "Nombre";
+
+/* Class = "UIButton"; normalTitle = "Nombre"; ObjectID = "65D-JT-hyT"; */
+"65D-JT-hyT.normalTitle" = "Nombre";
+
+/* Class = "UILabel"; text = "Cristiano R"; ObjectID = "6Uv-q3-9Db"; */
+"6Uv-q3-9Db.text" = "Cristiano R";
+
+/* Class = "UITextField"; placeholder = "Nombre"; ObjectID = "6zv-75-hXY"; */
+"6zv-75-hXY.placeholder" = "Nombre";
+
+/* Class = "UILabel"; text = "Estilista"; ObjectID = "8Po-TK-GFx"; */
+"8Po-TK-GFx.text" = "Estilista";
+
+/* Class = "UILabel"; text = "Estilista"; ObjectID = "8ez-mx-wdN"; */
+"8ez-mx-wdN.text" = "Estilista";
+
+/* Class = "UILabel"; text = "Estilista"; ObjectID = "A4K-kL-IxN"; */
+"A4K-kL-IxN.text" = "Estilista";
+
+/* Class = "UILabel"; text = "Mensaje"; ObjectID = "AbR-eJ-0Tg"; */
+"AbR-eJ-0Tg.text" = "Mensaje";
+
+/* Class = "UILabel"; text = "completado"; ObjectID = "DcX-TQ-gde"; */
+"DcX-TQ-gde.text" = "completado";
+
+/* Class = "UILabel"; text = "Servicio"; ObjectID = "EYD-xJ-NFf"; */
+"EYD-xJ-NFf.text" = "Servicio";
+
+/* Class = "UILabel"; text = "Espera"; ObjectID = "Epg-XA-fXR"; */
+"Epg-XA-fXR.text" = "Espera";
+
+/* Class = "UILabel"; text = "200"; ObjectID = "EsT-dd-3sr"; */
+"EsT-dd-3sr.text" = "200";
+
+/* Class = "UIButton"; normalTitle = "Check In"; ObjectID = "F6r-dz-ejI"; */
+"F6r-dz-ejI.normalTitle" = "Check In";
+
+/* Class = "UIButton"; normalTitle = "Agregar"; ObjectID = "FPX-xt-1aJ"; */
+"FPX-xt-1aJ.normalTitle" = "Agregar";
+
+/* Class = "UITextField"; placeholder = "Nombre"; ObjectID = "Fw0-qZ-whf"; */
+"Fw0-qZ-whf.placeholder" = "Nombre";
+
+/* Class = "UILabel"; text = "Servicio"; ObjectID = "GH1-Dg-ODH"; */
+"GH1-Dg-ODH.text" = "Servicio";
+
+/* Class = "UIButton"; normalTitle = "Enviar PDF"; ObjectID = "Jft-gR-HWj"; */
+"Jft-gR-HWj.normalTitle" = "Enviar PDF";
+
+/* Class = "UIButton"; normalTitle = "Agregar"; ObjectID = "KFf-Pb-nNe"; */
+"KFf-Pb-nNe.normalTitle" = "Agregar";
+
+/* Class = "UITableViewSection"; headerTitle = "General"; ObjectID = "LbF-2h-5oa"; */
+"LbF-2h-5oa.headerTitle" = "General";
+
+/* Class = "UILabel"; text = "Cantidad"; ObjectID = "Nlp-ij-Hxl"; */
+"Nlp-ij-Hxl.text" = "Cantidad";
+
+/* Class = "UIButton"; normalTitle = "Fijar"; ObjectID = "OYi-1p-WFZ"; */
+"OYi-1p-WFZ.normalTitle" = "Fijar";
+
+/* Class = "UILabel"; text = "Servicio"; ObjectID = "PHX-pn-pLp"; */
+"PHX-pn-pLp.text" = "Servicio";
+
+/* Class = "UILabel"; text = "Forma de pago"; ObjectID = "RFI-Lu-UJc"; */
+"RFI-Lu-UJc.text" = "Forma de pago";
+
+/* Class = "UIButton"; normalTitle = "Nombre"; ObjectID = "RLV-9i-0wX"; */
+"RLV-9i-0wX.normalTitle" = "Nombre";
+
+/* Class = "UITextField"; placeholder = "Password"; ObjectID = "RPy-2x-mur"; */
+"RPy-2x-mur.placeholder" = "Password";
+
+/* Class = "UILabel"; text = "Check-in"; ObjectID = "T3z-kc-bBN"; */
+"T3z-kc-bBN.text" = "Check-in";
+
+/* Class = "UILabel"; text = "4:52pm"; ObjectID = "Tkk-Pt-Jst"; */
+"Tkk-Pt-Jst.text" = "4:52pm";
+
+/* Class = "UILabel"; text = "12:52pm"; ObjectID = "U9f-Oq-P6y"; */
+"U9f-Oq-P6y.text" = "12:52pm";
+
+/* Class = "UIButton"; normalTitle = "Eliminar"; ObjectID = "UPk-OI-D0V"; */
+"UPk-OI-D0V.normalTitle" = "Eliminar";
+
+/* Class = "UILabel"; text = "Cliente"; ObjectID = "VDg-Yo-PmY"; */
+"VDg-Yo-PmY.text" = "Cliente";
+
+/* Class = "UILabel"; text = "Nombre"; ObjectID = "Vm9-wZ-LtF"; */
+"Vm9-wZ-LtF.text" = "Nombre";
+
+/* Class = "UITableViewSection"; headerTitle = "Facturacion"; ObjectID = "XPy-Aa-Otn"; */
+"XPy-Aa-Otn.headerTitle" = "Facturacion";
+
+/* Class = "UILabel"; text = "Cristiano Ronaldinho"; ObjectID = "ZCl-d2-MUy"; */
+"ZCl-d2-MUy.text" = "Cristiano Ronaldinho";
+
+/* Class = "UILabel"; text = "Cobro"; ObjectID = "ZO1-U3-HdB"; */
+"ZO1-U3-HdB.text" = "Cobro";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "a6D-YM-WVb"; */
+"a6D-YM-WVb.text" = "Label";
+
+/* Class = "UITextView"; text = "Es tiempo para tu corte, regresa a Glamour Salon y recibe un descuento de $2.\n\n*cupon valido solo para una 1 persona.\n"; ObjectID = "byK-7z-Q8d"; */
+"byK-7z-Q8d.text" = "Es tiempo para tu corte, regresa a Glamour Salon y recibe un descuento de $2.\n\n*cupon valido solo para una 1 persona.\n";
+
+/* Class = "UILabel"; text = "Check-in time"; ObjectID = "d8k-JL-0h1"; */
+"d8k-JL-0h1.text" = "Check-in time";
+
+/* Class = "UILabel"; text = "$99.99"; ObjectID = "dgh-VW-BeA"; */
+"dgh-VW-BeA.text" = "$99.99";
+
+/* Class = "UITextField"; placeholder = "Celular"; ObjectID = "e2V-V4-j9i"; */
+"e2V-V4-j9i.placeholder" = "Celular";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "hU4-y7-rTl"; */
+"hU4-y7-rTl.text" = "Label";
+
+/* Class = "UILabel"; text = "Service"; ObjectID = "i48-rQ-s0N"; */
+"i48-rQ-s0N.text" = "Service";
+
+/* Class = "UILabel"; text = "Servicio"; ObjectID = "irx-fE-Jdo"; */
+"irx-fE-Jdo.text" = "Servicio";
+
+/* Class = "UILabel"; text = "Company"; ObjectID = "jGT-5s-Oe0"; */
+"jGT-5s-Oe0.text" = "Company";
+
+/* Class = "UILabel"; text = "Name"; ObjectID = "jVM-uN-O9O"; */
+"jVM-uN-O9O.text" = "Name";
+
+/* Class = "UITextField"; placeholder = "Nombre"; ObjectID = "kOL-m0-U5M"; */
+"kOL-m0-U5M.placeholder" = "Nombre";
+
+/* Class = "UILabel"; text = "Estilista"; ObjectID = "kP9-DX-88Q"; */
+"kP9-DX-88Q.text" = "Estilista";
+
+/* Class = "UILabel"; text = "Cantidad"; ObjectID = "oAV-lh-wMo"; */
+"oAV-lh-wMo.text" = "Cantidad";
+
+/* Class = "UILabel"; text = "Stylist"; ObjectID = "ov3-m8-rdq"; */
+"ov3-m8-rdq.text" = "Stylist";
+
+/* Class = "UITextField"; placeholder = "correo electronico"; ObjectID = "qKO-Xx-2yS"; */
+"qKO-Xx-2yS.placeholder" = "correo electronico";
+
+/* Class = "UILabel"; text = "Cash"; ObjectID = "w1Y-le-Xk5"; */
+"w1Y-le-Xk5.text" = "Cash";
+
+/* Class = "UIButton"; normalTitle = "Login"; ObjectID = "wX3-rb-96n"; */
+"wX3-rb-96n.normalTitle" = "L O G O";
+
+/* Class = "UITextField"; placeholder = "Company id"; ObjectID = "y2g-1y-TB8"; */
+"y2g-1y-TB8.placeholder" = "Company id";
+
+/* Class = "UITextField"; placeholder = "Username"; ObjectID = "zgP-OO-vf9"; */
+"zgP-OO-vf9.placeholder" = "Nombre de Usuario";

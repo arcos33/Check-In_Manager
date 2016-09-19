@@ -15,7 +15,7 @@
                         <viewControllerLayoutGuide type="bottom" id="jKm-W8-VHS"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="0X7-do-VEN">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FT2-6D-H8d">
@@ -123,7 +123,7 @@
                             </mask>
                         </variation>
                     </view>
-                    <tabBarItem key="tabBarItem" tag="4" title="" image="Info-75" id="4Gd-N6-FvJ">
+                    <tabBarItem key="tabBarItem" tag="3" title="" image="Info-75" id="4Gd-N6-FvJ">
                         <inset key="imageInsets" minX="0.0" minY="8" maxX="0.0" maxY="-8"/>
                     </tabBarItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>

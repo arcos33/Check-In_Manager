@@ -33,8 +33,11 @@ class AboutViewController: UIViewController {
     
     override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
         if UIDevice.current.orientation == .portraitUpsideDown {
-            self.tabBarController?.selectedIndex = 1
-            self.tabBarController?.tabBar.isHidden = true
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "checkInViewController") as! CheckInViewController
+            vc.tabBarControllerRef = self.tabBarController
+            vc.tabSelected = 3
+            self.present(vc, animated: true, completion: nil)
         }
     }
     

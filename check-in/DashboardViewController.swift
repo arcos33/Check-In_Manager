@@ -14,7 +14,7 @@ class DashboardViewController: UIViewController, ActiveClientsDelegate {
     var activeClientsVC: ActiveClientsViewController!
     var selectedCheckinEvent: CheckInEvent!
     let dataController = DataController.sharedInstance
-    
+    var tabSelected: Int!
     
     
     override func viewWillAppear(_ animated: Bool) {
@@ -23,8 +23,11 @@ class DashboardViewController: UIViewController, ActiveClientsDelegate {
     
     override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
         if UIDevice.current.orientation == .portraitUpsideDown {
-            self.tabBarController?.selectedIndex = 1
-            self.tabBarController?.tabBar.isHidden = true
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "checkInViewController") as! CheckInViewController
+            vc.tabBarControllerRef = self.tabBarController
+            vc.tabSelected = 0
+            self.present(vc, animated: true, completion: nil)
         }
     }
     
@@ -38,14 +41,14 @@ class DashboardViewController: UIViewController, ActiveClientsDelegate {
                 // By default Selected image will take tint color set in self.tabBar.tintColor
                 barItem.selectedImage = UIImage(named: "Dashboard Filled")?.withRenderingMode(.alwaysOriginal)
             }
-            else if barItem.tag == 2 {
+            else if barItem.tag == 1 {
                 // Default image
                 barItem.image = UIImage(named: "report")?.withRenderingMode(.alwaysOriginal)
                 
                 // By default Selected image will take tint color set in self.tabBar.tintColor
                 barItem.selectedImage = UIImage(named: "Report Card Filled")?.withRenderingMode(.alwaysOriginal)
             }
-            else if barItem.tag == 3 {
+            else if barItem.tag == 2 {
                 // Default image
                 barItem.image = UIImage(named: "Settings")?.withRenderingMode(.alwaysOriginal)
                 
@@ -53,7 +56,7 @@ class DashboardViewController: UIViewController, ActiveClientsDelegate {
                 barItem.selectedImage = UIImage(named: "Settings Filled")?.withRenderingMode(.alwaysOriginal)
                 
             }
-            else if barItem.tag == 4 {
+            else if barItem.tag == 3 {
                 // Default image
                 barItem.image = UIImage(named: "Info-75")?.withRenderingMode(.alwaysOriginal)
                 

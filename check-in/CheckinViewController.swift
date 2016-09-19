@@ -37,6 +37,8 @@ class CheckInViewController: UIViewController {
     var serviceMapping = Dictionary<String, AnyObject>()
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let dataController = DataController.sharedInstance
+    var tabBarControllerRef: UITabBarController?
+    var tabSelected: Int!
     
     //------------------------------------------------------------------------------
     // MARK: Lifecycle Methods
@@ -67,7 +69,9 @@ class CheckInViewController: UIViewController {
     
     override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
         if UIDevice.current.orientation == .portrait {
-            self.tabBarController?.selectedIndex = 0
+            self.dismiss(animated: true, completion: { 
+                self.tabBarControllerRef?.selectedIndex = self.tabSelected
+            })
         }
     }
     

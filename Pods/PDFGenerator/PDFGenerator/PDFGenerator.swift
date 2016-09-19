@@ -255,17 +255,17 @@ private extension PDFGenerator {
             case .whitePage(let size):
                 let view = UIView(frame: CGRect(origin: .zero, size: size))
                 view.backgroundColor = .white
-                try view.renderPDFPage(scaleFactor: scaleFactor)
+                try view.renderPDFPage(scaleFactor)
             case .view(let view):
-                try view.renderPDFPage(scaleFactor: scaleFactor)
+                try view.renderPDFPage(scaleFactor)
             case .image(let image):
-                try image.asUIImage().renderPDFPage(scaleFactor: scaleFactor)
+                try image.asUIImage().renderPDFPage(scaleFactor)
             case .imagePath(let ip):
-                try ip.asUIImage().renderPDFPage(scaleFactor: scaleFactor)
+                try ip.asUIImage().renderPDFPage(scaleFactor)
             case .binary(let data):
-                try data.asUIImage().renderPDFPage(scaleFactor: scaleFactor)
+                try data.asUIImage().renderPDFPage(scaleFactor)
             case .imageRef(let cgImage):
-                try cgImage.asUIImage().renderPDFPage(scaleFactor: scaleFactor)
+                try cgImage.asUIImage().renderPDFPage(scaleFactor)
             }
         }
     }

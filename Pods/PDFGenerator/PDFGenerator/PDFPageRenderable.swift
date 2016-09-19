@@ -12,7 +12,7 @@ import WebKit
 
 
 protocol PDFPageRenderable {
-    func renderPDFPage(scaleFactor: CGFloat) throws
+    func renderPDFPage(_ scaleFactor: CGFloat) throws
 }
 
 private extension UIScrollView {
@@ -62,7 +62,7 @@ extension UIView: PDFPageRenderable {
         }
     }
     
-    func renderPDFPage(scaleFactor: CGFloat) throws {
+    func renderPDFPage(_ scaleFactor: CGFloat) throws {
         func renderScrollView(_ scrollView: UIScrollView) throws {
             let tmp = scrollView.tempInfo
             scrollView.transformForRender()
@@ -97,7 +97,7 @@ extension UIView: PDFPageRenderable {
 }
 
 extension UIImage: PDFPageRenderable {
-    func renderPDFPage(scaleFactor: CGFloat) throws {
+    func renderPDFPage(_ scaleFactor: CGFloat) throws {
         guard scaleFactor > 0.0 else {
             throw PDFGenerateError.invalidScaleFactor
         }

@@ -17,6 +17,7 @@
 		9D14C6B91D2343D8001BCFD1 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D14C6B81D2343D8001BCFD1 /* DataController.swift */; };
 		9D19221F1D763B3700614542 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D19221E1D763B3700614542 /* SettingsViewController.swift */; };
 		9D1D13641D8271CA00D9CF17 /* UIColor+Checkin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1D13631D8271CA00D9CF17 /* UIColor+Checkin.swift */; };
+		9D2CC7A91D8CB209000FE9A2 /* es-MX.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 9D2CC7A81D8CB209000FE9A2 /* es-MX.lproj */; };
 		9D37E4E11D55637F00DD4F7E /* StylistsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D37E4E01D55637F00DD4F7E /* StylistsViewController.swift */; };
 		9D37E4E41D5567B200DD4F7E /* StylistCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D37E4E31D5567B200DD4F7E /* StylistCell.swift */; };
 		9D37E4E61D5570DA00DD4F7E /* AddStylistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D37E4E51D5570DA00DD4F7E /* AddStylistViewController.swift */; };
@@ -90,6 +91,7 @@
 		9D14C6B81D2343D8001BCFD1 /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		9D19221E1D763B3700614542 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		9D1D13631D8271CA00D9CF17 /* UIColor+Checkin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Checkin.swift"; sourceTree = "<group>"; };
+		9D2CC7A81D8CB209000FE9A2 /* es-MX.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "es-MX.lproj"; sourceTree = "<group>"; };
 		9D37E4E01D55637F00DD4F7E /* StylistsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StylistsViewController.swift; sourceTree = "<group>"; };
 		9D37E4E31D5567B200DD4F7E /* StylistCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StylistCell.swift; sourceTree = "<group>"; };
 		9D37E4E51D5570DA00DD4F7E /* AddStylistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddStylistViewController.swift; sourceTree = "<group>"; };
@@ -103,8 +105,6 @@
 		9D7943B21D6671E10012CF0E /* ReportsCustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportsCustomCell.swift; sourceTree = "<group>"; };
 		9D8C68911D79E690008B9829 /* About.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = About.storyboard; sourceTree = "<group>"; };
 		9D8C68931D7A56C5008B9829 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
-		9D9FF25D1D8BB04000E534E2 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/Main.strings"; sourceTree = "<group>"; };
-		9D9FF25E1D8BB04000E534E2 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		9DA13A071D6FDD0C00BE9EE1 /* ActiveClientDetailsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveClientDetailsTableViewController.swift; sourceTree = "<group>"; };
 		9DB85AF41D62968D00B76DA7 /* CheckinViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckinViewController.swift; sourceTree = "<group>"; };
 		9DB85AF61D6296C500B76DA7 /* ServicesOfferedTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServicesOfferedTableViewController.swift; sourceTree = "<group>"; };
@@ -207,6 +207,7 @@
 		7BE478BC1D1F660400E31624 /* check-in */ = {
 			isa = PBXGroup;
 			children = (
+				9D9FF25F1D8BD3DF00E534E2 /* Resouces */,
 				7BE478BD1D1F660400E31624 /* AppDelegate.swift */,
 				9D5F623F1D5A6FD100183499 /* Assets.xcassets */,
 				9DEF6B351D262EB80004C92A /* Controllers */,
@@ -295,6 +296,14 @@
 				9DE93ACE1D726920007BC099 /* PaymentTypesOfferedTableViewController.swift */,
 			);
 			name = Payments;
+			sourceTree = "<group>";
+		};
+		9D9FF25F1D8BD3DF00E534E2 /* Resouces */ = {
+			isa = PBXGroup;
+			children = (
+				9D2CC7A81D8CB209000FE9A2 /* es-MX.lproj */,
+			);
+			name = Resouces;
 			sourceTree = "<group>";
 		};
 		9DB85AFE1D62B4E900B76DA7 /* Dashboard */ = {
@@ -484,6 +493,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7BE478CB1D1F660400E31624 /* LaunchScreen.storyboard in Resources */,
+				9D2CC7A91D8CB209000FE9A2 /* es-MX.lproj in Resources */,
 				9D5F62401D5A6FD100183499 /* Assets.xcassets in Resources */,
 				9D8C68921D79E690008B9829 /* About.storyboard in Resources */,
 				7BE478C31D1F660400E31624 /* Main.storyboard in Resources */,
@@ -708,7 +718,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				7BE478C21D1F660400E31624 /* Base */,
-				9D9FF25D1D8BB04000E534E2 /* es-MX */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -717,7 +726,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				7BE478CA1D1F660400E31624 /* Base */,
-				9D9FF25E1D8BB04000E534E2 /* es-MX */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";

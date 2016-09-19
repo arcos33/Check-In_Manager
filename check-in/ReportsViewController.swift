@@ -11,6 +11,7 @@ import UIKit
 import MessageUI
 import PDFGenerator
 import CoreData
+
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
@@ -72,6 +73,13 @@ class ReportsViewController: UIViewController, MFMailComposeViewControllerDelega
         let dataController = DataController.sharedInstance
         dataController.getCheckinRecords()
         NotificationCenter.default.addObserver(self, selector: #selector(update), name: NSNotification.Name(rawValue: "DataControllerDidReceiveCheckinRecordsNotification"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(setText), name: .languageChangeNotification, object: nil)
+
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        setText()
     }
     
     override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
@@ -81,14 +89,28 @@ class ReportsViewController: UIViewController, MFMailComposeViewControllerDelega
         }
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
+    
     //------------------------------------------------------------------------------
     // MARK: Tableview Methods
     //------------------------------------------------------------------------------
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let reportsHeaderView = tableview.dequeueReusableCell(withIdentifier: "reportsHeaderView") as! ReportsHeaderView
+        reportsHeaderView.nameLabel.text = "Name".localized()
+        reportsHeaderView.checkinTimeLabel.text = "Check-in".localized()
+        reportsHeaderView.serviceLabel.text = "Service".localized()
+        reportsHeaderView.stylistLabel.text = "Stylist".localized()
+        reportsHeaderView.paymentTypeLabel.text = "Payment".localized()
+        reportsHeaderView.amountLabel.text = "Amount".localized()
         return reportsHeaderView
     }
-    
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
+    }
     
     func numberOfSectionsInTableView(_ tableView: UITableView!) -> Int {
         return 1
@@ -142,6 +164,12 @@ class ReportsViewController: UIViewController, MFMailComposeViewControllerDelega
     //------------------------------------------------------------------------------
     // MARK: Private Methods
     //------------------------------------------------------------------------------
+    @objc fileprivate func setText() {
+        self.sendPDFButton.setTitle("Send PDF".localized(), for: .normal)
+        self.emailTextField.placeholder = "email".localized()
+        self.tableview.reloadData()
+    }
+    
     @objc fileprivate func update(_ notification: Notification) {
         DispatchQueue.main.async {
             let fetch: NSFetchRequest<NSFetchRequestResult> = CheckInEvent.fetchRequest()

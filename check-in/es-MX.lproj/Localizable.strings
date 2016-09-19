@@ -1,3 +1,38 @@
+"Name" = "Nombre";
+"Mobile Number" = "Celular";
+"Complete" = "Completar";
+"Receipt Number" = "Numero de recibo";
+"Submit" = "Ingresar";
+"Stylist" = "Estilista";
+"Message" = "Mensaje";
+"completed" = "completado";
+"Service" = "Servicio";
+"Wait" = "Espera";
+"Check in" = "Registrar";
+"Add" = "Agregar";
+"Send PDF" = "Enviar PDF";
+"General" = "General";
+"Amount" = "Cantidad";
+"Set" = "Fijar";
+"Payment" = "Cobro";
+"password" = "contraseña";
+"Check-in" = "Registrar";
+"Delete" = "Eliminar";
+"Client" = "Cliente";
+"Billing" = "Facturacion";
+"Company" = "Compañia";
+"email" = "correo electronico";
+"Cash" = "Efectivo";
+"Login" = "Iniciar";
+"username" = "usuario";
+"Settings" = "Configuracion";
+"Services" = "Servicios";
+"Language" = "Lenguaje";
+"About" = "Contacto";
+"Questions/Comments?" = "Preguntas/Comentarios?";
+"Send PDF" = "Enviar PDF";
+"on" = "activo";
+"off" = "inactivo";
 
 /* Class = "UILabel"; text = "Label"; ObjectID = "0Wq-Ll-ev3"; */
 "0Wq-Ll-ev3.text" = "Label";
@@ -20,8 +55,8 @@
 /* Class = "UILabel"; text = "Cristiano R"; ObjectID = "6Uv-q3-9Db"; */
 "6Uv-q3-9Db.text" = "Cristiano R";
 
-/* Class = "UITextField"; placeholder = "Nombre"; ObjectID = "6zv-75-hXY"; */
-"6zv-75-hXY.placeholder" = "Nombre";
+/* Class = "UITextField"; placeholder = "Name"; ObjectID = "6zv-75-hXY"; */
+"6zv-75-hXY.placeholder" = "Name";
 
 /* Class = "UILabel"; text = "Estilista"; ObjectID = "8Po-TK-GFx"; */
 "8Po-TK-GFx.text" = "Estilista";
@@ -62,6 +97,9 @@
 /* Class = "UIButton"; normalTitle = "Enviar PDF"; ObjectID = "Jft-gR-HWj"; */
 "Jft-gR-HWj.normalTitle" = "Enviar PDF";
 
+/* Class = "UILabel"; text = "Spanish"; ObjectID = "Jm3-Mk-iwO"; */
+"Jm3-Mk-iwO.text" = "Spanish";
+
 /* Class = "UIButton"; normalTitle = "Agregar"; ObjectID = "KFf-Pb-nNe"; */
 "KFf-Pb-nNe.normalTitle" = "Agregar";
 
@@ -85,6 +123,9 @@
 
 /* Class = "UITextField"; placeholder = "Password"; ObjectID = "RPy-2x-mur"; */
 "RPy-2x-mur.placeholder" = "Password";
+
+/* Class = "UILabel"; text = "English"; ObjectID = "STj-zY-Y1U"; */
+"STj-zY-Y1U.text" = "English";
 
 /* Class = "UILabel"; text = "Check-in"; ObjectID = "T3z-kc-bBN"; */
 "T3z-kc-bBN.text" = "Check-in";
@@ -125,8 +166,8 @@
 /* Class = "UILabel"; text = "$99.99"; ObjectID = "dgh-VW-BeA"; */
 "dgh-VW-BeA.text" = "$99.99";
 
-/* Class = "UITextField"; placeholder = "Celular"; ObjectID = "e2V-V4-j9i"; */
-"e2V-V4-j9i.placeholder" = "Celular";
+/* Class = "UITextField"; placeholder = "Mobile Number"; ObjectID = "e2V-V4-j9i"; */
+"e2V-V4-j9i.placeholder" = "Mobile Number";
 
 /* Class = "UILabel"; text = "Label"; ObjectID = "hU4-y7-rTl"; */
 "hU4-y7-rTl.text" = "Label";
@@ -162,10 +203,10 @@
 "w1Y-le-Xk5.text" = "Cash";
 
 /* Class = "UIButton"; normalTitle = "Login"; ObjectID = "wX3-rb-96n"; */
-"wX3-rb-96n.normalTitle" = "L O G O";
+"wX3-rb-96n.normalTitle" = "Login";
 
 /* Class = "UITextField"; placeholder = "Company id"; ObjectID = "y2g-1y-TB8"; */
 "y2g-1y-TB8.placeholder" = "Company id";
 
 /* Class = "UITextField"; placeholder = "Username"; ObjectID = "zgP-OO-vf9"; */
-"zgP-OO-vf9.placeholder" = "Nombre de Usuario";
+"zgP-OO-vf9.placeholder" = "Username";

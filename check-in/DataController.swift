@@ -164,14 +164,15 @@ class DataController: NSObject {
                     }
                     let jsonString: AnyObject = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSArray
                     for checkinEventDB in jsonString as! [Dictionary<String,AnyObject>] {
-                        let tempID = checkinEventDB["id"]!
+                        let tempID = checkinEventDB["id"]! as! String
                         
+                        let tempIdInt = Int(tempID)
                         
-                        if !existingCheckinEventIDS.contains((tempID.intValue)!) {
+                        if !existingCheckinEventIDS.contains(tempIdInt!) {
                             
                             let checkinEvent = NSEntityDescription.insertNewObject(forEntityName: "CheckInEvent", into: appDelegate.managedObjectContext) as! CheckInEvent
                             checkinEvent.checkinTimestamp = Date.dateFromString(checkinEventDB["checkinTimestamp"]! as! String)
-                            checkinEvent.uniqueID = NSNumber(value: tempID.int32Value as Int32)
+                            checkinEvent.uniqueID = NSNumber(value: tempIdInt!)
                             checkinEvent.name = checkinEventDB["name"] as? String
                             checkinEvent.phone = checkinEventDB["phone"] as? String
                             checkinEvent.status = checkinEventDB["status"] as? String
@@ -708,7 +709,13 @@ class DataController: NSObject {
         let tempCheckinTime = Date.stringFromDate(Date.getCurrentLocalDate())
         let tempCompletedTimestamp = Date.stringFromDate(Date(timeIntervalSince1970: 0))
         
-        let jsonRequestString = "checkinTimestamp=\(tempCheckinTime)&completedTimestamp=\(tempCompletedTimestamp)&name=\(name)&phone=\(tempCleanString3)&status=checkedin" .data(using: String.Encoding.utf8)
+        let locale = Locale.current
+        print(NSDate().description(with: locale))
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let checkInTimeStamp = formatter.string(from: Date())
+        
+        let jsonRequestString = "checkinTimestamp=\(checkInTimeStamp)&completedTimestamp=\(tempCompletedTimestamp)&name=\(name)&phone=\(tempCleanString3)&status=checkedin" .data(using: String.Encoding.utf8)
         
         let task = session.uploadTask(with: request as URLRequest, from: jsonRequestString, completionHandler: { (data, response, error) in
             guard let _:Data = data, let _:URLResponse = response , error == nil else {

@@ -26,14 +26,27 @@ class InactiveClientsViewController: UIViewController {
     //------------------------------------------------------------------------------
     override func viewDidLoad() {
         NotificationCenter.default.addObserver(self, selector: #selector(fetchCheckedinClients), name: NSNotification.Name(rawValue: "DataControllerDidReceiveCheckinRecordsNotification"), object: nil)
-
         self.tableview.tableFooterView = UIView(frame: CGRect.zero)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(setText), name: .languageChangeNotification, object: nil)
         fetchCompletedCheckinRecords()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        setText()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     //------------------------------------------------------------------------------
     // MARK: Private Methods
     //------------------------------------------------------------------------------
+    @objc fileprivate func setText() {
+        
+    }
+    
     @objc fileprivate func fetchCheckedinClients(_ notification: Notification) {
         let fetch: NSFetchRequest<NSFetchRequestResult> = CheckInEvent.fetchRequest()
         fetch.returnsObjectsAsFaults = false

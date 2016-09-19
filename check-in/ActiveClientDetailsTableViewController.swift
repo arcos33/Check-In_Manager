@@ -18,10 +18,16 @@ class ActiveClientDetailsTableViewController: UITableViewController, StylistsOff
     @IBOutlet var stylistNameButton: UIButton!
     @IBOutlet var serviceNameButton: UIButton!
     @IBOutlet var paymentTypeButton: UIButton!
-    @IBOutlet var completedButton: UIButton!
-    @IBOutlet var DeleteButton: UIButton!
     @IBOutlet var amountChargedTextField: UITextField!
     @IBOutlet var receiptNumberTextField: UITextField!
+    
+    @IBOutlet var serviceLabel: UILabel!
+    @IBOutlet var stylistLabel: UILabel!
+    @IBOutlet var paymentTypeLabel: UILabel!
+    @IBOutlet var paymentAmountLabel: UILabel!
+    @IBOutlet var receiptNumberLabel: UILabel!
+    @IBOutlet var completedButton: UIButton!
+    @IBOutlet var DeleteButton: UIButton!
     
     var appDelegate = UIApplication.shared.delegate as! AppDelegate
     var stylistTable:StylistsOfferedTableViewController?
@@ -44,6 +50,9 @@ class ActiveClientDetailsTableViewController: UITableViewController, StylistsOff
         NotificationCenter.default.addObserver(self, selector: #selector(updateServicesArray), name: NSNotification.Name(rawValue: "DataControllerServiceRecordsChangedNotification"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateStylistsArray), name: NSNotification.Name(rawValue: "DataControllerStylistRecordsChangedNotification"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(setText), name: .languageChangeNotification, object: nil)
+
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -66,9 +75,27 @@ class ActiveClientDetailsTableViewController: UITableViewController, StylistsOff
 
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        setText()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     //------------------------------------------------------------------------------
     // MARK: Private Methods
     //------------------------------------------------------------------------------
+    @objc fileprivate func setText() {
+        self.serviceLabel.text = "Service".localized()
+        self.stylistLabel.text = "Stylist".localized()
+        self.paymentTypeLabel.text = "Payment Type".localized()
+        self.paymentAmountLabel.text = "Amount".localized()
+        self.receiptNumberLabel.text = "Receipt Number".localized()
+        self.completedButton.setTitle("Complete", for: .normal)
+        self.DeleteButton.setTitle("Delete", for: .normal)
+    }
+    
     @objc fileprivate func updateServicesArray() {
         //get available ServicesOffered()
         self.dataController.getServices { (services) in

@@ -15,6 +15,8 @@ class DashboardViewController: UIViewController, ActiveClientsDelegate {
     var selectedCheckinEvent: CheckInEvent!
     let dataController = DataController.sharedInstance
     
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
     }
@@ -27,6 +29,7 @@ class DashboardViewController: UIViewController, ActiveClientsDelegate {
     }
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         for barItem in (self.tabBarController?.tabBar.items)! {
             if barItem.tag == 0 {
                 // Default image
@@ -64,6 +67,7 @@ class DashboardViewController: UIViewController, ActiveClientsDelegate {
         populateStylistsDataSource()
         populatePaymentTypesDataSource()
             }
+    
     
     fileprivate func populateStylistsDataSource() {
         self.dataController.getStylists { (stylists) in

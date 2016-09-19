@@ -11,6 +11,26 @@ import UIKit
 
 class AboutViewController: UIViewController {
     
+    @IBOutlet var mainTitleLabel: UILabel!
+    @IBOutlet var questionsLabel: UILabel!
+ 
+    override func viewDidLoad() {
+        NotificationCenter.default.addObserver(self, selector: #selector(setText), name: .languageChangeNotification, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        setText()
+    }
+    
+    @objc fileprivate func setText() {
+        self.mainTitleLabel.text = "About".localized()
+        self.questionsLabel.text = "Questions/Comments?".localized()
+    }
+    
     override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
         if UIDevice.current.orientation == .portraitUpsideDown {
             self.tabBarController?.selectedIndex = 1

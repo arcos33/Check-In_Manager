@@ -8,6 +8,7 @@
 
 import UIKit
 import MessageUI
+import Localize_Swift
 
 class SettingsViewController: UIViewController {
     
@@ -15,12 +16,18 @@ class SettingsViewController: UIViewController {
     var promotionMessageTuple: (message: String?, status: String?) = (nil, nil)
     @IBOutlet var messagesTextView: UITextView!
     @IBOutlet var statusSwitch: UISwitch!
-    @IBOutlet var promotionMessageStatusLabel: UILabel!
-    
-    override func viewDidLoad() {
-        
-            }
-    
+    @IBOutlet var switchStatusLabel: UILabel!
+    @IBOutlet var languageSwitch: UISwitch!
+    @IBOutlet var messagesTitleLabel: UILabel!
+    @IBOutlet var servicesTitleLabel: UILabel!
+    @IBOutlet var languageTitleLabel: UILabel!
+    @IBOutlet var mainTitleLabel: UILabel!
+    @IBOutlet var setButton: UIButton!
+    @IBOutlet var spanishLabel: UILabel!
+    @IBOutlet var englishLabel: UILabel!
+    //------------------------------------------------------------------------------
+    // MARK: Life Cycle Methods
+    //------------------------------------------------------------------------------
     override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
         if UIDevice.current.orientation == .portraitUpsideDown {
             self.tabBarController?.selectedIndex = 1
@@ -29,15 +36,50 @@ class SettingsViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        let curLang = Localize.currentLanguage()
+        if curLang == "es-MX" { languageSwitch.isOn = true }
+        else { languageSwitch.isOn = false }
+
+        setText()
+        
         self.dataController.getPromotionalMessage { (message, status) in
             DispatchQueue.main.async(execute: {
                 self.messagesTextView.text = message
-                self.statusSwitch.setOn(status == "on" ? true : false, animated: true)
-                self.promotionMessageStatusLabel.text = status
+                self.statusSwitch.setOn(status == "on" ? true : false, animated: false)
+                self.switchStatusLabel.text = status
             })
         }
+        
+        self.englishLabel.textColor = self.languageSwitch.isOn == true ? UIColor.lightGray : UIColor.black
+        self.spanishLabel.textColor = self.languageSwitch.isOn == true ? UIColor.black : UIColor.lightGray
+
     }
     
+
+    //------------------------------------------------------------------------------
+    // MARK: Private Methods
+    //------------------------------------------------------------------------------
+
+    fileprivate func updatePromotionMessage() {
+        self.promotionMessageTuple.message = self.messagesTextView.text
+        self.promotionMessageTuple.status = self.statusSwitch.isOn == true ? "on".localized() : "off".localized()
+        self.switchStatusLabel.text = self.promotionMessageTuple.status
+        self.dataController.updatePromotionMessage(self.promotionMessageTuple)
+        self.messagesTextView.resignFirstResponder()
+    }
+    
+    fileprivate func setText() {
+        self.mainTitleLabel.text = "Settings".localized()
+        self.servicesTitleLabel.text = "Services".localized()
+        self.languageTitleLabel.text = "Language".localized()
+        self.messagesTitleLabel.text = "Message".localized()
+        self.switchStatusLabel.text = self.statusSwitch.isOn == true ? "on".localized() : "off".localized()
+        self.setButton.setTitle("Set".localized(), for: .normal)
+    }
+    
+    //------------------------------------------------------------------------------
+    // MARK: Action Methods
+    //------------------------------------------------------------------------------
     @IBAction func setMessage(_ sender: AnyObject) {
         updatePromotionMessage()
     }
@@ -46,12 +88,25 @@ class SettingsViewController: UIViewController {
         updatePromotionMessage()
     }
     
-    fileprivate func updatePromotionMessage() {
-        self.promotionMessageTuple.message = self.messagesTextView.text
-        self.promotionMessageTuple.status = self.statusSwitch.isOn == true ? "on" : "off"
-        self.promotionMessageStatusLabel.text = self.promotionMessageTuple.status
-        self.dataController.updatePromotionMessage(self.promotionMessageTuple)
-        self.messagesTextView.resignFirstResponder()
+
+    
+    @IBAction func languageChanged(_ sender: UISwitch) {
+        var curLang = Localize.currentLanguage()
+        if curLang == "es-MX" {
+            sender.isOn = false
+            curLang = "eng"
+            self.englishLabel.textColor = UIColor.black
+            self.spanishLabel.textColor = UIColor.lightGray
+        }
+        else {
+            sender.isOn = true
+            curLang = "es-MX"
+            self.englishLabel.textColor = UIColor.lightGray
+            self.spanishLabel.textColor = UIColor.black
+        }
+        
+        Localize.setCurrentLanguage(curLang)
+        setText()
     }
     
     //------------------------------------------------------------------------------

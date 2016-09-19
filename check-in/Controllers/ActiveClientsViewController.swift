@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import CoreData
+import Localize_Swift
 
 protocol ActiveClientsDelegate {
     func didSelectCheckinEvent(_ checkinEvent: CheckInEvent, index: NSInteger)
@@ -20,6 +21,8 @@ class ActiveClientsViewController: UIViewController {
     @IBOutlet var name: UILabel!
     @IBOutlet var checkInTime: UILabel!
     @IBOutlet var type: UILabel!
+    
+    var headerView: ActiveClientsHeaderView!
     
     var delegate: ActiveClientsDelegate?
     
@@ -42,14 +45,31 @@ class ActiveClientsViewController: UIViewController {
         self.tableview.tableFooterView = UIView(frame: CGRect.zero)
         self.tableview.addSubview(self.refreshControl)
         NotificationCenter.default.addObserver(self, selector: #selector(fetchCheckedinClients), name: NSNotification.Name(rawValue: "DataControllerDidReceiveCheckinRecordsNotification"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(setText), name: .languageChangeNotification, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        reloadData()
+        self.dataController.getCheckinRecords()
     }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    
+    
     //------------------------------------------------------------------------------
     // MARK: Private Methods
     //------------------------------------------------------------------------------
+    @objc fileprivate func setText() {
+        self.headerView.clientLabel.text = "Client".localized()
+        print(self.headerView.clientLabel.text)
+        self.headerView.serviceLabel.text = "Service".localized()
+        self.headerView.stylistLabel.text = "Stylist".localized()
+        self.headerView.waitTimeLabel.text = "Wait".localized()
+    }
+    
     @objc fileprivate func getCheckinEvents(_ notification: Notification) {
         self.dataController.getCheckinRecords()
         DispatchQueue.main.async {
@@ -93,10 +113,6 @@ class ActiveClientsViewController: UIViewController {
         self.refreshControl.endRefreshing()
     }
     
-    fileprivate func reloadData() {
-        self.dataController.getCheckinRecords()
-    }
-    
     @objc fileprivate func didReceiveCompletedCheckinEvent() {
         self.dataController.getCheckinRecords()
     }
@@ -118,6 +134,7 @@ class ActiveClientsViewController: UIViewController {
         fetch.sortDescriptors = [sd]
         do {
             self.checkInEvents = try self.appDelegate.managedObjectContext.fetch(fetch) as? Array<CheckInEvent>
+            print()
         }
         catch {
             print("error: \(#file) \(#line) \(error)")
@@ -128,6 +145,7 @@ class ActiveClientsViewController: UIViewController {
                 let indexPath = IndexPath(row: index, section: 0)
                 self.tableview.selectRow(at: indexPath, animated: false, scrollPosition: .none)
             }
+            self.setText()
         }
     }
     
@@ -172,7 +190,9 @@ class ActiveClientsViewController: UIViewController {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = tableView.dequeueReusableCell(withIdentifier: "activeClientsHeaderView") as! ActiveClientsHeaderView
+        self.headerView = tableView.dequeueReusableCell(withIdentifier: "activeClientsHeaderView") as! ActiveClientsHeaderView
+        
+        setText()
         
         return headerView
     }

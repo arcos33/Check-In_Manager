@@ -1,12 +1,15 @@
 PODS:
+  - Localize-Swift (1.5)
   - PDFGenerator (1.4.3)
 
 DEPENDENCIES:
+  - Localize-Swift (~> 1.5)
   - PDFGenerator (~> 1.4)
 
 SPEC CHECKSUMS:
+  Localize-Swift: 288aa763db72b0628d2cb111fbf5babc90529d0c
   PDFGenerator: 8e28213b0b36e41f667b474e24ab7c84c8cee303
 
-PODFILE CHECKSUM: aa287a9911c92fc5220e9a4294140814734e560d
+PODFILE CHECKSUM: ba6f2a5cac6fb9de2c3c9859752d481e83ba07ed
 
 COCOAPODS: 1.0.1

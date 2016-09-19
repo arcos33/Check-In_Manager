@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Localize_Swift
 
 class LoginViewController:UIViewController {
     @IBOutlet var passwordTextField: UITextField!
@@ -61,6 +62,10 @@ class LoginViewController:UIViewController {
             self.loginButton.isHidden = true
             self.companyNameLabel.isHidden = true
         }
+        
+        self.usernameTextField.placeholder = "username".localized()
+        self.passwordTextField.placeholder = "password".localized()
+        self.loginButton.setTitle("Login".localized(), for: .normal)
     }
     
     override var prefersStatusBarHidden : Bool {

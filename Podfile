@@ -5,6 +5,7 @@
 
 target 'check-in' do
 pod 'PDFGenerator', '~> 1.4'
+pod 'Localize-Swift', '~> 1.5'
 end
 
 target 'check-inTests' do

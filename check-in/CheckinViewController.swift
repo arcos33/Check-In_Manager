@@ -16,6 +16,7 @@
 
 import UIKit
 import CoreData
+import Localize_Swift
 
 class CheckInViewController: UIViewController {
     
@@ -23,6 +24,7 @@ class CheckInViewController: UIViewController {
     @IBOutlet var nameTextField: UITextField!
     @IBOutlet var companyImage: UIImageView!
     @IBOutlet var companyImageView: UIView!
+    @IBOutlet var checkInButton: UIButton!
     
     var stylistTable:StylistsOfferedTableViewController?
     var servicesTable:ServicesOfferedTableViewController?
@@ -39,7 +41,15 @@ class CheckInViewController: UIViewController {
     //------------------------------------------------------------------------------
     // MARK: Lifecycle Methods
     //------------------------------------------------------------------------------
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(setText), name: .languageChangeNotification, object: nil)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
+        setText()
+        
+        
         if let image = self.appDelegate.companyImage {
             self.companyImage.image = image
         }
@@ -61,9 +71,18 @@ class CheckInViewController: UIViewController {
         }
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     //------------------------------------------------------------------------------
     // MARK: Private Methods
     //-----------------------------------------------------------------------------
+    @objc fileprivate func setText() {
+        self.nameTextField.placeholder = "Name".localized()
+        self.phoneTextField.placeholder = "Mobile Number".localized()
+        self.checkInButton.setTitle("Check in".localized(), for: .normal)
+    }
     
     fileprivate func resetUI() {
         self.nameTextField.text = nil
@@ -194,4 +213,8 @@ class Payment: NSObject {
         self.id = id
         self.status = status
     }
+}
+
+extension Notification.Name {
+    static let languageChangeNotification = Notification.Name("LCLLanguageChangeNotification")
 }

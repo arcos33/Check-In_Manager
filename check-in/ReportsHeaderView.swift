@@ -11,4 +11,10 @@ import UIKit
 
 class ReportsHeaderView: UITableViewCell {
     
+    @IBOutlet var stylistLabel: UILabel!
+    @IBOutlet var serviceLabel: UILabel!
+    @IBOutlet var paymentTypeLabel: UILabel!
+    @IBOutlet var amountLabel: UILabel!
+    @IBOutlet var checkinTimeLabel: UILabel!
+    @IBOutlet var nameLabel: UILabel!
 }

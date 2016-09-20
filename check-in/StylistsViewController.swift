@@ -125,11 +125,12 @@ class StylistsViewController: UIViewController, AddStylistVCDelegate {
     // MARK: AddStylistVCDelegate Delegate Methods
     //------------------------------------------------------------------------------\
     func didEnterStylistName(_ name: String) {
+        self.addStylistPopOverVC.dismiss(animated: true, completion: nil)
+
         self.dataController.postStylistRecord(name) { (stylists) in
             DispatchQueue.main.async(execute: {
                 self.stylists = stylists
                 self.tableview.reloadData()
-                self.addStylistPopOverVC.dismiss(animated: true, completion: nil)
 
             })
         }

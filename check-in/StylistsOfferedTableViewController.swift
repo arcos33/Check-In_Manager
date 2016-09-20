@@ -59,7 +59,8 @@ class StylistsOfferedTableViewController: UITableViewController {
         self.didSetStylist = true
         let stylist = self.stylistsOffered[(indexPath as NSIndexPath).row]
         self.stylistSelected = stylist.name!
-        self.dismiss(animated: true, completion: nil)
-        self.delegate?.didSelectStylist(stylist.name!)
+        self.dismiss(animated: true) { 
+            self.delegate?.didSelectStylist(stylist.name!)
+        }
     }
 }

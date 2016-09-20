@@ -103,7 +103,7 @@ class ReportsViewController: UIViewController, MFMailComposeViewControllerDelega
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let reportsHeaderView = tableview.dequeueReusableCell(withIdentifier: "reportsHeaderView") as! ReportsHeaderView
         reportsHeaderView.nameLabel.text = "Name".localized()
-        reportsHeaderView.checkinTimeLabel.text = "Check-in".localized()
+        reportsHeaderView.checkinTimeLabel.text = "Checked-in".localized()
         reportsHeaderView.serviceLabel.text = "Service".localized()
         reportsHeaderView.stylistLabel.text = "Stylist".localized()
         reportsHeaderView.paymentTypeLabel.text = "Payment".localized()
@@ -132,21 +132,14 @@ class ReportsViewController: UIViewController, MFMailComposeViewControllerDelega
         df.dateFormat = "MM/dd/yy h:mm a"
         let dateString = df.string(from: checkinEvent.checkinTimestamp! as Date)
         cell.checkintTimeLabel.text = dateString
-        cell.serviceTypeLabel.text = checkinEvent.service == "" || checkinEvent.service == nil ? "sin valor" : checkinEvent.service
-        cell.stylistLabel.text = checkinEvent.stylist == "" || checkinEvent.stylist == nil ? "sin valor" : checkinEvent.stylist
-        cell.amountChargedLabel.text = checkinEvent.amountCharged == "" || checkinEvent.amountCharged == nil ? "sin valor" : "$\(checkinEvent.amountCharged!)"
-        cell.serviceTypeLabel.text = checkinEvent.service == "" || checkinEvent.service == nil ? "sin valor" : checkinEvent.service
-        cell.paymentTypeLabel.text = checkinEvent.paymentType == "" || checkinEvent.paymentType == nil ? "sin valor" : checkinEvent.paymentType
+        cell.serviceTypeLabel.text = checkinEvent.service == "" || checkinEvent.service == nil ? "no value".localized() : checkinEvent.service
+        cell.stylistLabel.text = checkinEvent.stylist == "" || checkinEvent.stylist == nil ? "no value".localized() : checkinEvent.stylist
+        cell.amountChargedLabel.text = checkinEvent.amountCharged == "" || checkinEvent.amountCharged == nil ? "no value".localized() : "$\(checkinEvent.amountCharged!)"
+        cell.paymentTypeLabel.text = checkinEvent.paymentType == "" || checkinEvent.paymentType == nil ? "no value".localized() : checkinEvent.paymentType
         
         
 
         return cell
-    }
-    
-    func tableView(_ tableView: UITableView!, didSelectRowAtIndexPath indexPath: IndexPath!) {
-        let alert = UIAlertController(title: "Item selected", message: "You selected item \(indexPath.row)", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil))
-        self.present(alert, animated: true, completion: nil)
     }
     
     //------------------------------------------------------------------------------
@@ -154,13 +147,11 @@ class ReportsViewController: UIViewController, MFMailComposeViewControllerDelega
     //------------------------------------------------------------------------------
     @IBAction func sendEmailWithAttachment(_ sender: AnyObject) {
         if self.emailTextField.text?.characters.count > 0 {
-            //self.emailTextField.resignFirstResponder()
             let identifier = String(describing: Date.getCurrentLocalDate())
             generatePDF(identifier)
-            //createPdfFromView(self.tableview, saveToDocumentsWithIdentifier: identifier)
         }
         else {
-            alert("Correo Electronico", message: "Necesita ingresar un correo electronico")
+            alert("Email".localized(), message: "Email address is missing".localized())
         }
     }
     
@@ -241,8 +232,8 @@ class ReportsViewController: UIViewController, MFMailComposeViewControllerDelega
     
     fileprivate func showMailComposerWith(_ filePath: String, fileName: String) {
         if MFMailComposeViewController.canSendMail() {
-            let subject = "Reporte"
-            let messageBody = "Reporte de fin de dia"
+            let subject = "Report".localized()
+            let messageBody = "End of day report".localized()
             let toRecipient = self.emailTextField.text
             let mailComposer = MFMailComposeViewController()
             mailComposer.mailComposeDelegate = self
@@ -256,7 +247,7 @@ class ReportsViewController: UIViewController, MFMailComposeViewControllerDelega
             }
         }
         else {
-            alert("Email", message: "Este iPad no ha sido configurado con una cuenta de email")
+            alert("Email".localized(), message: "This iPad has not been setup with an email account".localized())
         }
     }
     

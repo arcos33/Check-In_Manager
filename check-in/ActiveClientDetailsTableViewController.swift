@@ -77,6 +77,7 @@ class ActiveClientDetailsTableViewController: UITableViewController, StylistsOff
     
     override func viewWillAppear(_ animated: Bool) {
         setText()
+        self.tableView.reloadData()
     }
     
     deinit {
@@ -86,14 +87,29 @@ class ActiveClientDetailsTableViewController: UITableViewController, StylistsOff
     //------------------------------------------------------------------------------
     // MARK: Private Methods
     //------------------------------------------------------------------------------
+
+    
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int)
+    {
+        let header:UITableViewHeaderFooterView = view as! UITableViewHeaderFooterView
+        switch section {
+        case 0:
+            header.textLabel?.text = "General".localized()
+        case 1:
+            header.textLabel?.text = "Billing".localized()
+        default:
+            break
+        }
+    }
+    
     @objc fileprivate func setText() {
         self.serviceLabel.text = "Service".localized()
         self.stylistLabel.text = "Stylist".localized()
         self.paymentTypeLabel.text = "Payment Type".localized()
         self.paymentAmountLabel.text = "Amount".localized()
         self.receiptNumberLabel.text = "Receipt Number".localized()
-        self.completedButton.setTitle("Complete", for: .normal)
-        self.DeleteButton.setTitle("Delete", for: .normal)
+        self.completedButton.setTitle("Complete".localized(), for: .normal)
+        self.DeleteButton.setTitle("Delete".localized(), for: .normal)
     }
     
     @objc fileprivate func updateServicesArray() {

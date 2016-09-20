@@ -115,7 +115,7 @@ class InactiveClientsViewController: UIViewController {
     func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
         let checkInEvent = self.checkInEvents![(indexPath as NSIndexPath).row]
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! InactiveClientsCell
-
+        cell.type.text = "completed".localized()
         cell.appointmentTime.text = Date.getTimeInHoursAndMinutes(checkInEvent.completedTimestamp!)
         cell.name.text = checkInEvent.name
         return cell

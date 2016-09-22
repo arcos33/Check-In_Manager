@@ -43,6 +43,16 @@
 "End of day report" = "Reporte de fin de dia";
 "This iPad has not been setup with an email account" = "Este iPad no ha sido configurado con una cuenta de email";
 
+"Dentist" = "Dentista";
+"Technician" = "Técnico";
+"Preparer" = "Preparador";
+"Therapist" = "Terapeuta";
+
+"Enter name" = "Ingrese nombre";
+"Enter a valid mobile number" = "Ingrese numero telefonico valido";
+"Missing Information" = "Falta informacion";
+"The mobile number you entered is not valid" = "El numero que ingreso no es valido";
+"Invalid" = "Invalido";
 /* Class = "UILabel"; text = "Label"; ObjectID = "0Wq-Ll-ev3"; */
 "0Wq-Ll-ev3.text" = "Label";
 

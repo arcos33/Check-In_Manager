@@ -104,7 +104,7 @@ class ActiveClientDetailsTableViewController: UITableViewController, StylistsOff
     
     @objc fileprivate func setText() {
         self.serviceLabel.text = "Service".localized()
-        self.stylistLabel.text = "Stylist".localized()
+        self.stylistLabel.text = IndustryHelper.getName()
         self.paymentTypeLabel.text = "Payment Type".localized()
         self.paymentAmountLabel.text = "Amount".localized()
         self.receiptNumberLabel.text = "Receipt Number".localized()

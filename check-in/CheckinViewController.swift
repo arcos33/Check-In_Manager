@@ -97,11 +97,11 @@ class CheckInViewController: UIViewController {
     
     fileprivate func formIsComplete() -> Bool {
         if self.nameTextField.text?.characters.count == 0 {
-            presentAlert("Ingrese nombre")
+            presentAlert("Enter name".localized())
             return false
         }
         else if self.phoneTextField.text?.characters.count != 13 {
-            presentAlert("Ingrese numero telefonico valido")
+            presentAlert("Enter a valid mobile number".localized())
             return false
         }
         else {
@@ -110,7 +110,7 @@ class CheckInViewController: UIViewController {
     }
     
     fileprivate  func presentAlert(_ message: String) {
-        let alert = UIAlertController(title: "Falta informacion", message: message, preferredStyle: .alert)
+        let alert = UIAlertController(title: "Missing Information".localized(), message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }

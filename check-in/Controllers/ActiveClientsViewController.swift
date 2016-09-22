@@ -66,7 +66,7 @@ class ActiveClientsViewController: UIViewController {
         self.headerView.clientLabel.text = "Client".localized()
         print(self.headerView.clientLabel.text)
         self.headerView.serviceLabel.text = "Service".localized()
-        self.headerView.stylistLabel.text = "Stylist".localized()
+        self.headerView.stylistLabel.text = IndustryHelper.getName()
         self.headerView.waitTimeLabel.text = "Wait".localized()
     }
     

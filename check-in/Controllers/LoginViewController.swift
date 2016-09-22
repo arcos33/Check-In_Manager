@@ -153,7 +153,7 @@ class LoginViewController:UIViewController {
                 self.submitButton.isHidden = true
             }
             else {
-                self.presentAlert("El numero que ingreso no es valido", title: "Invalido")
+                self.presentAlert("The mobile number you entered is not valid".localized(), title: "Invalid".localized())
             }
             self.companyNameLabel.text = UserDefaults.standard.value(forKey: "companyName") as? String
         })

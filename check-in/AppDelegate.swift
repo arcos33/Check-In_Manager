@@ -17,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var companyName: String!
     var companyImage: UIImage!
     var companyBackgroundColor: UIColor?
+    var companyIndustry: String!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
@@ -31,6 +32,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         if (UserDefaults.standard.value(forKey: "companyPath") as? String) != nil {
             self.companyPath = UserDefaults.standard.value(forKey: "companyPath") as? String
+        }
+        if (UserDefaults.standard.value(forKey: "industry") as? String) != nil {
+            self.companyIndustry = UserDefaults.standard.value(forKey: "industry") as? String 
         }
         
         return true

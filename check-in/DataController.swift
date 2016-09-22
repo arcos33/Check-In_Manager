@@ -277,7 +277,6 @@ class DataController: NSObject {
                     NotificationCenter.default.post(name: Notification.Name(rawValue: "DataControllerDidReceiveCompanyIDNotification"), object: false)
                     return
                 }
-                
                 let jsonResponse = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [Dictionary<String, String>]
                 for dict in jsonResponse {
                     if (UserDefaults.standard.value(forKey: "companyPath") as? String) == nil {
@@ -289,6 +288,12 @@ class DataController: NSObject {
                         UserDefaults.standard.set(dict["company_name"], forKey: "companyName")
                     }
                     self.appDelegate.companyName = dict["company_name"]!
+                    
+                    if (UserDefaults.standard.value(forKey: "industry") as? String) == nil {
+                        UserDefaults.standard.set(dict["industry"], forKey: "industry")
+                    }
+                    
+                    self.appDelegate.companyIndustry = dict["industry"]
                     NotificationCenter.default.post(name: Notification.Name(rawValue: "DataControllerDidReceiveCompanyIDNotification"), object: true);
                 }
                 

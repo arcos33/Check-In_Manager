@@ -15,15 +15,15 @@
                         <viewControllerLayoutGuide type="bottom" id="jKm-W8-VHS"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="0X7-do-VEN">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FT2-6D-H8d">
+                            <view contentMode="scaleToFill" horizontalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FT2-6D-H8d">
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="App icons by" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="91Z-3i-Fbf">
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="BKg-eg-ueX"/>
-                                            <constraint firstAttribute="width" constant="136" id="oom-he-BoO"/>
+                                            <constraint firstAttribute="width" constant="150" id="oom-he-BoO"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" weight="thin" pointSize="25"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -32,7 +32,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bEM-SS-VDW">
                                         <constraints>
                                             <constraint firstAttribute="width" constant="50" id="d6l-Ds-y76"/>
-                                            <constraint firstAttribute="width" constant="80" id="t1v-yL-pDJ"/>
+                                            <constraint firstAttribute="width" constant="84" id="t1v-yL-pDJ"/>
                                             <constraint firstAttribute="height" constant="44" id="uw9-gW-ThC"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="25"/>
@@ -56,10 +56,10 @@
                                     <constraint firstAttribute="trailing" secondItem="bEM-SS-VDW" secondAttribute="trailing" constant="20" id="Tq3-RS-VlD"/>
                                     <constraint firstItem="bEM-SS-VDW" firstAttribute="leading" secondItem="91Z-3i-Fbf" secondAttribute="trailing" constant="2" id="Xui-Sk-v9K"/>
                                     <constraint firstItem="91Z-3i-Fbf" firstAttribute="centerY" secondItem="FT2-6D-H8d" secondAttribute="centerY" id="ZDL-01-T8p"/>
-                                    <constraint firstAttribute="trailing" secondItem="bEM-SS-VDW" secondAttribute="trailing" id="euc-lS-26a"/>
+                                    <constraint firstAttribute="width" constant="300" id="cCI-QU-O7i"/>
                                     <constraint firstItem="bEM-SS-VDW" firstAttribute="centerY" secondItem="FT2-6D-H8d" secondAttribute="centerY" id="hND-FU-rEV"/>
                                     <constraint firstItem="bEM-SS-VDW" firstAttribute="top" secondItem="FT2-6D-H8d" secondAttribute="top" id="hmK-tC-QgN"/>
-                                    <constraint firstItem="91Z-3i-Fbf" firstAttribute="leading" secondItem="FT2-6D-H8d" secondAttribute="leading" id="lru-Hj-a3k"/>
+                                    <constraint firstItem="91Z-3i-Fbf" firstAttribute="leading" secondItem="FT2-6D-H8d" secondAttribute="leading" constant="40" id="lru-Hj-a3k"/>
                                     <constraint firstItem="91Z-3i-Fbf" firstAttribute="centerY" secondItem="FT2-6D-H8d" secondAttribute="centerY" id="nug-Pc-Ley"/>
                                     <constraint firstItem="bEM-SS-VDW" firstAttribute="leading" secondItem="91Z-3i-Fbf" secondAttribute="trailing" constant="6" id="s7p-ai-CPJ"/>
                                     <constraint firstAttribute="width" constant="300" id="uQ9-hl-g4g"/>
@@ -134,7 +134,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6ZR-ct-hHy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-344" y="-15"/>
+            <point key="canvasLocation" x="-344.53125" y="-15.234374999999998"/>
         </scene>
     </scenes>
     <resources>

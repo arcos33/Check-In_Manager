@@ -25,6 +25,8 @@
 		9D4525241D302B0500B5B98B /* InactiveClientsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4525231D302B0500B5B98B /* InactiveClientsCell.swift */; };
 		9D45252B1D302ED500B5B98B /* CheckInEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4525291D302ED500B5B98B /* CheckInEvent.swift */; };
 		9D45252C1D302ED500B5B98B /* CheckInEvent+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D45252A1D302ED500B5B98B /* CheckInEvent+CoreDataProperties.swift */; };
+		9D5C13AB1D94C68600613E6C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5C13AA1D94C68600613E6C /* Constants.swift */; };
+		9D5C13AD1D94D7C700613E6C /* Notification+Checkin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5C13AC1D94D7C700613E6C /* Notification+Checkin.swift */; };
 		9D5F62401D5A6FD100183499 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D5F623F1D5A6FD100183499 /* Assets.xcassets */; };
 		9D6B77531D7791D4003CC189 /* ActiveClientsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6B77521D7791D3003CC189 /* ActiveClientsHeaderView.swift */; };
 		9D7319001D751A59002A3806 /* NSDate+Checkin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7318FF1D751A59002A3806 /* NSDate+Checkin.swift */; };
@@ -100,6 +102,8 @@
 		9D4525231D302B0500B5B98B /* InactiveClientsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InactiveClientsCell.swift; sourceTree = "<group>"; };
 		9D4525291D302ED500B5B98B /* CheckInEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckInEvent.swift; path = CoreData/CheckInEvent.swift; sourceTree = "<group>"; };
 		9D45252A1D302ED500B5B98B /* CheckInEvent+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CheckInEvent+CoreDataProperties.swift"; path = "CoreData/CheckInEvent+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		9D5C13AA1D94C68600613E6C /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		9D5C13AC1D94D7C700613E6C /* Notification+Checkin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Notification+Checkin.swift"; sourceTree = "<group>"; };
 		9D5F623F1D5A6FD100183499 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9D6B77521D7791D3003CC189 /* ActiveClientsHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveClientsHeaderView.swift; sourceTree = "<group>"; };
 		9D7318FF1D751A59002A3806 /* NSDate+Checkin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Checkin.swift"; sourceTree = "<group>"; };
@@ -212,12 +216,11 @@
 				9DC74C971D9350B500341F07 /* Helpers */,
 				9D9FF25F1D8BD3DF00E534E2 /* Resouces */,
 				7BE478BD1D1F660400E31624 /* AppDelegate.swift */,
-				9D5F623F1D5A6FD100183499 /* Assets.xcassets */,
 				9DEF6B351D262EB80004C92A /* Controllers */,
 				9D14C6BE1D2346AD001BCFD1 /* CoreData */,
 				9D1D13621D82719800D9CF17 /* Extensions */,
-				7BE478CC1D1F660400E31624 /* Info.plist */,
 				9DD249491D5974160007FF63 /* UI */,
+				9D5C13AA1D94C68600613E6C /* Constants.swift */,
 			);
 			path = "check-in";
 			sourceTree = "<group>";
@@ -268,6 +271,7 @@
 				9DB85AFA1D6297FD00B76DA7 /* NSUserDefaults+CheckIn.swift */,
 				9D7318FF1D751A59002A3806 /* NSDate+Checkin.swift */,
 				9D1D13631D8271CA00D9CF17 /* UIColor+Checkin.swift */,
+				9D5C13AC1D94D7C700613E6C /* Notification+Checkin.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -304,6 +308,8 @@
 		9D9FF25F1D8BD3DF00E534E2 /* Resouces */ = {
 			isa = PBXGroup;
 			children = (
+				7BE478CC1D1F660400E31624 /* Info.plist */,
+				9D5F623F1D5A6FD100183499 /* Assets.xcassets */,
 				9D2CC7A81D8CB209000FE9A2 /* es-MX.lproj */,
 			);
 			name = Resouces;
@@ -683,6 +689,7 @@
 				9D37E4E41D5567B200DD4F7E /* StylistCell.swift in Sources */,
 				9DE2B7301D2349AF0045892F /* ServiceType+CoreDataProperties.swift in Sources */,
 				9D7943B31D6671E10012CF0E /* ReportsCustomCell.swift in Sources */,
+				9D5C13AD1D94D7C700613E6C /* Notification+Checkin.swift in Sources */,
 				9D8C68941D7A56C5008B9829 /* AboutViewController.swift in Sources */,
 				9DE2B7331D2349AF0045892F /* ServiceType.swift in Sources */,
 				9D4525221D302AF800B5B98B /* ActiveClientsCell.swift in Sources */,
@@ -690,6 +697,7 @@
 				9DE2B7231D2348CB0045892F /* check_in.xcdatamodeld in Sources */,
 				9DD49EA31D58DE110057401D /* ServiceCell.swift in Sources */,
 				9DE2B7311D2349AF0045892F /* Client+CoreDataProperties.swift in Sources */,
+				9D5C13AB1D94C68600613E6C /* Constants.swift in Sources */,
 				7BE478BE1D1F660400E31624 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -842,7 +850,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 48K35CNGMH;
 				INFOPLIST_FILE = "check-in/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.whitecoatlabs.ezcheck-in";
 				PRODUCT_NAME = "EZCheck-In";
@@ -861,7 +869,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 48K35CNGMH;
 				INFOPLIST_FILE = "check-in/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.whitecoatlabs.ezcheck-in";
 				PRODUCT_NAME = "EZCheck-In";

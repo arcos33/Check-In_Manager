@@ -9,10 +9,6 @@
 import Foundation
 import UIKit
 
-//protocol ActiveClientDetailsTVCDelegate {
-//    func didUpdateCell(index: NSInteger)
-//}
-
 class ActiveClientDetailsTableViewController: UITableViewController, StylistsOfferedTableDelegate, ServicesOfferedTableDelegate, PaymentTypesOfferedTableDelegate {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var stylistNameButton: UIButton!
@@ -47,11 +43,11 @@ class ActiveClientDetailsTableViewController: UITableViewController, StylistsOff
     var selectedIndex: NSInteger?
     
     override func viewDidLoad() {
-        NotificationCenter.default.addObserver(self, selector: #selector(updateServicesArray), name: NSNotification.Name(rawValue: "DataControllerServiceRecordsChangedNotification"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateServicesArray), name: Notification.serviceRecordsChangedNotification, object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(updateStylistsArray), name: NSNotification.Name(rawValue: "DataControllerStylistRecordsChangedNotification"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateStylistsArray), name: Notification.stylistRecordsChangedNotification, object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(setText), name: .languageChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(setText), name: Notification.languageChangeNotification, object: nil)
 
     }
     

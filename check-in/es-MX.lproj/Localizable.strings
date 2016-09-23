@@ -53,6 +53,8 @@
 "Missing Information" = "Falta informacion";
 "The mobile number you entered is not valid" = "El numero que ingreso no es valido";
 "Invalid" = "Invalido";
+"Reporte del dia" = "Daily Report";
+
 /* Class = "UILabel"; text = "Label"; ObjectID = "0Wq-Ll-ev3"; */
 "0Wq-Ll-ev3.text" = "Label";
 

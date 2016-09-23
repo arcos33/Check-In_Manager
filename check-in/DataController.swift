@@ -92,10 +92,16 @@ class DataController: NSObject {
             
             do {
                 // Do a fetch request to get all checkinEvent records
-                let fetch: NSFetchRequest<NSFetchRequestResult> = CheckInEvent.fetchRequest()
+                var fetch: NSFetchRequest<NSFetchRequestResult>?
+                if #available(iOS 10.0, *) {
+                    fetch = CheckInEvent.fetchRequest()
+                } else {
+                    // Fallback on earlier versions
+                    fetch = NSFetchRequest(entityName: Constants.checkInEvent)
+                }
                 var checkinEvents:[CheckInEvent]?
                 do {
-                    checkinEvents = try appDelegate.managedObjectContext.fetch(fetch) as? [CheckInEvent]
+                    checkinEvents = try appDelegate.managedObjectContext.fetch(fetch!) as? [CheckInEvent]
                 }
                 catch {
                     print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
@@ -109,7 +115,7 @@ class DataController: NSObject {
                     let jsonResponseString: AnyObject = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [Dictionary<String, AnyObject>] as AnyObject
                     for object in jsonResponseString as! [Dictionary<String,AnyObject>] {
                         let tempId = object["id"]!
-                        let checkinEvent = NSEntityDescription.insertNewObject(forEntityName: "CheckInEvent", into: appDelegate.managedObjectContext) as! CheckInEvent
+                        let checkinEvent = NSEntityDescription.insertNewObject(forEntityName: Constants.checkInEvent, into: appDelegate.managedObjectContext) as! CheckInEvent
                         
                         checkinEvent.checkinTimestamp = Date.dateFromString(object["checkinTimestamp"]! as! String)
                         checkinEvent.uniqueID = NSNumber(value: tempId.int32Value as Int32)
@@ -152,7 +158,7 @@ class DataController: NSObject {
                             print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
                         }
                     }
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: "DataControllerDidReceiveCheckinRecordsNotification"), object: nil)
+                    NotificationCenter.default.post(name: Notification.didReceiveCheckinRecordsNotification, object: nil)
                 }
                 else {
                     var existingCheckinEventIDS = Array<Int>()
@@ -170,7 +176,7 @@ class DataController: NSObject {
                         
                         if !existingCheckinEventIDS.contains(tempIdInt!) {
                             
-                            let checkinEvent = NSEntityDescription.insertNewObject(forEntityName: "CheckInEvent", into: appDelegate.managedObjectContext) as! CheckInEvent
+                            let checkinEvent = NSEntityDescription.insertNewObject(forEntityName: Constants.checkInEvent, into: appDelegate.managedObjectContext) as! CheckInEvent
                             checkinEvent.checkinTimestamp = Date.dateFromString(checkinEventDB["checkinTimestamp"]! as! String)
                             checkinEvent.uniqueID = NSNumber(value: tempIdInt!)
                             checkinEvent.name = checkinEventDB["name"] as? String
@@ -247,7 +253,7 @@ class DataController: NSObject {
                         //                            }
                         //                        }
                     }
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: "DataControllerDidReceiveCheckinRecordsNotification"), object: nil)
+                    NotificationCenter.default.post(name: Notification.didReceiveCheckinRecordsNotification, object: nil)
                 }
             }
             catch {
@@ -274,7 +280,7 @@ class DataController: NSObject {
             do {
                 let responseBody = String(data: data, encoding: String.Encoding.utf8)
                 if responseBody == "null" {
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: "DataControllerDidReceiveCompanyIDNotification"), object: false)
+                    NotificationCenter.default.post(name: Notification.didReceiveCompanyIDNotification, object: false)
                     return
                 }
                 let jsonResponse = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [Dictionary<String, String>]
@@ -294,7 +300,7 @@ class DataController: NSObject {
                     }
                     
                     self.appDelegate.companyIndustry = dict["industry"]
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: "DataControllerDidReceiveCompanyIDNotification"), object: true);
+                    NotificationCenter.default.post(name: Notification.didReceiveCompanyIDNotification, object: true);
                 }
                 
             }
@@ -320,10 +326,10 @@ class DataController: NSObject {
         let task = session.uploadTask(with: request as URLRequest, from: jsonRequest, completionHandler: { (data, response, error) in
             let responseBody = String(data: data!, encoding: String.Encoding.utf8)
             if responseBody == "correct" {
-                NotificationCenter.default.post(name: Notification.Name(rawValue: "DataControllerDidReceiveAuthenticationNotification"), object: true)
+                NotificationCenter.default.post(name: Notification.didReceiveAuthenticationNotification, object: true)
             }
             else {
-                NotificationCenter.default.post(name: Notification.Name(rawValue: "DataControllerDidReceiveAuthenticationNotification"), object: false)
+                NotificationCenter.default.post(name: Notification.didReceiveAuthenticationNotification, object: false)
             }
             //            print("response = \(responseBody)")
             //            print()
@@ -357,7 +363,7 @@ class DataController: NSObject {
     }
     
     func updateCheckInEventAtCellIndex(_ checkinEvent: CheckInEvent!, index: NSInteger?) {
-    NotificationCenter.default.post(name: Notification.Name(rawValue: "DataControllerDidReceiveCheckinRecordsNotification"), object: index)
+    NotificationCenter.default.post(name: Notification.didReceiveCheckinRecordsNotification, object: index)
         
         let url:URL = URL(string: "http://www.whitecoatlabs.co/checkin/\(self.appDelegate.companyPath!)/mobile_api/update/update_checkinEvent.php")!
         
@@ -610,7 +616,7 @@ class DataController: NSObject {
                 print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
                 return
             }
-            NotificationCenter.default.post(name: Notification.Name(rawValue: "DataControllerStylistRecordsChangedNotification"), object: nil)
+            NotificationCenter.default.post(name: Notification.stylistRecordsChangedNotification, object: nil)
 
             //            let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
             //            print(responseBody)
@@ -634,7 +640,7 @@ class DataController: NSObject {
                 return
             }
             
-            NotificationCenter.default.post(name: Notification.Name(rawValue: "DataControllerServiceRecordsChangedNotification"), object: nil)
+            NotificationCenter.default.post(name: Notification.serviceRecordsChangedNotification, object: nil)
 
             let responseBody = String(data: data!, encoding: String.Encoding.utf8)
             print(responseBody)
@@ -662,7 +668,7 @@ class DataController: NSObject {
             let responseBody = String(data: data!, encoding: String.Encoding.utf8)
             print(responseBody)
             
-            NotificationCenter.default.post(name: Notification.Name(rawValue: "DataControllerServiceRecordsChangedNotification"), object: nil)
+            NotificationCenter.default.post(name: Notification.serviceRecordsChangedNotification, object: nil)
             self.getServices({ (services) in
                 completion(services)
             })
@@ -688,7 +694,7 @@ class DataController: NSObject {
             
             //            let responseBody = String(data: data!, encoding: NSUTF8StringEncoding)
             //            print(responseBody)
-            NotificationCenter.default.post(name: Notification.Name(rawValue: "DataControllerStylistRecordsChangedNotification"), object: nil)
+            NotificationCenter.default.post(name: Notification.stylistRecordsChangedNotification, object: nil)
 
             self.getStylists({ (stylists) in
                 completion(stylists)
@@ -737,7 +743,7 @@ class DataController: NSObject {
                     DispatchQueue.main.async(execute: {
                         let tempId = object["id"]!
                         
-                        let checkinEvent = NSEntityDescription.insertNewObject(forEntityName: "CheckInEvent", into: self.appDelegate.managedObjectContext) as? CheckInEvent
+                        let checkinEvent = NSEntityDescription.insertNewObject(forEntityName: Constants.checkInEvent, into: self.appDelegate.managedObjectContext) as? CheckInEvent
                         let aDate = Date.dateFromString(object["checkinTimestamp"]! as! String)
                         checkinEvent!.checkinTimestamp = aDate
                         checkinEvent!.uniqueID = NSNumber(value: tempId.int32Value as Int32)

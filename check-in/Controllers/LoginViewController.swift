@@ -31,8 +31,8 @@ class LoginViewController:UIViewController {
     override func viewDidLoad() {
         setupActivityIndidator()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(updateUI_companyIdAuthentication), name: NSNotification.Name(rawValue: "DataControllerDidReceiveCompanyIDNotification"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(updateUI_usernamePasswordAuthentication), name: NSNotification.Name(rawValue: "DataControllerDidReceiveAuthenticationNotification"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateUI_companyIdAuthentication), name: Notification.didReceiveCompanyIDNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateUI_usernamePasswordAuthentication), name: Notification.didReceiveAuthenticationNotification, object: nil)
         
         if (UserDefaults.standard.value(forKey: "companyPath") as? String) != nil {
             self.usernameTextField.isHidden = false

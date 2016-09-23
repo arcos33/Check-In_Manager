@@ -45,7 +45,7 @@ class CheckInViewController: UIViewController {
     //------------------------------------------------------------------------------
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(setText), name: .languageChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(setText), name: Notification.languageChangeNotification, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -217,8 +217,4 @@ class Payment: NSObject {
         self.id = id
         self.status = status
     }
-}
-
-extension Notification.Name {
-    static let languageChangeNotification = Notification.Name("LCLLanguageChangeNotification")
 }

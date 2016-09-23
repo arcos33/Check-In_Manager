@@ -33,7 +33,7 @@ class SettingsViewController: UIViewController {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "checkInViewController") as! CheckInViewController
             vc.tabBarControllerRef = self.tabBarController
-            vc.tabSelected = 2
+            vc.tabSelected = TabBarSection.SettingsTab.rawValue
             self.present(vc, animated: true, completion: nil)
         }
     }

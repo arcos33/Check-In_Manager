@@ -66,15 +66,16 @@ class ReportsViewController: UIViewController, MFMailComposeViewControllerDelega
         let df = DateFormatter()
         df.dateFormat = "MM-dd-yyyy"
         let dateString = df.string(from: Date.getCurrentLocalDate())
-        self.titleLabel.text = "Reporte de dia (\(dateString))"
+        let title = "Reporte del dia".localized()
+        self.titleLabel.text = "\(title) (\(dateString))"
         self.view.addSubview(self.titleLabel)
         self.titleLabel.isHidden = true
         
         let dataController = DataController.sharedInstance
         dataController.getCheckinRecords()
-        NotificationCenter.default.addObserver(self, selector: #selector(update), name: NSNotification.Name(rawValue: "DataControllerDidReceiveCheckinRecordsNotification"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(update), name: Notification.didReceiveCheckinRecordsNotification, object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(setText), name: .languageChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(setText), name: Notification.languageChangeNotification, object: nil)
 
     }
     
@@ -166,10 +167,16 @@ class ReportsViewController: UIViewController, MFMailComposeViewControllerDelega
     
     @objc fileprivate func update(_ notification: Notification) {
         DispatchQueue.main.async {
-            let fetch: NSFetchRequest<NSFetchRequestResult> = CheckInEvent.fetchRequest()
-            fetch.predicate = self.createPredicate()
+            var fetch: NSFetchRequest<NSFetchRequestResult>?
+            if #available(iOS 10.0, *) {
+                fetch = CheckInEvent.fetchRequest()
+            } else {
+                // Fallback on earlier versions
+                fetch = NSFetchRequest(entityName: Constants.checkInEvent)
+            }
+            fetch?.predicate = self.createPredicate()
             do {
-                self.checkinEvents = try self.appDelegate.managedObjectContext.fetch(fetch) as! [CheckInEvent]
+                self.checkinEvents = try self.appDelegate.managedObjectContext.fetch(fetch!) as! [CheckInEvent]
             }
             catch {
                 print("Class:\(#file)\n Line:\(#line)\n Error:\(error)")
@@ -256,10 +263,6 @@ class ReportsViewController: UIViewController, MFMailComposeViewControllerDelega
         let identifier = String(describing: Date.getCurrentLocalDate())
         let homeDir = NSHomeDirectory() as NSString
         let path = homeDir.appending("/\(fileName)")
-        //let documentDirectories = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first
-       // let dst = documentDirectories! + "/" + fileName
-        
-        // outputs as NSData
         do {
             try PDFGenerator.generate(v1!, to: path)
 

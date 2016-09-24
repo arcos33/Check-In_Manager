@@ -15,7 +15,7 @@ class AboutViewController: UIViewController {
     @IBOutlet var questionsLabel: UILabel!
  
     override func viewDidLoad() {
-        NotificationCenter.default.addObserver(self, selector: #selector(setText), name: .languageChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(setText), name: Notification.languageChangeNotification, object: nil)
     }
     
     deinit {
@@ -36,12 +36,16 @@ class AboutViewController: UIViewController {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "checkInViewController") as! CheckInViewController
             vc.tabBarControllerRef = self.tabBarController
-            vc.tabSelected = 3
+            vc.tabSelected = TabBarSection.AboutTab.rawValue
             self.present(vc, animated: true, completion: nil)
         }
     }
     
     @IBAction func goToIcon8Webpage(_ sender: UIButton) {
-        UIApplication.shared.open(URL(string:"http:www.icons8.com")!, options: [:], completionHandler: nil)
+        if #available(iOS 10.0, *) {
+            UIApplication.shared.open(URL(string:"http:www.icons8.com")!, options: [:], completionHandler: nil)
+        } else {
+            // Fallback on earlier versions
+        }
     }
 }

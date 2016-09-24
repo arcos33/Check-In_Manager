@@ -44,9 +44,9 @@ class ActiveClientsViewController: UIViewController {
     override func viewDidLoad() {
         self.tableview.tableFooterView = UIView(frame: CGRect.zero)
         self.tableview.addSubview(self.refreshControl)
-        NotificationCenter.default.addObserver(self, selector: #selector(fetchCheckedinClients), name: NSNotification.Name(rawValue: "DataControllerDidReceiveCheckinRecordsNotification"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(fetchCheckedinClients), name: Notification.didReceiveCheckinRecordsNotification, object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(setText), name: .languageChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(setText), name: Notification.languageChangeNotification, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -127,13 +127,19 @@ class ActiveClientsViewController: UIViewController {
     }
     
     @objc fileprivate func fetchCheckedinClients(_ notification: Notification) {
-        let fetch: NSFetchRequest<NSFetchRequestResult> = CheckInEvent.fetchRequest()
-        fetch.returnsObjectsAsFaults = false
-        fetch.predicate = createPredicate()
+        var fetch: NSFetchRequest<NSFetchRequestResult>?
+        if #available(iOS 10.0, *) {
+            fetch = CheckInEvent.fetchRequest()
+        } else {
+            // Fallback on earlier versions
+            fetch = NSFetchRequest(entityName: Constants.checkInEvent)
+        }
+        fetch?.returnsObjectsAsFaults = false
+        fetch?.predicate = createPredicate()
         let sd = NSSortDescriptor(key: "checkinTimestamp", ascending: true, selector: nil)
-        fetch.sortDescriptors = [sd]
+        fetch?.sortDescriptors = [sd]
         do {
-            self.checkInEvents = try self.appDelegate.managedObjectContext.fetch(fetch) as? Array<CheckInEvent>
+            self.checkInEvents = try self.appDelegate.managedObjectContext.fetch(fetch!) as? Array<CheckInEvent>
             print()
         }
         catch {

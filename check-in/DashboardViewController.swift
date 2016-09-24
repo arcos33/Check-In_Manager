@@ -26,7 +26,7 @@ class DashboardViewController: UIViewController, ActiveClientsDelegate {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "checkInViewController") as! CheckInViewController
             vc.tabBarControllerRef = self.tabBarController
-            vc.tabSelected = 0
+            vc.tabSelected = TabBarSection.DashboardTab.rawValue
             self.present(vc, animated: true, completion: nil)
         }
     }

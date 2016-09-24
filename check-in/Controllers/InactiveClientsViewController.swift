@@ -25,10 +25,10 @@ class InactiveClientsViewController: UIViewController {
     // MARK: Lifecycle Methods
     //------------------------------------------------------------------------------
     override func viewDidLoad() {
-        NotificationCenter.default.addObserver(self, selector: #selector(fetchCheckedinClients), name: NSNotification.Name(rawValue: "DataControllerDidReceiveCheckinRecordsNotification"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(fetchCheckedinClients), name: Notification.didReceiveCheckinRecordsNotification, object: nil)
         self.tableview.tableFooterView = UIView(frame: CGRect.zero)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(setText), name: .languageChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(setText), name: Notification.languageChangeNotification, object: nil)
         fetchCompletedCheckinRecords()
     }
     
@@ -48,13 +48,19 @@ class InactiveClientsViewController: UIViewController {
     }
     
     @objc fileprivate func fetchCheckedinClients(_ notification: Notification) {
-        let fetch: NSFetchRequest<NSFetchRequestResult> = CheckInEvent.fetchRequest()
-        fetch.returnsObjectsAsFaults = false
-        fetch.predicate = createPredicate()
+        var fetch: NSFetchRequest<NSFetchRequestResult>?
+        if #available(iOS 10.0, *) {
+            fetch = CheckInEvent.fetchRequest()
+        } else {
+            // Fallback on earlier versions
+            fetch = NSFetchRequest(entityName: Constants.checkInEvent)
+        }
+        fetch?.returnsObjectsAsFaults = false
+        fetch?.predicate = createPredicate()
         let sd = NSSortDescriptor(key: "completedTimestamp", ascending: true, selector: nil)
-        fetch.sortDescriptors = [sd]
+        fetch?.sortDescriptors = [sd]
         do {
-            self.checkInEvents = try self.appDelegate.managedObjectContext.fetch(fetch) as? Array<CheckInEvent>
+            self.checkInEvents = try self.appDelegate.managedObjectContext.fetch(fetch!) as? Array<CheckInEvent>
         }
         catch {
             print("error: \(#file) \(#line) \(error)")
@@ -90,7 +96,7 @@ class InactiveClientsViewController: UIViewController {
     
     fileprivate func fetchCompletedCheckinRecords() {
         self.appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let fetch = NSFetchRequest<CheckInEvent>(entityName: "CheckInEvent")
+        let fetch = NSFetchRequest<CheckInEvent>(entityName: Constants.checkInEvent)
         fetch.predicate = createPredicate()
         fetch.returnsObjectsAsFaults = false
         let sd = NSSortDescriptor(key: "completedTimestamp", ascending: true, selector: nil)

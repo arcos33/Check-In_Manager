@@ -32,6 +32,7 @@ class LoginViewController:UIViewController {
         setupActivityIndidator()
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateUI_companyIdAuthentication), name: Notification.didReceiveCompanyIDNotification, object: nil)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(updateUI_usernamePasswordAuthentication), name: Notification.didReceiveAuthenticationNotification, object: nil)
         
         if (UserDefaults.standard.value(forKey: "companyPath") as? String) != nil {
@@ -87,7 +88,7 @@ class LoginViewController:UIViewController {
         self.passwordTextField.resignFirstResponder()
         self.view.addSubview(self.activityIndicator)
         self.activityIndicator.startAnimating()
-
+        
         self.dataController.setURLIdentifierForCompany(self.companyIDTextField.text!)
     }
     
@@ -153,7 +154,7 @@ class LoginViewController:UIViewController {
                 self.submitButton.isHidden = true
             }
             else {
-                self.presentAlert("The mobile number you entered is not valid".localized(), title: "Invalid".localized())
+                self.presentAlert("The company id you entered is not valid".localized(), title: "Invalid".localized())
             }
             self.companyNameLabel.text = UserDefaults.standard.value(forKey: "companyName") as? String
         })

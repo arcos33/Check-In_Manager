@@ -25,6 +25,7 @@ class CheckInViewController: UIViewController {
     @IBOutlet var companyImage: UIImageView!
     @IBOutlet var companyImageView: UIView!
     @IBOutlet var checkInButton: UIButton!
+    @IBOutlet var backgroundImageView: UIImageView!
     
     var stylistTable:StylistsOfferedTableViewController?
     var servicesTable:ServicesOfferedTableViewController?
@@ -46,6 +47,9 @@ class CheckInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(setText), name: Notification.languageChangeNotification, object: nil)
+        self.backgroundImageView.image = imageForIndustry()
+        print(self.backgroundImageView.image)
+        print()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -82,6 +86,28 @@ class CheckInViewController: UIViewController {
     //------------------------------------------------------------------------------
     // MARK: Private Methods
     //-----------------------------------------------------------------------------
+    
+    fileprivate func imageForIndustry() -> UIImage? {
+        switch self.appDelegate.companyIndustry {
+        case "hair":
+            return UIImage(named: "check-in_background_hair")
+        case "tax":
+            return UIImage(named: "check-in_background_tax")
+        case "chiro":
+            return UIImage(named: "check-in_background_chiro")
+        case "clinic":
+            return UIImage(named:"check-in_background_clinic")
+        case "spa":
+            return UIImage(named:"check-in_background_spa")
+        case "dentist":
+            return UIImage(named:"check-in_background_dentist")
+        case "nail":
+            return UIImage(named: "check-in_background_nail")
+        default:
+            return nil
+        }
+    }
+    
     @objc fileprivate func setText() {
         self.nameTextField.placeholder = "Name".localized()
         self.phoneTextField.placeholder = "Mobile Number".localized()

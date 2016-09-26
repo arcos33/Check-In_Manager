@@ -51,7 +51,7 @@
 "Enter name" = "Ingrese nombre";
 "Enter a valid mobile number" = "Ingrese numero telefonico valido";
 "Missing Information" = "Falta informacion";
-"The mobile number you entered is not valid" = "El numero que ingreso no es valido";
+"The company id you entered is not valid" = "El numero de identificacion de compañia no es valido";
 "Invalid" = "Invalido";
 "Reporte del dia" = "Daily Report";
 

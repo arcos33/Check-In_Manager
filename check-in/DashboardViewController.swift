@@ -131,13 +131,13 @@ class DashboardViewController: UIViewController, ActiveClientsDelegate {
         self.activeClientDetailsTVC.titleLabel.text = checkinEvent.name
         
         self.activeClientDetailsTVC.stylistNameButton.isHidden = false
-        self.activeClientDetailsTVC.stylistNameButton.setTitle(checkinEvent.stylist == "" || checkinEvent.stylist == nil ? "?" : checkinEvent.stylist, for: UIControlState())
+        self.activeClientDetailsTVC.stylistNameButton.setTitle(checkinEvent.stylist == "" || checkinEvent.stylist == nil ? "?" : checkinEvent.stylist, for: UIControl.State())
         
         self.activeClientDetailsTVC.serviceNameButton.isHidden = false
-        self.activeClientDetailsTVC.serviceNameButton.setTitle(checkinEvent.service == "" || checkinEvent.service == nil ? "?" : checkinEvent.service, for: UIControlState())
+        self.activeClientDetailsTVC.serviceNameButton.setTitle(checkinEvent.service == "" || checkinEvent.service == nil ? "?" : checkinEvent.service, for: UIControl.State())
         
         self.activeClientDetailsTVC.paymentTypeButton.isHidden = false
-        self.activeClientDetailsTVC.paymentTypeButton.setTitle(checkinEvent.paymentType == "" || checkinEvent.paymentType == nil ? "?" : checkinEvent.paymentType, for: UIControlState())
+        self.activeClientDetailsTVC.paymentTypeButton.setTitle(checkinEvent.paymentType == "" || checkinEvent.paymentType == nil ? "?" : checkinEvent.paymentType, for: UIControl.State())
         
         
         self.activeClientDetailsTVC.completedButton.isHidden = false

@@ -374,33 +374,33 @@ class DataController: NSObject {
         
         var requestString = String("id=\(checkinEvent.uniqueID!)")
         let date = Date.stringFromDate(Date.getCurrentLocalDate())
-        requestString = requestString! + "&updateDate=\(date)"
+        requestString = requestString + "&updateDate=\(date)"
         
         if (checkinEvent.completedTimestamp != nil) {
-            requestString = requestString! + String("&completedTimestamp=\(checkinEvent.completedTimestamp!)")
+            requestString = requestString + String("&completedTimestamp=\(checkinEvent.completedTimestamp!)")
         }
         if (checkinEvent.status != nil) {
-            requestString = requestString! + String("&status=\(checkinEvent.status!)")
+            requestString = requestString + String("&status=\(checkinEvent.status!)")
         }
         if (checkinEvent.stylist != nil) {
-            requestString = requestString! + String("&stylist=\(checkinEvent.stylist!)")
+            requestString = requestString + String("&stylist=\(checkinEvent.stylist!)")
         }
         if (checkinEvent.service != nil) {
-            requestString = requestString! + String("&service=\(checkinEvent.service!)")
+            requestString = requestString + String("&service=\(checkinEvent.service!)")
         }
         if (checkinEvent.paymentType != nil) {
-            requestString = requestString! + String("&paymentType=\(checkinEvent.paymentType!)")
+            requestString = requestString + String("&paymentType=\(checkinEvent.paymentType!)")
         }
         if (checkinEvent.ticketNumber != nil || checkinEvent.ticketNumber?.characters.count > 0) {
-            requestString = requestString! + String("&ticketNumber=\(checkinEvent.ticketNumber!)")
+            requestString = requestString + String("&ticketNumber=\(checkinEvent.ticketNumber!)")
         }
         
         if (checkinEvent.amountCharged != nil || checkinEvent.amountCharged?.characters.count > 0) {
-            requestString = requestString! + String("&amountCharged=\(checkinEvent.amountCharged!)")
+            requestString = requestString + String("&amountCharged=\(checkinEvent.amountCharged!)")
         }
         
         
-        let jsonRequestString = requestString? .data(using: String.Encoding.utf8)
+        let jsonRequestString = requestString .data(using: String.Encoding.utf8)
         
         let task = session.uploadTask(with: request as URLRequest, from: jsonRequestString, completionHandler: { (data, response, error) in
             guard let _:Data = data, let _:URLResponse = response , error == nil else {

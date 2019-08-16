@@ -118,7 +118,7 @@ class LoginViewController:UIViewController {
     func setupActivityIndidator() {
         self.activityIndicator.center = self.view.center
         self.activityIndicator.hidesWhenStopped = true
-        self.activityIndicator.activityIndicatorViewStyle = .gray
+        self.activityIndicator.style = .gray
     }
     
     @objc fileprivate func updateUI_usernamePasswordAuthentication(_ notification: Notification) {
@@ -176,7 +176,7 @@ class LoginViewController:UIViewController {
                 DispatchQueue.main.async(execute: {
                     let image = UIImage(data: data as Data)!
                     self.appDelegate.companyImage = image
-                    let data = UIImagePNGRepresentation(image)
+                    let data = image.pngData()
                     let fileName = self.getDocumentsDirectory().appendingPathComponent("check-in_image.png")
                     try? data?.write(to: URL(fileURLWithPath: fileName), options: [.atomic])
                 })
@@ -207,7 +207,7 @@ class LoginViewController:UIViewController {
         
         shake.fromValue = from_value
         shake.toValue = to_value
-        shake.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        shake.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
         shakeView.layer.add(shake, forKey: "position")
     }
 

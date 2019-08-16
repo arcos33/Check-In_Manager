@@ -143,7 +143,7 @@ class ActiveClientDetailsTableViewController: UITableViewController, StylistsOff
     // MARK: StylistsTableDelegate methods
     //------------------------------------------------------------------------------
     func didSelectStylist(_ stylist: String) {
-        self.stylistNameButton.setTitle(stylist, for: UIControlState())
+        self.stylistNameButton.setTitle(stylist, for: UIControl.State())
         self.stylistSelected = stylist
         self.checkinEvent?.stylist = stylist
         self.checkinEvent?.updateDate = Date.getCurrentLocalDate()
@@ -160,7 +160,7 @@ class ActiveClientDetailsTableViewController: UITableViewController, StylistsOff
     // MARK: ServicesOfferedTableDelegate methods
     //------------------------------------------------------------------------------
     func didSelectService(_ service: String) {
-        self.serviceNameButton.setTitle(service, for: UIControlState())
+        self.serviceNameButton.setTitle(service, for: UIControl.State())
         self.serviceSelected = service
         self.checkinEvent?.service = service
         self.checkinEvent?.updateDate = Date.getCurrentLocalDate()
@@ -177,7 +177,7 @@ class ActiveClientDetailsTableViewController: UITableViewController, StylistsOff
     // MARK: ServicesOfferedTableDelegate methods
     //------------------------------------------------------------------------------
     func didSelectPayment(_ payment: String) {
-        self.paymentTypeButton.setTitle(payment, for: UIControlState())
+        self.paymentTypeButton.setTitle(payment, for: UIControl.State())
         self.paymentSelected = payment
         self.checkinEvent?.paymentType = payment
         self.checkinEvent?.updateDate = Date.getCurrentLocalDate()
@@ -226,11 +226,11 @@ class ActiveClientDetailsTableViewController: UITableViewController, StylistsOff
     
     fileprivate func resetFields() {
         self.titleLabel.text = ""
-        self.serviceNameButton.setTitle("", for: UIControlState())
+        self.serviceNameButton.setTitle("", for: UIControl.State())
         self.serviceNameButton.isHidden = true
-        self.stylistNameButton.setTitle("", for: UIControlState())
+        self.stylistNameButton.setTitle("", for: UIControl.State())
         self.stylistNameButton.isHidden = true
-        self.paymentTypeButton.setTitle("", for: UIControlState())
+        self.paymentTypeButton.setTitle("", for: UIControl.State())
         self.paymentTypeButton.isHidden = true
         self.amountChargedTextField.text = ""
         self.amountChargedTextField.isHidden = true
